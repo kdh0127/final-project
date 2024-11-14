@@ -37,7 +37,7 @@ with app.app_context():
 
 
 # PDF 파일 경로 및 QA 체인 설정
-pdf_path = r'C:\Users\kimdoheon\Desktop\test\꿀벌질병.pdf'  # PDF 파일 경로
+pdf_path = r'C:\Users\kimdoheon\Desktop\test\final-project\꿀벌질병.pdf'  # PDF 파일 경로
 qa_chain = create_qa_chain(pdf_path)
 
 @app.route('/api/request', methods=['POST'])
