@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Nav from './components/Nav';
 import ManageRequest from './components/Manage_request'; 
 import Request from './components/Request';
 import Chatbot from './components/chatbot';
@@ -11,7 +10,6 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-        <Nav />
 
         <Routes>
         <Route path="/manage_request" element={<ManageRequest />} />
