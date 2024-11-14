@@ -19,6 +19,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # 성능을 위해 설정
 # SQLAlchemy 객체 초기화
 db = SQLAlchemy(app)
 
+sdsd
 # 요청 데이터 모델 정의
 class RequestData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
