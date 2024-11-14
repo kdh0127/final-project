@@ -1,0 +1,158 @@
+.chatbot-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: white; 
+}
+/* 배경을 하얀색으로 하니까 챗봇이 잘 안보임 그래서 e0e0e0을 쓰면 어떨지? */
+/* 다른 페이지와 조화로운지 확인하기 */
+/* 챗봇 컨테이너 스타일 */
+.chatbot-container {
+  max-width: 1200px;
+  /* 챗봇 크기 수정하고 싶을 경우 이거 조절 */
+  /* 여기서 챗봇의 크기란 전체적인 창의 크기를 의미함 */
+  width: 100%;
+  padding: 30px;
+  background-color: #f7f7f8;
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 빠른 질문 버튼 스타일 */
+.quick-questions {
+  display: flex;
+  flex-wrap: wrap; /* 버튼이 화면에 꽉 차면 줄바꿈되도록 */
+  gap: 10px; /* 버튼들 사이 간격 조정 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  margin-bottom: 20px; /* input-container와의 간격을 두기 위한 마진 */
+}
+
+.quick-question-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: normal; /* 텍스트가 줄바꿈되도록 */
+  display: inline-block;
+  color: black; /* 초기 글자색 흰색 */
+  transition: background-color 0.3s ease, color 0.3s ease; /* 배경색과 글자색 변화 애니메이션 */
+}
+
+/* 마우스를 올렸을 때 스타일 */
+.quick-question-button:hover {
+  background-color: #357ABD; /* 배경색 변화 */
+  color: black; /* 글자색 검정색으로 변화 */
+}
+
+/* 대화 기록 스타일 */
+.chat-history {
+  width: 100%;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+/* 사용자 메시지 스타일 */
+.user-message {
+  text-align: right;
+  background-color: #f9ed84;
+  color: #333;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 20px 20px 0 20px;
+  max-width: 75%;
+  float: right;
+  clear: both;
+}
+
+/* 챗봇 메시지 스타일 */
+.bot-message {
+  text-align: left;
+  background-color: #f9f2f2;
+  color: #333;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 20px 20px 20px 0;
+  max-width: 75%;
+  float: left;
+  clear: both;
+}
+
+/* 질문 입력란 및 질문하기 버튼 스타일 */
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0; /* padding을 0으로 설정하여 여백 없앰 */
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+  margin-top: 20px; /* quick-questions와의 간격을 두기 위한 마진 */
+}
+
+/* 텍스트 입력창 스타일 */
+.input-container input[type="text"] {
+  flex: 1;
+  padding: 14px 18px;
+  font-size: 16px;
+  border: none;  /* 테두리 없앰 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  outline: none;
+  background-color: white;
+  margin-right: 12px; /* 버튼과 간격을 주기 위함 */
+  box-shadow: none; /* 그림자 없앰 */
+  height: 36px; /* 버튼과 동일한 높이 설정 */
+}
+
+/* 텍스트 입력창 포커스 스타일 */
+.input-container input[type="text"]:focus {
+  border-color: #4A90E2;
+}
+
+/* 버튼 스타일 */
+.input-container button {
+  padding: 12px 18px;
+  font-size: 16px;
+  background-color: #4A90E2;
+  color: white;
+  border: none; /* 테두리 없앰 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  cursor: pointer;
+  box-shadow: none; /* 그림자 없앰 */
+  height: 60px; /* 버튼과 동일한 높이 설정 */
+}
+
+/* 버튼 호버 스타일 */
+.input-container button:hover {
+  background-color: #357ABD;
+}
+
+/* 벌통 주변에 흰 보리쌀 같은 것이 생겼어요 버튼 스타일 */
+.quick-question-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #e0e0e0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: normal; /* 텍스트가 줄바꿈되도록 */
+}
+
+.quick-question-button:hover {
+  background-color: #357ABD;
+  color: white;
+}

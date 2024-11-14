@@ -1,0 +1,93 @@
+.submit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.personal_profile,
+.personal_image,
+.personal_description,
+.personal_require {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.personal_profile{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 500px;
+}
+
+.personal_profile label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.personal_profile input{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.personal_image {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.personal_image label {
+    font-weight : bold;
+    font-size: 16px;
+}
+
+.personal_image input{
+    font-size: 14px;
+}
+
+.personal_description {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+  
+.personal_description label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.personal_description textarea{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 100px;
+    resize: none;
+
+}
+
+.personal_require{
+    display: flex;
+    justify-content: centers;
+}
+
+.personal_require button{
+    font-size: 16px;
+    background-color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.personal_require button:hover{
+    background-color: gray;
+}

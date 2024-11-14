@@ -1,0 +1,34 @@
+.Nav{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    width: 1400px;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.Link{
+    text-decoration: none;
+    font-size: 25px;
+    color: black;
+    font-weight:bolder;
+    position: relative;
+}
+
+.Link::after {
+    content: ""; /* 밑줄 생성 */
+    position: absolute;
+    width: 100%;
+    height: 3px; /* 밑줄 두께 */
+    background-color: #FBCA2A; /* 밑줄 색상 */
+    bottom: -5px; /* 텍스트 아래 위치 조정 */
+    left: 0;
+    transform: scaleX(0); /* 기본 상태에서는 밑줄 숨김 */
+    transition: transform 0.3s ease; /* 부드러운 애니메이션 */
+}
+
+.Link:hover::after {
+    transform: scaleX(1); /* 마우스가 올라왔을 때 밑줄 표시 */
+}

@@ -1,0 +1,49 @@
+.App {
+    display: flex;
+    align-items: center; /* 세로로 가운데 정렬 */
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+}
+
+.headerLeft {
+    width: 400px;
+    display: flex;
+    align-items: center;
+}
+.lefttext{
+    width: auto;
+}
+
+.title {
+    width: 400px;
+}
+h1 {
+    font-size: 38px;
+    margin: 0;
+}
+
+h2 {
+    margin-left: 10px;
+}
+.headerLogo {
+    width: 100px; /* 원하는 너비로 설정 */
+    height: auto; /* 비율을 유지하면서 높이를 자동으로 설정 */
+}
+
+.headerRight {
+    gap: 5px; 
+    left: 20px; 
+}
+
+.Buttons {
+    width: 75px;
+    display: flex;
+    gap: 10px;
+    
+}
+
+.loginBtn {
+    margin-right: 5px;
+}
