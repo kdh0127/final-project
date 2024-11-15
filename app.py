@@ -107,6 +107,18 @@ def ask_question():
         return jsonify({'response': str(response)})
     except Exception as e:
         return jsonify({'error': f'Error occurred: {str(e)}'}), 500
+    
+@app.route('/api/request/<int:id>', methods=['DELETE'])
+def delete_request(id):
+    request_to_delete = RequestData.query.get(id)
+
+    if not request_to_delete:
+        return jsonify({'error': 'Request not found'}), 404  # 데이터가 없을 경우 404 반환
+
+    db.session.delete(request_to_delete)  # 데이터 삭제
+    db.session.commit()  # 변경사항 커밋
+
+    return jsonify({'message': f'Request {id} deleted successfully'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

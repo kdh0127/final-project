@@ -32,24 +32,48 @@ function Manage_request() {
     fetchRequests();
   }, []);  // 컴포넌트가 처음 렌더링될 때만 데이터 가져오기
 
+  const handleRemove = async (id) => {
+    try {
+      // 서버로 삭제 요청 보내기
+      await axios.delete(`http://localhost:5000/api/request/${id}`);
+      // 서버에서 성공적으로 삭제된 후 프론트엔드 상태 업데이트
+      setRequests((prevRequests) => prevRequests.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('데이터 삭제 중 오류가 발생했습니다.', error);
+    }
+  };
+
   return (
     <div className={style.Manage_request}>
       <Box className={style.boxContainer}>
         {requests.map((item) => (
-          <Item key={item.id} sx={{ width: 1800 }} className={style.item}>
-            <div>
-              <h2>{item.name}</h2>
-              <p>{item.symptom_description}</p>
-              <p>주소: {item.address}</p>
-              <p>전화번호: {item.phone}</p>
+          <Item key={item.id} sx={{ width: 950 }} className={style.item}>
+            <div className={style.item_box}>
+              <div className={style.item_left}>
+                <h2>성함: {item.name}</h2>
+                <p>양봉원주소: {item.address}</p>
+                <p>전화번호: {item.phone}</p>
+                <p>증상설명: {item.symptom_description}</p>
+              </div>
               {/* 이미지가 있으면 표시 */}
+              <div className={style.item_right}>
               {item.symptom_image && (
-                <img
-                src={`http://localhost:5000/${item.symptom_image}`}
-                alt="증상 이미지"
-                style={{ maxWidth: '100%', height: 'auto' }}
-                />
+                <div className={style.item_img}>
+                  <img
+                  src={`http://localhost:5000/${item.symptom_image}`}
+                  alt="증상 이미지"
+                  />
+
+                </div>
               )}
+                <div className={style.item_button}>
+                  <button className={style.item_yes}>
+                    승낙
+                  </button>
+                  <button onClick={() => handleRemove(item.id)}>거부</button>
+                  
+                </div>
+              </div>
             </div>
           </Item>
         ))}
