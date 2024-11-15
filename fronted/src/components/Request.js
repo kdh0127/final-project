@@ -33,6 +33,9 @@ function RequestForm() {
       
       <div className={style.submit}>
         <div className={style.personal_profile}>
+          <div className="submittitle">
+            <h2>진단요청서</h2>
+          </div>
           <label>성함:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
           
