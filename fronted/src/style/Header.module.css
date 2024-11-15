@@ -15,8 +15,9 @@
     width: 1400px;
     background-color: #fff;
     padding: 10px 40px;
+    border-bottom: 5px solid #e0e0e0;
 }
-
+/* 로그인, 회원가입 밑에 있는 줄 바꾸려면 border-bottom 수정 */
 .loginBtn, .signupBtn {
     padding: 10px 20px;
     font-size: 16px;
@@ -43,18 +44,26 @@
 /* 하단: 로고와 제목, 네비게이션 메뉴 */
 .bottomContainer {
     display: flex;
-    justify-content: space-around;
-    width: 1400px;
-    padding: 20px 40px;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 20px 0px;
     background-color: #ffffff;
-    border-bottom: 2px solid hsl(0, 0%, 0%);
+    border-bottom: 2px solid #e0e0e0;
 }
+/* 원래 width가 1400px이였는데 줄이 화면을 꽉 안채우니까 */
+/* 안예뻐서 width를 100%비율로 조절 */
+/* 로고와 제목, 네비게이션 밑 밑줄을 바꾸려면 여기서 border-bottom을 수정 */
 
 /* 왼쪽 섹션: 로고와 제목 */
 .leftSection {
     display: flex;
     align-items: center;
+    margin-right: 200px;
+    margin-left: 60px;
 }
+/* 로고 + 꿀벌 질병 예측 및 진단 지원 서비스 옆에 네비를 가까이/멀리 */
+/* 조정하고 싶다면 margin-right를 줄이거나 / 늘리면 됨 */
+/* 로고, 꿀벌 질병 예측 및 진단 지원 서비스 옆 왼쪽 여백 주려면 margin_left을 수정 */
 
 .logoContainer {
     margin-right: 25px;
@@ -63,7 +72,10 @@
 .headerLogo {
     width: 100px;
     height: auto;
+    margin-right: 5px;
 }
+/* 로고와 꿀벌 질병 예측 및 진단 지원 서비스 사이의 마진을 주고 싶다면 */
+/* 여기서 margin-right를 수정하면 됨 */
 
 .titleContainer h2 {
     font-size: 20px;
@@ -75,8 +87,9 @@
 /* 네비게이션 컨테이너 */
 .navContainer {
     display: flex;
-    gap: 30px;
+    gap: 150px;
     align-items: center;
+    margin-left: 0;
 }
 
 /* 네비게이션 링크 및 밑줄 애니메이션 */
