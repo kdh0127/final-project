@@ -1,20 +1,21 @@
 import os
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
 
-#---------------------------------------------
+#---------------------이미지 모델 관련 import------------------------
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 import numpy as np
 from io import BytesIO
-#---------------------------------------------
-
-
+#----------------------------로그인 관련 import-----------------
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_session import Session
 
 #-----------------------cors 설정-----------------------------------
+
 # Flask 애플리케이션 설정
 app = Flask(__name__, static_url_path='', static_folder='uploads')
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -28,16 +29,34 @@ CORS(app, supports_credentials=True, resources={
 })
 
 
-# cors preflight 요청에 대한 응답
-def _build_cors_prelight_response():
-    response = jsonify({'message': 'CORS preflight'})
-    response.headers.add("Access-Control-Allow-Origin", "http://localhost:3000") #localhost3000에서만 서버 자원에 접근 가능
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type")  #헤더: content-type
-    response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS") #HTTP 메서드를 정의
-    response.headers.add("Access-Control-Allow-Credentials", "true") #다른 도메인 에서 오는 요청도 인증 정보를 포함 허용(true)
-    return response
+    
+#------------------------------- 세션 &데이터베이스 경로 설정 -------------------------------
 
-#-------------------------------------------------------------------------
+
+# 세션 설정
+app.config['SECRET_KEY'] = 'your_secret_key'  # 세션을 위한 비밀 키 설정
+app.config['SESSION_TYPE'] = 'filesystem'  # 세션 저장소를 파일 시스템으로 설정
+
+# 기본 데이터베이스 (MySQL)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/user_db'  # 기본 데이터베이스 URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
+
+# 추가 데이터베이스 (SQLite)
+app.config['SQLALCHEMY_BINDS'] = {
+    'requests': 'sqlite:///request.db',          # 요청 관련 데이터베이스
+    'processed': 'sqlite:///processed_requests.db',  # 처리된 요청 데이터베이스
+    'default': 'sqlite:///default.db'          
+}
+
+# 세션 초기화
+Session(app)
+
+# SQLAlchemy 초기화
+db = SQLAlchemy(app)
+
+#-------------------------------------------------------------------
+
+
 
 #----------------------------이미지 모델 -------------------------------------------
 # 모델 위치
@@ -57,21 +76,6 @@ class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buz
 load_dotenv(dotenv_path="key.env")
 openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
-
-
-# 데이터베이스 URI 설정
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///default.db'
-app.config['SQLALCHEMY_BINDS'] = {
-    'requests': 'sqlite:///request.db',
-    'processed': 'sqlite:///processed_requests.db'
-}
-
-db = SQLAlchemy(app)
-
-SQLALCHEMY_BINDS = {
-    'requests': 'sqlite:///requests.db',
-    'processed': 'sqlite:///processed.db'
-}
 # 요청 데이터 모델
 class RequestData(db.Model):
     __bind_key__ = 'requests'
@@ -84,6 +88,11 @@ class RequestData(db.Model):
 
     def __repr__(self):
         return f"<Request {self.name}>"
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
     
 
 class ProcessedRequest(db.Model):
@@ -99,13 +108,15 @@ class ProcessedRequest(db.Model):
 def __repr__(self):
     return f"<ProcessedRequest {self.name}>"
 
+# cors preflight 요청에 대한 응답
+def _build_cors_prelight_response():
+    response = jsonify({'message': 'CORS preflight'})
+    response.headers.add("Access-Control-Allow-Origin", "http://localhost:3000") #localhost3000에서만 서버 자원에 접근 가능
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type")  #헤더: content-type
+    response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS") #HTTP 메서드를 정의
+    response.headers.add("Access-Control-Allow-Credentials", "true") #다른 도메인 에서 오는 요청도 인증 정보를 포함 허용(true)
+    return response
 
-
-
-
-# 테이블 생성 코드
-with app.app_context():
-    db.create_all() 
 
 # QA 체인 초기화
 pdf_path = os.getenv('PDF_PATH', '꿀벌질병.pdf')  # 환경 변수로 PDF 경로 관리
@@ -256,5 +267,75 @@ def predict():
 
 #-------------------------------- 여기 까지 -------------------------------------------
 
+#------------------------------ 로그인 관련 기능---------------------------------------
+# 회원가입 처리
+@app.route('/api/register', methods=['POST', 'OPTIONS'])
+def register():
+    if request.method == 'OPTIONS':
+        return _build_cors_prelight_response()
+
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    hashed_password = generate_password_hash(password)
+
+    try:
+        # 새로운 사용자 생성 및 데이터베이스에 추가
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({'message': 'User registered successfully!'}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': 'Error occurred while registering'}), 500
+
+# 로그인 처리
+@app.route('/api/login', methods=['POST', 'OPTIONS'])
+def login():
+    if request.method == 'OPTIONS':
+        return _build_cors_prelight_response()
+
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    try:
+        # 사용자 데이터베이스에서 사용자 찾기
+        user = User.query.filter_by(username=username).first()
+
+        if user and check_password_hash(user.password, password):
+            session['user'] = username  # 세션에 사용자 정보 저장
+            return jsonify({'message': 'Login successful!', 'user': username})
+        else:
+            return jsonify({'message': 'Invalid credentials'}), 401
+    except Exception as e:
+        return jsonify({'message': 'Error occurred during login'}), 500
+
+# 로그아웃 처리
+@app.route('/api/logout', methods=['POST', 'OPTIONS'])
+def logout():
+    if request.method == 'OPTIONS':
+        return _build_cors_prelight_response()
+
+    session.pop('user', None)  # 세션에서 사용자 정보 제거
+    return jsonify({'message': 'Logout successful!'}), 200
+
+# 인증된 사용자만 접근 가능
+@app.route('/api/data', methods=['GET', 'OPTIONS'])
+def get_data():
+    if request.method == 'OPTIONS':
+        return _build_cors_prelight_response()
+
+    if 'user' in session:  # 로그인한 사용자인지 확인
+        return jsonify({'message': f'Hello, {session["user"]}! This is your data.'})
+    else:  # 로그인하지 않은 경우
+        return jsonify({'message': 'Unauthorized'}), 401
+# ------------------------------------------------------------------------
+
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
+    
