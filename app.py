@@ -2,9 +2,9 @@ import os
 from flask import Flask, request, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from flask_migrate import Migrate
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
-
 
 # 환경 변수 로드
 load_dotenv(dotenv_path="key.env")
@@ -14,19 +14,18 @@ openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 app = Flask(__name__, static_url_path='', static_folder='uploads')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
-# 데이터베이스 URI 설정
+# 데이터베이스 바인딩 설정
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///default.db'
+
 app.config['SQLALCHEMY_BINDS'] = {
-    'requests': 'sqlite:///request.db',
+    'requests': 'sqlite:///requests.db',
     'processed': 'sqlite:///processed_requests.db'
 }
 
 db = SQLAlchemy(app)
 
-SQLALCHEMY_BINDS = {
-    'requests': 'sqlite:///requests.db',
-    'processed': 'sqlite:///processed.db'
-}
+migrate = Migrate(app, db)
+
 # 요청 데이터 모델
 class RequestData(db.Model):
     __bind_key__ = 'requests'
@@ -39,7 +38,6 @@ class RequestData(db.Model):
 
     def __repr__(self):
         return f"<Request {self.name}>"
-    
 
 class ProcessedRequest(db.Model):
     __bind_key__ = 'processed'
@@ -50,13 +48,13 @@ class ProcessedRequest(db.Model):
     symptom_description = db.Column(db.Text, nullable=False)
     symptom_image = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(20), nullable=False)
+    scheduled_date = db.Column(db.DateTime, nullable=True)  # 진료 날짜 필드 추가
+    scheduled_time = db.Column(db.String(20), nullable=True)  # 진료 시간 필드 추가
 
-def __repr__(self):
-    return f"<ProcessedRequest {self.name}>"
+    def __repr__(self):
+        return f"<ProcessedRequest {self.name}>"
 
 CORS(app)  # 필요시 특정 출처로 제한 가능
-
-
 
 # 테이블 생성 코드
 with app.app_context():
@@ -127,13 +125,21 @@ def update_request_status(id, action):
         return jsonify({'error': 'Invalid action'}), 400
 
     status = '승낙' if action == 'approve' else '거부'
+    
+    # 진료 일정과 시간 저장
+    scheduled_date = request.form.get('scheduled_date')  # 진료 날짜
+    scheduled_time = request.form.get('scheduled_time')  # 진료 시간
+    
+    # 진료 날짜와 시간을 DB에 반영
     processed_request = ProcessedRequest(
         name=request_data.name,
         address=request_data.address,
         phone=request_data.phone,
         symptom_description=request_data.symptom_description,
         symptom_image=request_data.symptom_image,
-        status=status
+        status=status,
+        scheduled_date=scheduled_date,
+        scheduled_time=scheduled_time
     )
     db.session.add(processed_request)
     db.session.delete(request_data)
@@ -175,6 +181,42 @@ def delete_request(id):
     db.session.delete(request_data)
     db.session.commit()
     return jsonify({'message': f'Request {id} deleted successfully'}), 200
+
+# 진료 일정 조회 엔드포인트
+@app.route('/api/vet_schedule', methods=['GET'])
+def get_vet_schedule():
+    processed_requests = ProcessedRequest.query.filter_by(status='승낙').all()
+    schedule_data = []
+    
+    for req in processed_requests:
+        # 날짜와 시간을 ISO 형식으로 변환
+        scheduled_datetime_str = None
+        if req.scheduled_date:
+            scheduled_datetime = req.scheduled_date
+            scheduled_datetime_str = scheduled_datetime.isoformat()  # ISO 8601 형식으로 변환
+            
+            # 만약 시간이 있다면, 날짜와 시간 결합
+            if req.scheduled_time:
+                scheduled_datetime_str = f"{scheduled_datetime_str.split('T')[0]}T{req.scheduled_time}:00"
+        
+        # 데이터가 없으면 빈 문자열로 대체하거나 다른 기본값 처리
+        schedule_data.append({
+            'name': req.name,
+            'date': scheduled_datetime_str or "",  # scheduled_datetime_str이 None일 경우 빈 문자열 처리
+            'time': req.scheduled_time or "",  # scheduled_time이 없으면 빈 문자열 처리
+        })
+    
+    return jsonify(schedule_data), 200
+
+@app.route('/api/beekeeper_requests/<string:name>', methods=['GET'])
+def get_beekeeper_requests(name):
+    requests = ProcessedRequest.query.filter_by(name=name).all()
+    return jsonify([{
+        'id': req.id,
+        'name': req.name,
+        'status': req.status,  # 요청 상태 (승낙/거부)
+        'symptom_description': req.symptom_description,
+    } for req in requests]), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

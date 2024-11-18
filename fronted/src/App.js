@@ -4,6 +4,7 @@ import Header from './components/Header';
 import ManageRequest from './components/Manage_request'; 
 import Request from './components/Request';
 import Chatbot from './components/chatbot';
+import Calender from './components/Calender';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/manage_request" element={<ManageRequest />} />
         <Route path="/request" element={<Request />} />
         <Route path="/ai" element={<Chatbot />} />
+        <Route path="/schedule" element={<Calender />} />
         </Routes>
       </div>
     </Router>
