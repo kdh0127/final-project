@@ -9,13 +9,19 @@ function Header() {
 
     return (
         <div className={style.headerContainer}>
-        {/* 상단: 로그인/회원가입 버튼 */}
-        <div className={style.topContainer}>
-            <div className={style.topButtons}>
-                <button className={style.loginBtn}>
+            {/* 상단: 로그인/회원가입 버튼 */}
+            <div className={style.topContainer}>
+                <div className={style.topButtons}>
+                    {/* 로그인 버튼 */}
+                    <Link to="/Logleg" className={style.loginBtn}>
                     <FontAwesomeIcon icon={faUser} /> 로그인
-                </button>
-                <button className={style.signupBtn}>회원가입</button>
+                </Link>
+
+                {/* 회원가입 버튼 */}
+                <Link to="/Logleg" className={style.signupBtn}>
+                        회원가입
+                </Link>
+
             </div>
         </div>
     
