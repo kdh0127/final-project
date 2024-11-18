@@ -8,9 +8,6 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -37,7 +34,8 @@ function ManageRequest() {
   const [requests, setRequests] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentRequest, setCurrentRequest] = useState(null);
-  const [schedule, setSchedule] = useState(null); // DateTimePicker는 null로 초기화
+  const [scheduleDate, setScheduleDate] = useState('');
+  const [scheduleTime, setScheduleTime] = useState('');
   const [precaution, setPrecaution] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
 
@@ -65,36 +63,51 @@ function ManageRequest() {
 
   const handleClose = () => {
     setModalIsOpen(false);
-    setSchedule(null); // Modal 닫을 때 초기화
+    setScheduleDate('');
+    setScheduleTime('');
     setPrecaution('');
     setRejectionReason('');
   };
 
   const handleApprove = async () => {
+    if (!scheduleDate || !scheduleTime) {
+      console.error('진료 일정이 설정되지 않았습니다.');
+      return;
+    }
+  
     try {
-      await axios.put(`http://localhost:5000/api/request/${currentRequest.id}/approve`, {
-        schedule,
-        precaution,
+      const formData = new FormData();
+      formData.append('scheduled_date', scheduleDate); // 날짜
+      formData.append('scheduled_time', scheduleTime); // 시간
+      formData.append('precaution', precaution); // 예방 조치
+  
+      await axios.put(`http://localhost:5000/api/request/${currentRequest.id}/approve`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }, // form-data 요청 명시
       });
+  
       setRequests((prevRequests) => prevRequests.filter((item) => item.id !== currentRequest.id));
       handleClose();
     } catch (error) {
       console.error('승낙 처리 중 오류가 발생했습니다.', error);
     }
   };
-
+  
   const handleReject = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/request/${currentRequest.id}/reject`, {
-        rejectionReason,
+      const formData = new FormData();
+      formData.append('rejection_reason', rejectionReason); // 거부 사유 전달
+  
+      await axios.put(`http://localhost:5000/api/request/${currentRequest.id}/reject`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }, // form-data 요청 명시
       });
+  
       setRequests((prevRequests) => prevRequests.filter((item) => item.id !== currentRequest.id));
       handleClose();
     } catch (error) {
       console.error('거부 처리 중 오류가 발생했습니다.', error);
     }
   };
-
+  
   return (
     <div className={style.Manage_request}>
       <div className={style.boxContainer}>
@@ -145,15 +158,18 @@ function ManageRequest() {
                   </Typography>
                   <label>
                     진료 일정:
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateTimePicker
-                        renderInput={(props) => <input {...props} />}
-                        value={schedule}
-                        onChange={(newValue) => setSchedule(newValue)}
-                        ampm={false} // 24시간 형식
-                        disablePast
+                    <div>
+                      <input
+                        type="date"
+                        value={scheduleDate}
+                        onChange={(e) => setScheduleDate(e.target.value)}
                       />
-                    </LocalizationProvider>
+                      <input
+                        type="time"
+                        value={scheduleTime}
+                        onChange={(e) => setScheduleTime(e.target.value)}
+                      />
+                    </div>
                   </label>
                   <label>
                     예방 조치:

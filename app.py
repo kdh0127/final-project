@@ -5,9 +5,10 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
+from datetime import datetime
 
 # 환경 변수 로드
-load_dotenv(dotenv_path="key.env")
+load_dotenv(dotenv_path="key.env")  
 openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
 # Flask 애플리케이션 설정
@@ -38,6 +39,8 @@ class RequestData(db.Model):
 
     def __repr__(self):
         return f"<Request {self.name}>"
+
+
 
 class ProcessedRequest(db.Model):
     __bind_key__ = 'processed'
@@ -125,12 +128,25 @@ def update_request_status(id, action):
         return jsonify({'error': 'Invalid action'}), 400
 
     status = '승낙' if action == 'approve' else '거부'
-    
-    # 진료 일정과 시간 저장
-    scheduled_date = request.form.get('scheduled_date')  # 진료 날짜
-    scheduled_time = request.form.get('scheduled_time')  # 진료 시간
-    
-    # 진료 날짜와 시간을 DB에 반영
+
+    # --- 디버깅용 로그 추가 ---
+    print(request.form.to_dict())  # form 데이터 전체 확인
+    print("Scheduled Date:", request.form.get('scheduled_date'))  # scheduled_date 확인
+    print("Scheduled Time:", request.form.get('scheduled_time'))  # scheduled_time 확인
+
+    # --- 날짜 및 시간 처리 ---
+    scheduled_date_str = request.form.get('scheduled_date')  # 프론트에서 넘어온 날짜
+    scheduled_time = request.form.get('scheduled_time')  # 프론트에서 넘어온 시간
+
+    if scheduled_date_str:  # 날짜가 있을 경우 처리
+        try:
+            scheduled_date = datetime.strptime(scheduled_date_str, '%Y-%m-%d')  # 문자열 -> datetime
+        except ValueError:
+            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
+    else:
+        scheduled_date = None
+
+    # --- 처리된 요청 생성 ---
     processed_request = ProcessedRequest(
         name=request_data.name,
         address=request_data.address,
@@ -138,12 +154,14 @@ def update_request_status(id, action):
         symptom_description=request_data.symptom_description,
         symptom_image=request_data.symptom_image,
         status=status,
-        scheduled_date=scheduled_date,
-        scheduled_time=scheduled_time
+        scheduled_date=scheduled_date,  # 처리된 날짜
+        scheduled_time=scheduled_time  # 처리된 시간
     )
-    db.session.add(processed_request)
-    db.session.delete(request_data)
-    db.session.commit()
+
+    db.session.add(processed_request)  # 데이터 저장
+    db.session.delete(request_data)   # 기존 요청 삭제
+    db.session.commit()               # DB 반영
+
     return jsonify({'message': f'Request {id} {status} 완료 및 처리된 요청에 추가됨'}), 200
 
 # 처리된 요청 조회 엔드포인트
@@ -189,23 +207,12 @@ def get_vet_schedule():
     schedule_data = []
     
     for req in processed_requests:
-        # 날짜와 시간을 ISO 형식으로 변환
-        scheduled_datetime_str = None
-        if req.scheduled_date:
-            scheduled_datetime = req.scheduled_date
-            scheduled_datetime_str = scheduled_datetime.isoformat()  # ISO 8601 형식으로 변환
-            
-            # 만약 시간이 있다면, 날짜와 시간 결합
-            if req.scheduled_time:
-                scheduled_datetime_str = f"{scheduled_datetime_str.split('T')[0]}T{req.scheduled_time}:00"
-        
-        # 데이터가 없으면 빈 문자열로 대체하거나 다른 기본값 처리
         schedule_data.append({
-            'name': req.name,
-            'date': scheduled_datetime_str or "",  # scheduled_datetime_str이 None일 경우 빈 문자열 처리
-            'time': req.scheduled_time or "",  # scheduled_time이 없으면 빈 문자열 처리
+            "name": req.name,
+            "date": req.scheduled_date.isoformat() if req.scheduled_date else None,  # ISO 형식
+            "description": req.symptom_description,  # 필요시 추가 설명
         })
-    
+
     return jsonify(schedule_data), 200
 
 @app.route('/api/beekeeper_requests/<string:name>', methods=['GET'])
@@ -219,4 +226,4 @@ def get_beekeeper_requests(name):
     } for req in requests]), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True)  
