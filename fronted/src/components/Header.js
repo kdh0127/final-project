@@ -9,13 +9,19 @@ function Header() {
 
     return (
         <div className={style.headerContainer}>
-        {/* 상단: 로그인/회원가입 버튼 */}
-        <div className={style.topContainer}>
-            <div className={style.topButtons}>
-                <button className={style.loginBtn}>
+            {/* 상단: 로그인/회원가입 버튼 */}
+            <div className={style.topContainer}>
+                <div className={style.topButtons}>
+                    {/* 로그인 버튼 */}
+                    <Link to="/Logleg" className={style.loginBtn}>
                     <FontAwesomeIcon icon={faUser} /> 로그인
-                </button>
-                <button className={style.signupBtn}>회원가입</button>
+                </Link>
+
+                {/* 회원가입 버튼 */}
+                <Link to="/Logleg" className={style.signupBtn}>
+                        회원가입
+                </Link>
+
             </div>
         </div>
     
@@ -38,7 +44,7 @@ function Header() {
                     <Link to="/disease-management" className={style.navLink}>질병 관리</Link>
                     <div className={style.subMenu}>
                         <Link to="/record" className={style.subLink}>질병 기록</Link>
-                        <Link to="/prediction" className={style.subLink}>질병 예측</Link>
+                        <Link to="/Image_Model" className={style.subLink}>질병 예측</Link>
                     </div>
                 </div>
     
