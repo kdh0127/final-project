@@ -2,12 +2,9 @@ import os
 from flask import Flask, request, jsonify, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from flask_migrate import Migrate
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
-from datetime import datetime
 
-<<<<<<< HEAD
 #---------------------이미지 모델 관련 import------------------------
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
@@ -18,17 +15,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
 
 #-----------------------cors 설정-----------------------------------
-=======
-# 환경 변수 로드
-load_dotenv(dotenv_path="key.env")  
-openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
->>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 
 # Flask 애플리케이션 설정
 app = Flask(__name__, static_url_path='', static_folder='uploads')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
-<<<<<<< HEAD
 CORS(app, supports_credentials=True, resources={
     r"/*": {
         "origins": "http://localhost:3000",
@@ -84,19 +75,6 @@ class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buz
 # 환경 변수 로드
 load_dotenv(dotenv_path="key.env")
 openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
-=======
-# 데이터베이스 바인딩 설정
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///default.db'
-
-app.config['SQLALCHEMY_BINDS'] = {
-    'requests': 'sqlite:///requests.db',
-    'processed': 'sqlite:///processed_requests.db'
-}
-
-db = SQLAlchemy(app)
-
-migrate = Migrate(app, db)
->>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 
 # 요청 데이터 모델
 class RequestData(db.Model):
@@ -111,15 +89,11 @@ class RequestData(db.Model):
     def __repr__(self):
         return f"<Request {self.name}>"
 
-<<<<<<< HEAD
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     
-=======
-
->>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 
 class ProcessedRequest(db.Model):
     __bind_key__ = 'processed'
@@ -130,10 +104,7 @@ class ProcessedRequest(db.Model):
     symptom_description = db.Column(db.Text, nullable=False)
     symptom_image = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(20), nullable=False)
-    scheduled_date = db.Column(db.DateTime, nullable=True)  # 진료 날짜 필드 추가
-    scheduled_time = db.Column(db.String(20), nullable=True)  # 진료 시간 필드 추가
 
-<<<<<<< HEAD
 def __repr__(self):
     return f"<ProcessedRequest {self.name}>"
 
@@ -146,16 +117,6 @@ def _build_cors_prelight_response():
     response.headers.add("Access-Control-Allow-Credentials", "true") #다른 도메인 에서 오는 요청도 인증 정보를 포함 허용(true)
     return response
 
-=======
-    def __repr__(self):
-        return f"<ProcessedRequest {self.name}>"
-
-CORS(app)  # 필요시 특정 출처로 제한 가능
-
-# 테이블 생성 코드
-with app.app_context():
-    db.create_all() 
->>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 
 # QA 체인 초기화
 pdf_path = os.getenv('PDF_PATH', '꿀벌질병.pdf')  # 환경 변수로 PDF 경로 관리
@@ -222,40 +183,17 @@ def update_request_status(id, action):
         return jsonify({'error': 'Invalid action'}), 400
 
     status = '승낙' if action == 'approve' else '거부'
-
-    # --- 디버깅용 로그 추가 ---
-    print(request.form.to_dict())  # form 데이터 전체 확인
-    print("Scheduled Date:", request.form.get('scheduled_date'))  # scheduled_date 확인
-    print("Scheduled Time:", request.form.get('scheduled_time'))  # scheduled_time 확인
-
-    # --- 날짜 및 시간 처리 ---
-    scheduled_date_str = request.form.get('scheduled_date')  # 프론트에서 넘어온 날짜
-    scheduled_time = request.form.get('scheduled_time')  # 프론트에서 넘어온 시간
-
-    if scheduled_date_str:  # 날짜가 있을 경우 처리
-        try:
-            scheduled_date = datetime.strptime(scheduled_date_str, '%Y-%m-%d')  # 문자열 -> datetime
-        except ValueError:
-            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
-    else:
-        scheduled_date = None
-
-    # --- 처리된 요청 생성 ---
     processed_request = ProcessedRequest(
         name=request_data.name,
         address=request_data.address,
         phone=request_data.phone,
         symptom_description=request_data.symptom_description,
         symptom_image=request_data.symptom_image,
-        status=status,
-        scheduled_date=scheduled_date,  # 처리된 날짜
-        scheduled_time=scheduled_time  # 처리된 시간
+        status=status
     )
-
-    db.session.add(processed_request)  # 데이터 저장
-    db.session.delete(request_data)   # 기존 요청 삭제
-    db.session.commit()               # DB 반영
-
+    db.session.add(processed_request)
+    db.session.delete(request_data)
+    db.session.commit()
     return jsonify({'message': f'Request {id} {status} 완료 및 처리된 요청에 추가됨'}), 200
 
 # 처리된 요청 조회 엔드포인트
@@ -294,30 +232,40 @@ def delete_request(id):
     db.session.commit()
     return jsonify({'message': f'Request {id} deleted successfully'}), 200
 
-# 진료 일정 조회 엔드포인트
-@app.route('/api/vet_schedule', methods=['GET'])
-def get_vet_schedule():
-    processed_requests = ProcessedRequest.query.filter_by(status='승낙').all()
-    schedule_data = []
-    
-    for req in processed_requests:
-        schedule_data.append({
-            "name": req.name,
-            "date": req.scheduled_date.isoformat() if req.scheduled_date else None,  # ISO 형식
-            "description": req.symptom_description,  # 필요시 추가 설명
+
+#------------------------------------------ 이미지 모델 ----------------------------
+@app.route('/predict', methods=['POST'])
+def predict():
+
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file provided'}), 400
+
+    file = request.files['file']
+    if file:
+        # 이미지를 모델에 넣을 수 있게 변환
+        img = load_img(BytesIO(file.read()), target_size=IMG_SIZE)
+        img = img_to_array(img)
+        img = np.expand_dims(img, axis=0)
+        img /= 255.0  # 이미지 정규화
+
+        # 예측 실행 부분
+        prediction = model.predict(img)
+        predicted_class = np.argmax(prediction, axis=1)[0]
+        predicted_class_name = class_names[predicted_class]
+
+         # 디버깅용 출력
+        print(f"Predicted class index: {predicted_class}")
+        print(f"Predicted class name: {predicted_class_name}")
+
+        # 결과 리턴 (JSON 형식)
+        return jsonify({
+            'predicted_class': int(predicted_class),
+            'predicted_class_name': predicted_class_name
         })
+    else:
+        return jsonify({'error': 'Invalid file'}), 400
 
-    return jsonify(schedule_data), 200
-
-@app.route('/api/beekeeper_requests/<string:name>', methods=['GET'])
-def get_beekeeper_requests(name):
-    requests = ProcessedRequest.query.filter_by(name=name).all()
-    return jsonify([{
-        'id': req.id,
-        'name': req.name,
-        'status': req.status,  # 요청 상태 (승낙/거부)
-        'symptom_description': req.symptom_description,
-    } for req in requests]), 200
+#-------------------------------- 여기 까지 -------------------------------------------
 
 #------------------------------ 로그인 관련 기능---------------------------------------
 # 회원가입 처리
@@ -387,11 +335,7 @@ def get_data():
 # ------------------------------------------------------------------------
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     with app.app_context():
         db.create_all()
     app.run(debug=True)
     
-=======
-    app.run(debug=True)  
->>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
