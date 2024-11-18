@@ -5,6 +5,7 @@ from flask_cors import CORS
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
 
+<<<<<<< HEAD
 #---------------------이미지 모델 관련 import------------------------
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
@@ -71,11 +72,33 @@ IMG_SIZE = (224, 224)
 #클래스 이름
 class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buzzer', 'young_normal', 'young_ung']
 #-----------------------------------------------------------------------
+=======
+>>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 
 # 환경 변수 로드
 load_dotenv(dotenv_path="key.env")
 openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
+<<<<<<< HEAD
+=======
+# Flask 애플리케이션 설정
+app = Flask(__name__, static_url_path='', static_folder='uploads')
+app.config['UPLOAD_FOLDER'] = 'uploads'
+
+# 데이터베이스 URI 설정
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///default.db'
+app.config['SQLALCHEMY_BINDS'] = {
+    'requests': 'sqlite:///request.db',
+    'processed': 'sqlite:///processed_requests.db'
+}
+
+db = SQLAlchemy(app)
+
+SQLALCHEMY_BINDS = {
+    'requests': 'sqlite:///requests.db',
+    'processed': 'sqlite:///processed.db'
+}
+>>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 # 요청 데이터 모델
 class RequestData(db.Model):
     __bind_key__ = 'requests'
@@ -108,6 +131,7 @@ class ProcessedRequest(db.Model):
 def __repr__(self):
     return f"<ProcessedRequest {self.name}>"
 
+<<<<<<< HEAD
 # cors preflight 요청에 대한 응답
 def _build_cors_prelight_response():
     response = jsonify({'message': 'CORS preflight'})
@@ -117,6 +141,9 @@ def _build_cors_prelight_response():
     response.headers.add("Access-Control-Allow-Credentials", "true") #다른 도메인 에서 오는 요청도 인증 정보를 포함 허용(true)
     return response
 
+=======
+CORS(app)  # 필요시 특정 출처로 제한 가능
+>>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 
 # QA 체인 초기화
 pdf_path = os.getenv('PDF_PATH', '꿀벌질병.pdf')  # 환경 변수로 PDF 경로 관리
@@ -232,6 +259,7 @@ def delete_request(id):
     db.session.commit()
     return jsonify({'message': f'Request {id} deleted successfully'}), 200
 
+<<<<<<< HEAD
 
 #------------------------------------------ 이미지 모델 ----------------------------
 @app.route('/predict', methods=['POST'])
@@ -334,6 +362,8 @@ def get_data():
         return jsonify({'message': 'Unauthorized'}), 401
 # ------------------------------------------------------------------------
 
+=======
+>>>>>>> 58aaecce3cee1d3d91de113ecefc7e129708e121
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

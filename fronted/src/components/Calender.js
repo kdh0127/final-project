@@ -15,9 +15,9 @@ export default function Calendar() {
         // 데이터 가공: FullCalendar가 이해할 수 있는 형식으로 변환
         const formattedEvents = data.map((item) => ({
           title: item.name, // 이벤트 제목 (이름)
-          start: new Date(item.date).toISOString(), // 시작 날짜와 시간 (ISO 형식)
-          end: new Date(new Date(item.date).getTime() + 60 * 60 * 1000).toISOString(), // 1시간 후 끝날 경우 예시
-          description: item.description || '', // 추가 설명이 필요하면 사용
+          start: item.date, // 백엔드에서 받은 시간 데이터 그대로 사용
+          end: new Date(new Date(item.date).getTime() + 60 * 60 * 1000).toISOString(),
+          description: item.description || '',
         }));
 
         setEvents(formattedEvents);
