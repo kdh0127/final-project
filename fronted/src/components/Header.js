@@ -38,7 +38,7 @@ function Header() {
                     <Link to="/disease-management" className={style.navLink}>질병 관리</Link>
                     <div className={style.subMenu}>
                         <Link to="/record" className={style.subLink}>질병 기록</Link>
-                        <Link to="/prediction" className={style.subLink}>질병 예측</Link>
+                        <Link to="/Image_Model" className={style.subLink}>질병 예측</Link>
                     </div>
                 </div>
     

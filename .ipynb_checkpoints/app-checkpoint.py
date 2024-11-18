@@ -5,14 +5,57 @@ from flask_cors import CORS
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
 
+#---------------------------------------------
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
+import numpy as np
+from io import BytesIO
+#---------------------------------------------
+
+
+
+#-----------------------cors 설정-----------------------------------
+# Flask 애플리케이션 설정
+app = Flask(__name__, static_url_path='', static_folder='uploads')
+app.config['UPLOAD_FOLDER'] = 'uploads'
+
+CORS(app, supports_credentials=True, resources={
+    r"/*": {
+        "origins": "http://localhost:3000",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
+
+
+# cors preflight 요청에 대한 응답
+def _build_cors_prelight_response():
+    response = jsonify({'message': 'CORS preflight'})
+    response.headers.add("Access-Control-Allow-Origin", "http://localhost:3000") #localhost3000에서만 서버 자원에 접근 가능
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type")  #헤더: content-type
+    response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS") #HTTP 메서드를 정의
+    response.headers.add("Access-Control-Allow-Credentials", "true") #다른 도메인 에서 오는 요청도 인증 정보를 포함 허용(true)
+    return response
+
+#-------------------------------------------------------------------------
+
+#----------------------------이미지 모델 -------------------------------------------
+# 모델 위치
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, "Bee_image_model.h5")
+
+# 이미지 크기 설정 
+IMG_SIZE = (224, 224)
+
+#클래스 이름
+class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buzzer', 'young_normal', 'young_ung']
+#-----------------------------------------------------------------------
 
 # 환경 변수 로드
 load_dotenv(dotenv_path="key.env")
 openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
-# Flask 애플리케이션 설정
-app = Flask(__name__, static_url_path='', static_folder='uploads')
-app.config['UPLOAD_FOLDER'] = 'uploads'
+
 
 # 데이터베이스 URI 설정
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///default.db'
@@ -54,7 +97,7 @@ class ProcessedRequest(db.Model):
 def __repr__(self):
     return f"<ProcessedRequest {self.name}>"
 
-CORS(app)  # 필요시 특정 출처로 제한 가능
+
 
 
 
@@ -175,6 +218,41 @@ def delete_request(id):
     db.session.delete(request_data)
     db.session.commit()
     return jsonify({'message': f'Request {id} deleted successfully'}), 200
+
+
+#------------------------------------------ 이미지 모델 ----------------------------
+@app.route('/predict', methods=['POST'])
+def predict():
+
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file provided'}), 400
+
+    file = request.files['file']
+    if file:
+        # 이미지를 모델에 넣을 수 있게 변환
+        img = load_img(BytesIO(file.read()), target_size=IMG_SIZE)
+        img = img_to_array(img)
+        img = np.expand_dims(img, axis=0)
+        img /= 255.0  # 이미지 정규화
+
+        # 예측 실행 부분
+        prediction = model.predict(img)
+        predicted_class = np.argmax(prediction, axis=1)[0]
+        predicted_class_name = class_names[predicted_class]
+
+         # 디버깅용 출력
+        print(f"Predicted class index: {predicted_class}")
+        print(f"Predicted class name: {predicted_class_name}")
+
+        # 결과 리턴 (JSON 형식)
+        return jsonify({
+            'predicted_class': int(predicted_class),
+            'predicted_class_name': predicted_class_name
+        })
+    else:
+        return jsonify({'error': 'Invalid file'}), 400
+
+#-------------------------------- 여기 까지 -------------------------------------------
 
 if __name__ == '__main__':
     app.run(debug=True)
