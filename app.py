@@ -43,6 +43,8 @@ def _build_cors_prelight_response():
 # 모델 위치
 current_dir = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(current_dir, "Bee_image_model.h5")
+model = load_model(model_path)
+print("Model loaded successfully.")
 
 # 이미지 크기 설정 
 IMG_SIZE = (224, 224)
