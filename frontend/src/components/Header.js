@@ -22,14 +22,14 @@ function Header() {
                         <img src={imagePath} alt="Logo" className={style.headerLogo} />
                     </div>
 
-                    <div className={style.List1}>
+                    {/* <div className={style.List1}>
                         <Link to="/record" className={style.Link} onMouse>질병기록</Link>
-                    </div>
+                    </div> */}
                     <div className={style.List2}>
                         <Link to="/ai" className={style.Link}>진단AI</Link>
                     </div>
                     <div className={style.List3}>
-                        <Link to="/prediction" className={style.Link}>질병예측</Link>
+                        <Link to="/Image_Model" className={style.Link}>질병예측</Link>
                     </div>
 
                     {/* 양봉업자 분들을 위한 페이지 */}
@@ -42,7 +42,7 @@ function Header() {
                         <Link to="/manage_request" className={style.Link}>진단요청관리</Link>
                     </div>
                     <div className={style.List6}>
-                        <Link to="/calender" className={style.Link}>일정관리</Link>
+                        <Link to="/calendar" className={style.Link}>일정관리</Link>
                     </div>
                 </div>
 

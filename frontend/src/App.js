@@ -18,7 +18,7 @@ function App() {
         <Route path="/manage_request" element={<ManageRequest />} />
         <Route path="/request" element={<Request />} />
         <Route path="/ai" element={<Chatbot />} />
-        <Route path="/schedule" element={<Calender />} />
+        <Route path="/calendar" element={<Calender />} />
         <Route path="/Image_Model" element={<ImageModel />} />
         <Route path="/Logleg" element={<Logleg />} />
         </Routes>
