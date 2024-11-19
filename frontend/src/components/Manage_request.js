@@ -35,7 +35,6 @@ function ManageRequest() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentRequest, setCurrentRequest] = useState(null);
   const [scheduleDate, setScheduleDate] = useState('');
-  const [scheduleTime, setScheduleTime] = useState('');
   const [precaution, setPrecaution] = useState('');
   const [rejectionReason, setRejectionReason] = useState('');
 
@@ -64,21 +63,23 @@ function ManageRequest() {
   const handleClose = () => {
     setModalIsOpen(false);
     setScheduleDate('');
-    setScheduleTime('');
     setPrecaution('');
     setRejectionReason('');
   };
 
   const handleApprove = async () => {
-    if (!scheduleDate || !scheduleTime) {
+    if (!scheduleDate) {
       console.error('진료 일정이 설정되지 않았습니다.');
       return;
     }
-  
+    
+    const dateOnly = new Date(scheduleDate).toISOString().split('T')[0];
+
+    console.log(scheduleDate);
+
     try {
       const formData = new FormData();
-      formData.append('scheduled_date', scheduleDate); // 날짜
-      formData.append('scheduled_time', scheduleTime); // 시간
+      formData.append('scheduled_date', dateOnly); // 날짜
       formData.append('precaution', precaution); // 예방 조치
   
       await axios.put(`http://localhost:5000/api/request/${currentRequest.id}/approve`, formData, {
@@ -163,11 +164,6 @@ function ManageRequest() {
                         type="date"
                         value={scheduleDate}
                         onChange={(e) => setScheduleDate(e.target.value)}
-                      />
-                      <input
-                        type="time"
-                        value={scheduleTime}
-                        onChange={(e) => setScheduleTime(e.target.value)}
                       />
                     </div>
                   </label>

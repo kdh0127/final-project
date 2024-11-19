@@ -71,8 +71,7 @@ class ProcessedRequest(db.Model):
     symptom_description = db.Column(db.Text, nullable=False)
     symptom_image = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(20), nullable=False)
-    scheduled_date = db.Column(db.DateTime, nullable=True)  # 진료 날짜 필드 추가
-    scheduled_time = db.Column(db.String(20), nullable=True)  # 진료 시간 필드 추가
+    scheduled_date = db.Column(db.DateTime, nullable=True)  # 진료 날짜 필드 추가  
 
     def __repr__(self):
         return f"<ProcessedRequest {self.name}>"
@@ -187,15 +186,13 @@ def update_request_status(id, action):
     # --- 디버깅용 로그 추가 ---
     print(request.form.to_dict())  # form 데이터 전체 확인
     print("Scheduled Date:", request.form.get('scheduled_date'))  # scheduled_date 확인
-    print("Scheduled Time:", request.form.get('scheduled_time'))  # scheduled_time 확인
 
     # --- 날짜 및 시간 처리 ---
     scheduled_date_str = request.form.get('scheduled_date')  # 프론트에서 넘어온 날짜
-    scheduled_time = request.form.get('scheduled_time')  # 프론트에서 넘어온 시간
 
     if scheduled_date_str:  # 날짜가 있을 경우 처리
         try:
-            scheduled_date = datetime.strptime(scheduled_date_str, '%Y-%m-%d')  # 문자열 -> datetime
+            scheduled_date = datetime.strptime(scheduled_date_str, '%Y-%m-%d').date
         except ValueError:
             return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
     else:
@@ -210,7 +207,6 @@ def update_request_status(id, action):
         symptom_image=request_data.symptom_image,
         status=status,
         scheduled_date=scheduled_date,  # 처리된 날짜
-        scheduled_time=scheduled_time  # 처리된 시간
     )
 
     db.session.add(processed_request)

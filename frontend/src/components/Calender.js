@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import style from '../style/Calender.module.css';
 
 export default function Calendar() {
   const [events, setEvents] = useState([]);
@@ -13,12 +14,17 @@ export default function Calendar() {
         const data = await response.json();
 
         // 데이터 가공: FullCalendar가 이해할 수 있는 형식으로 변환
-        const formattedEvents = data.map((item) => ({
-          title: item.name, // 이벤트 제목 (이름)
-          start: item.date, // 백엔드에서 받은 시간 데이터 그대로 사용
-          end: new Date(new Date(item.date).getTime() + 60 * 60 * 1000).toISOString(),
-          description: item.description || '',
-        }));
+        const formattedEvents = data.map((item) => {
+          const eventDate = new Date(item.date); // 날짜를 Date 객체로 변환
+          const endDate = new Date(eventDate.getTime() + 60 * 60 * 1000); // 1시간 후로 설정
+
+          return {
+            title: item.name, // 이벤트 제목 (이름)
+            start: eventDate.toISOString(), // 시작 날짜
+            end: endDate.toISOString(), // 종료 날짜
+            description: item.description || '', // 설명 (없을 경우 빈 문자열)
+          };
+        });
 
         setEvents(formattedEvents);
       } catch (error) {
@@ -30,7 +36,7 @@ export default function Calendar() {
   }, []);
 
   return (
-    <div className="calendar">
+    <div className={style.calendar}>
       <FullCalendar
         plugins={[dayGridPlugin]} // 플러그인 설정
         initialView="dayGridMonth" // 기본 뷰 설정
@@ -40,10 +46,9 @@ export default function Calendar() {
           <div>
             <b>{eventInfo.event.title}</b>
             <p>{eventInfo.event.extendedProps.description}</p>
-            <p>{new Date(eventInfo.event.start).toLocaleString()}</p> {/* 날짜와 시간 표시 */}
           </div>
         )}
       />
     </div>
   );
-}  
+}
