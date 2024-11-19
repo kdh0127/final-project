@@ -1,0 +1,60 @@
+:root {
+    --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
+  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
+  --fa-font-light: normal 300 1em/1 "Font Awesome 6 Pro";
+  --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Pro";
+  --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+  --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-sharp-duotone-solid: normal 900 1em/1 "Font Awesome 6 Sharp Duotone";
+  --fc-small-font-size: .85em;
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: hsla(0,0%,82%,.3);
+  --fc-neutral-text-color: grey;
+  --fc-border-color: #ddd;
+  --fc-button-text-color: #fff;
+  --fc-button-bg-color: #2c3e50;
+  --fc-button-border-color: #2c3e50;
+  --fc-button-hover-bg-color: #1e2b37;
+  --fc-button-hover-border-color: #1a252f;
+  --fc-button-active-bg-color: #1a252f;
+  --fc-button-active-border-color: #151e27;
+  --fc-event-bg-color: #3788d8;
+  --fc-event-border-color: #3788d8;
+  --fc-event-text-color: #fff;
+  --fc-event-selected-overlay-color: rgba(255, 255, 255, 0.25);
+  --fc-more-link-bg-color: #d0d0d0;
+  --fc-more-link-text-color: inherit;
+  --fc-event-resizer-thickness: 8px;
+  --fc-event-resizer-dot-total-width: 8px;
+  --fc-event-resizer-dot-border-width: 1px;
+  --fc-non-business-color: hsla(0,0%,84%,.3);
+  --fc-bg-event-color: #8fdf82;
+  --fc-bg-event-opacity: 0.3;
+  --fc-highlight-color: rgba(188,232,241,.3);
+  --fc-today-bg-color: rgba(255,220,40,.15);
+  --fc-now-indicator-color: red;
+  --fc-daygrid-event-dot-width: 8px;
+  text-align: left;
+  direction: ltr;
+  border-collapse: collapse;
+  border-spacing: 0px;
+  font-size: var(--fc-small-font-size);
+  white-space: nowrap;
+  box-sizing: border-box;
+  }
+
+
+.dropdown {
+    white-space: normal; /* 텍스트 줄 바꿈 허용 */
+    word-wrap: break-word; /* 텍스트가 넘칠 경우 줄 바꿈 */
+    overflow: hidden; /* 필요에 따라 넘치는 텍스트 숨기기 */
+    max-width: 200px; /* 드롭다운의 최대 너비 설정 */
+    padding: 5px; /* 내용과 테두리 사이의 여백 추가 */
+    border: 1px solid #ccc; /* 선택적 테두리 스타일 */
+    background-color: #fff; /* 드롭다운 배경색 설정 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* 드롭다운에 약간의 그림자 추가 */
+  }

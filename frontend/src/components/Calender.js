@@ -5,24 +5,23 @@ import style from '../style/Calender.module.css';
 
 export default function Calendar() {
   const [events, setEvents] = useState([]);
+  const [activeEvent, setActiveEvent] = useState(null); // 클릭된 이벤트 상태
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        // 서버에서 승낙된 진료 일정 데이터를 가져옴
         const response = await fetch('http://localhost:5000/api/vet_schedule');
         const data = await response.json();
 
-        // 데이터 가공: FullCalendar가 이해할 수 있는 형식으로 변환
-        const formattedEvents = data.map((item) => {
-          const eventDate = new Date(item.date); // 날짜를 Date 객체로 변환
-          const endDate = new Date(eventDate.getTime() + 60 * 60 * 1000); // 1시간 후로 설정
-
+        const formattedEvents = data.map((item, index) => {
+          const eventDate = new Date(item.date);
+          const endDate = new Date(eventDate.getTime() + 60 * 60 * 1000);
           return {
-            title: item.name, // 이벤트 제목 (이름)
-            start: eventDate.toISOString(), // 시작 날짜
-            end: endDate.toISOString(), // 종료 날짜
-            description: item.description || '', // 설명 (없을 경우 빈 문자열)
+            id: index.toString(), // id를 문자열로 설정
+            title: item.name,
+            start: eventDate.toISOString(),
+            end: endDate.toISOString(),
+            description: item.description || '',
           };
         });
 
@@ -35,19 +34,32 @@ export default function Calendar() {
     fetchEvents();
   }, []);
 
+  const handleEventClick = (info) => {
+    info.jsEvent.preventDefault(); // 기본 동작 방지
+    if (activeEvent === info.event.id) {
+      setActiveEvent(null);
+    } else {
+      setActiveEvent(info.event.id);
+    }
+  };
+
   return (
     <div className={style.calendar}>
       <FullCalendar
-        plugins={[dayGridPlugin]} // 플러그인 설정
-        initialView="dayGridMonth" // 기본 뷰 설정
-        events={events} // 캘린더에 표시할 일정 데이터
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        events={events}
         eventContent={(eventInfo) => (
-          // 커스텀 이벤트 콘텐츠 렌더링 (필요시)
-          <div>
+          <div className={style.eventContainer}>
             <b>{eventInfo.event.title}</b>
-            <p>{eventInfo.event.extendedProps.description}</p>
+            {activeEvent === eventInfo.event.id && (
+              <div className={style.dropdown}>
+                <p>{eventInfo.event.extendedProps.description}</p>
+              </div>
+            )}
           </div>
         )}
+        eventClick={handleEventClick} 
       />
     </div>
   );

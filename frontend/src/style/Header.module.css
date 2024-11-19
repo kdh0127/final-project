@@ -1,152 +1,66 @@
-/* 전체 헤더 컨테이너 스타일 */
-.headerContainer {
+.List1, .List2, .List3, .List4, .List5, .List6{
+    margin-top: 15px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-    max-width: 2000px;
-    margin: 0 auto;
-}
-
-/* 상단: 로그인 및 회원가입 버튼 */
-.topContainer {
-    display: flex;
-    justify-content: flex-end;
-    width: 1400px;
-    background-color: #fff;
-    padding: 10px 40px;
-    border-bottom: 5px solid #e0e0e0;
-}
-/* 로그인, 회원가입 밑에 있는 줄 바꾸려면 border-bottom 수정 */
-.loginBtn, .signupBtn {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-left: 10px;
-    background-color: #ddd;
-    color: white;
-    border: none;
-    border-radius: 4px;
-}
-
-.loginBtn:hover, .signupBtn:hover {
-    background-color: #ccc;
-}
-
-/* 로그인/회원가입과 로고 + 네비게이션 사이에 구분선 추가 */
-.separator {
-    width: 100%;
-    height: 1px;
-    background-color: #ddd;
-    margin: 10px 0;
-}
-
-/* 하단: 로고와 제목, 네비게이션 메뉴 */
-.bottomContainer {
-    display: flex;
-    justify-content: flex-start;
-    width: 100%;
-    padding: 20px 0px;
-    background-color: #ffffff;
-    border-bottom: 2px solid #e0e0e0;
-}
-/* 원래 width가 1400px이였는데 줄이 화면을 꽉 안채우니까 */
-/* 안예뻐서 width를 100%비율로 조절 */
-/* 로고와 제목, 네비게이션 밑 밑줄을 바꾸려면 여기서 border-bottom을 수정 */
-
-/* 왼쪽 섹션: 로고와 제목 */
-.leftSection {
-    display: flex;
-    align-items: center;
-    margin-right: 200px;
-    margin-left: 60px;
-}
-/* 로고 + 꿀벌 질병 예측 및 진단 지원 서비스 옆에 네비를 가까이/멀리 */
-/* 조정하고 싶다면 margin-right를 줄이거나 / 늘리면 됨 */
-/* 로고, 꿀벌 질병 예측 및 진단 지원 서비스 옆 왼쪽 여백 주려면 margin_left을 수정 */
-
-.logoContainer {
-    margin-right: 25px;
-}
-
-.headerLogo {
-    width: 100px;
-    height: auto;
-    margin-right: 5px;
-}
-/* 로고와 꿀벌 질병 예측 및 진단 지원 서비스 사이의 마진을 주고 싶다면 */
-/* 여기서 margin-right를 수정하면 됨 */
-
-.titleContainer h2 {
+    justify-content: center;     
+    width: 100%;                   
+    text-align: center; 
+    font-weight: bold;
     font-size: 20px;
-    line-height: 1.4;
-    color: #333;
-    margin: 0;
+    align-items: center;    
+}
+.loginBtn {
+    margin-right: 20px;
+}
+.signupBtn {
+    padding-right: 165px;
+}
+.loginBtn,.signupBtn {
+text-decoration: none;
+color: black;
 }
 
-/* 네비게이션 컨테이너 */
-.navContainer {
-    display: flex;
-    gap: 150px;
+.headerTop {
+    text-align: right;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0; 
+    padding-bottom: 10px;
     align-items: center;
-    margin-left: 0;
 }
 
-/* 네비게이션 링크 및 밑줄 애니메이션 */
-.navLink {
+.Link{
     position: relative;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     color: #333;
     text-decoration: none;
-    padding: 10px;
+    padding: 5px 10px;
+    white-space: nowrap; 
 }
 
-.navLink::after {
+.Link::after {
     content: "";
     position: absolute;
     width: 100%;
-    height: 3px;
-    background-color: red;
+    height: 2px;
+    background-color: #F9D61E;
     bottom: -2px;
     left: 0;
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
 
-.navLink:hover::after {
+.Link:hover::after {
     transform: scaleX(1);
 }
 
-/* 네비게이션 아이템 */
-.navItem {
-    position: relative;
+.headerLogo {
+    width: 100px;
 }
 
-/* 서브 메뉴 스타일 */
-.subMenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #F9D61E;
-    min-width: 160px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1;
-}
-
-.subLink {
-    display: block;
-    padding: 10px;
-    color: black;
-    text-decoration: none;
-    border-bottom: 1px solid #ddd;
-}
-
-.subLink:last-child {
-    border-bottom: none;
-}
-
-.navItem:hover .subMenu {
-    display: block;
+.headerBottom{
+    display: flex;
+    justify-content: space-between;           
+    margin: 0 auto;
+    width: 1260px;
+    
 }

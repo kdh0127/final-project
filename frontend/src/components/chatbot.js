@@ -61,6 +61,7 @@ const Chatbot = () => {
     } finally {
       setLoading(false);
     }
+
   };
 
   return (
@@ -86,6 +87,7 @@ const Chatbot = () => {
               <div
                 key={index}
                 className={message.type === 'user' ? 'user-message' : 'bot-message'}
+                style={{whiteSpace:'pre-wrap'}}
               >
                 {formatTextWithBreaks(message.text)}  {/* 줄바꿈 처리 */}
               </div>
