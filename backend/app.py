@@ -5,6 +5,7 @@ from flask_cors import CORS
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
 
+
 #---------------------이미지 모델 관련 import------------------------
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
