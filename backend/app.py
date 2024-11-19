@@ -1,3 +1,4 @@
+# import 부분
 import os
 from flask import Flask, request, jsonify, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
@@ -11,21 +12,25 @@ from io import BytesIO
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
 from datetime import datetime
+# import 부분
+
 
 # 키 불러오기
 load_dotenv(dotenv_path="key.env")
 openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
+# 키 불러와서 저장
+
 
 # flask 애플리케이션 설정
 app = Flask(__name__, static_url_path='', static_folder='uploads')
 app.config['UPLOAD_FOLDER'] = 'uploads'
-
+# 업로드한 파일을 uploads에 저장
 
 
 # 세션을 위한 비밀 키 설정
 app.config['SECRET_KEY'] = 'your_secret_key' 
-# 세션 저장소를 파일 시스템으로 설정 
 app.config['SESSION_TYPE'] = 'filesystem'  
+# 세션 저장소를 파일 시스템으로 설정 
 
 # 기본 데이터베이스 (MySQL)
 # 기본 데이터베이스 URI
@@ -76,14 +81,7 @@ class ProcessedRequest(db.Model):
     def __repr__(self):
         return f"<ProcessedRequest {self.name}>"
 
-# API를 다른 출처에 사용할 수 있도록 설정
-CORS(app, supports_credentials=True, resources={
-    r"/*": {
-        "origins": "http://localhost:3000",
-        "methods": ["GET", "POST", "OPTIONS", "PUT"],  # PUT 메소드 추가
-        "allow_headers": ["Content-Type"]
-    }
-})
+CORS(app, supports_credentials=True)
 
 with app.app_context():
         db.create_all()
@@ -192,7 +190,7 @@ def update_request_status(id, action):
 
     if scheduled_date_str:  # 날짜가 있을 경우 처리
         try:
-            scheduled_date = datetime.strptime(scheduled_date_str, '%Y-%m-%d').date
+            scheduled_date = datetime.strptime(scheduled_date_str, '%Y-%m-%d').date()
         except ValueError:
             return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
     else:
