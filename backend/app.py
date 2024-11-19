@@ -4,50 +4,43 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
-
-
-#---------------------이미지 모델 관련 import------------------------
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 import numpy as np
 from io import BytesIO
-#----------------------------로그인 관련 import-----------------
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
+from datetime import datetime
 
-#-----------------------cors 설정-----------------------------------
+# 키 불러오기
+load_dotenv(dotenv_path="key.env")
+openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
-# Flask 애플리케이션 설정
+# flask 애플리케이션 설정
 app = Flask(__name__, static_url_path='', static_folder='uploads')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
-CORS(app, supports_credentials=True, resources={
-    r"/*": {
-        "origins": "http://localhost:3000",
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
-    }
-})
 
 
-    
-#------------------------------- 세션 &데이터베이스 경로 설정 -------------------------------
-
-
-# 세션 설정
-app.config['SECRET_KEY'] = 'your_secret_key'  # 세션을 위한 비밀 키 설정
-app.config['SESSION_TYPE'] = 'filesystem'  # 세션 저장소를 파일 시스템으로 설정
+# 세션을 위한 비밀 키 설정
+app.config['SECRET_KEY'] = 'your_secret_key' 
+# 세션 저장소를 파일 시스템으로 설정 
+app.config['SESSION_TYPE'] = 'filesystem'  
 
 # 기본 데이터베이스 (MySQL)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/user_db'  # 기본 데이터베이스 URI
+# 기본 데이터베이스 URI
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Manchester1894!@localhost/user_db'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 
 # 추가 데이터베이스 (SQLite)
 app.config['SQLALCHEMY_BINDS'] = {
-    'requests': 'sqlite:///request.db',          # 요청 관련 데이터베이스
-    'processed': 'sqlite:///processed_requests.db',  # 처리된 요청 데이터베이스
-    'default': 'sqlite:///default.db'          
+    'requests': 'sqlite:///request.db',          
+    # 계속 삭제, 저장이 이루어 지는 db
+    'processed': 'sqlite:///processed_requests.db',  
+    # 삭제 없이 계속 담고 있는 db           
 }
+
+
 
 # 세션 초기화
 Session(app)
@@ -55,27 +48,6 @@ Session(app)
 # SQLAlchemy 초기화
 db = SQLAlchemy(app)
 
-#-------------------------------------------------------------------
-
-
-
-#----------------------------이미지 모델 -------------------------------------------
-# 모델 위치
-current_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(current_dir, "Bee_image_model.h5")
-model = load_model(model_path)
-print("Model loaded successfully.")
-
-# 이미지 크기 설정 
-IMG_SIZE = (224, 224)
-
-#클래스 이름
-class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buzzer', 'young_normal', 'young_ung']
-#-----------------------------------------------------------------------
-
-# 환경 변수 로드
-load_dotenv(dotenv_path="key.env")
-openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
 # 요청 데이터 모델
 class RequestData(db.Model):
@@ -89,13 +61,7 @@ class RequestData(db.Model):
 
     def __repr__(self):
         return f"<Request {self.name}>"
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
     
-
 class ProcessedRequest(db.Model):
     __bind_key__ = 'processed'
     id = db.Column(db.Integer, primary_key=True)
@@ -105,9 +71,44 @@ class ProcessedRequest(db.Model):
     symptom_description = db.Column(db.Text, nullable=False)
     symptom_image = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(20), nullable=False)
+    scheduled_date = db.Column(db.DateTime, nullable=True)  # 진료 날짜 필드 추가
+    scheduled_time = db.Column(db.String(20), nullable=True)  # 진료 시간 필드 추가
 
-def __repr__(self):
-    return f"<ProcessedRequest {self.name}>"
+    def __repr__(self):
+        return f"<ProcessedRequest {self.name}>"
+
+# API를 다른 출처에 사용할 수 있도록 설정
+CORS(app, supports_credentials=True, resources={
+    r"/*": {
+        "origins": "http://localhost:3000",
+        "methods": ["GET", "POST", "OPTIONS", "PUT"],  # PUT 메소드 추가
+        "allow_headers": ["Content-Type"]
+    }
+})
+
+with app.app_context():
+        db.create_all()
+
+
+# 이미지 모델 
+# 모델 위치
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, "Bee_image_model.h5")
+model = load_model(model_path)
+print("Model loaded successfully.")
+
+# 이미지 크기 설정 
+IMG_SIZE = (224, 224)
+
+#클래스 이름
+class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buzzer', 'young_normal', 'young_ung']
+#----------------------------------------------------------------------
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    
 
 # cors preflight 요청에 대한 응답
 def _build_cors_prelight_response():
@@ -117,7 +118,6 @@ def _build_cors_prelight_response():
     response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS") #HTTP 메서드를 정의
     response.headers.add("Access-Control-Allow-Credentials", "true") #다른 도메인 에서 오는 요청도 인증 정보를 포함 허용(true)
     return response
-
 
 # QA 체인 초기화
 pdf_path = os.getenv('PDF_PATH', '꿀벌질병.pdf')  # 환경 변수로 PDF 경로 관리
@@ -184,14 +184,35 @@ def update_request_status(id, action):
         return jsonify({'error': 'Invalid action'}), 400
 
     status = '승낙' if action == 'approve' else '거부'
+    # --- 디버깅용 로그 추가 ---
+    print(request.form.to_dict())  # form 데이터 전체 확인
+    print("Scheduled Date:", request.form.get('scheduled_date'))  # scheduled_date 확인
+    print("Scheduled Time:", request.form.get('scheduled_time'))  # scheduled_time 확인
+
+    # --- 날짜 및 시간 처리 ---
+    scheduled_date_str = request.form.get('scheduled_date')  # 프론트에서 넘어온 날짜
+    scheduled_time = request.form.get('scheduled_time')  # 프론트에서 넘어온 시간
+
+    if scheduled_date_str:  # 날짜가 있을 경우 처리
+        try:
+            scheduled_date = datetime.strptime(scheduled_date_str, '%Y-%m-%d')  # 문자열 -> datetime
+        except ValueError:
+            return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
+    else:
+        scheduled_date = None
+
+    # --- 처리된 요청 생성 ---
     processed_request = ProcessedRequest(
         name=request_data.name,
         address=request_data.address,
         phone=request_data.phone,
         symptom_description=request_data.symptom_description,
         symptom_image=request_data.symptom_image,
-        status=status
+        status=status,
+        scheduled_date=scheduled_date,  # 처리된 날짜
+        scheduled_time=scheduled_time  # 처리된 시간
     )
+
     db.session.add(processed_request)
     db.session.delete(request_data)
     db.session.commit()
@@ -233,6 +254,30 @@ def delete_request(id):
     db.session.commit()
     return jsonify({'message': f'Request {id} deleted successfully'}), 200
 
+# 진료 일정 조회 엔드포인트
+@app.route('/api/vet_schedule', methods=['GET'])
+def get_vet_schedule():
+    processed_requests = ProcessedRequest.query.filter_by(status='승낙').all()
+    schedule_data = []
+    
+    for req in processed_requests:
+        schedule_data.append({
+            "name": req.name,
+            "date": req.scheduled_date.isoformat() if req.scheduled_date else None,  # ISO 형식
+            "description": req.symptom_description,  # 필요시 추가 설명
+        })
+
+    return jsonify(schedule_data), 200
+
+@app.route('/api/beekeeper_requests/<string:name>', methods=['GET'])
+def get_beekeeper_requests(name):
+    requests = ProcessedRequest.query.filter_by(name=name).all()
+    return jsonify([{
+        'id': req.id,
+        'name': req.name,
+        'status': req.status,  # 요청 상태 (승낙/거부)
+        'symptom_description': req.symptom_description,
+    } for req in requests]), 200
 
 #------------------------------------------ 이미지 모델 ----------------------------
 @app.route('/predict', methods=['POST'])
@@ -266,9 +311,8 @@ def predict():
     else:
         return jsonify({'error': 'Invalid file'}), 400
 
-#-------------------------------- 여기 까지 -------------------------------------------
 
-#------------------------------ 로그인 관련 기능---------------------------------------
+# 로그인
 # 회원가입 처리
 @app.route('/api/register', methods=['POST', 'OPTIONS'])
 def register():
@@ -336,7 +380,5 @@ def get_data():
 # ------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
     

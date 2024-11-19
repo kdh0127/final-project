@@ -178,7 +178,7 @@ function ManageRequest() {
                       onChange={(e) => setPrecaution(e.target.value)}
                     ></textarea>
                   </label>
-                  <Button onClick={handleApprove}>승낙</Button>
+                  <Button onClick={() => { console.log('승낙 버튼 클릭됨'); handleApprove(); }}>승낙</Button>
                 </div>
               ) : (
                 <div>
@@ -192,7 +192,7 @@ function ManageRequest() {
                       onChange={(e) => setRejectionReason(e.target.value)}
                     ></textarea>
                   </label>
-                  <Button onClick={handleReject}>거부</Button>
+                  <Button onClick={() => { console.log('거부 버튼 클릭됨'); handleReject(); }}>거부</Button>
                 </div>
               )}
             </>
