@@ -5,8 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import img_to_array, load_img
+
+# vscode에서 import 되게 수정
+from tensorflow import keras
+from keras._tf_keras.keras.preprocessing.image import img_to_array, load_img
+from tensorflow.python.keras.models import load_model
+# vscode에서 실행되는지 확인필요
+
 import numpy as np
 from io import BytesIO
 from werkzeug.security import generate_password_hash, check_password_hash
