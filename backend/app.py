@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify, send_from_directory, session
+from flask import Flask, request, jsonify, send_from_directory, session, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from qa_model import create_qa_chain
@@ -103,6 +103,7 @@ class ProcessedRequest(db.Model):
     symptom_description = db.Column(db.Text, nullable=False)
     symptom_image = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(20), nullable=False)
+    scheduled_date = db.Column(db.DateTime, nullable=True)  # 진료 날짜 필드 추가  
 
     def __repr__(self):
         return f"<ProcessedRequest {self.name}>"
