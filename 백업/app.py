@@ -1,47 +1,40 @@
+# import 부분
 import os
 from flask import Flask, request, jsonify, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from qa_model import create_qa_chain
 from dotenv import load_dotenv
-from datetime import datetime
-#---------------------이미지 모델 관련 import------------------------
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 import numpy as np
 from io import BytesIO
-#----------------------------로그인 관련 import-----------------
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
+from datetime import datetime
+# import 부분
 
-#-----------------------cors 설정-----------------------------------
 
-# Flask 애플리케이션 설정
+# 키 불러오기
+load_dotenv(dotenv_path="key.env")
+openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
+# 키 불러와서 저장
+
+
+# flask 애플리케이션 설정
 app = Flask(__name__, static_url_path='', static_folder='uploads')
 app.config['UPLOAD_FOLDER'] = 'uploads'
-
-CORS(app, supports_credentials=True, resources={
-    r"/*": {
-        "origins": "http://localhost:3000",
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
-    }
-})
+# 업로드한 파일을 uploads에 저장
 
 
-    
-#------------------------------- 세션 &데이터베이스 경로 설정 -------------------------------
-
-
-# 세션 설정
-app.config['SECRET_KEY'] = 'your_secret_key'  # 세션을 위한 비밀 키 설정
-app.config['SESSION_TYPE'] = 'filesystem'  # 세션 저장소를 파일 시스템으로 설정
-
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # 세션 쿠키 전달 
-app.config['SESSION_COOKIE_SECURE'] = False    # HTTPS가 아니라면 False (배포 시 True)
+# 세션을 위한 비밀 키 설정
+app.config['SECRET_KEY'] = 'your_secret_key' 
+app.config['SESSION_TYPE'] = 'filesystem'  
+# 세션 저장소를 파일 시스템으로 설정 
 
 # 기본 데이터베이스 (MySQL)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/user_db'  # 기본 데이터베이스 URI
+# 기본 데이터베이스 URI
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Manchester189@localhost/user_db'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 
 # 추가 데이터베이스 (SQLite)
@@ -52,33 +45,14 @@ app.config['SQLALCHEMY_BINDS'] = {
     # 삭제 없이 계속 담고 있는 db           
 }
 
+
+
 # 세션 초기화
 Session(app)
 
 # SQLAlchemy 초기화
 db = SQLAlchemy(app)
 
-#-------------------------------------------------------------------
-
-
-
-#----------------------------이미지 모델 -------------------------------------------
-# 모델 위치
-current_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(current_dir, "Bee_image_model.h5")
-model = load_model(model_path)
-print("Model loaded successfully.")
-
-# 이미지 크기 설정 
-IMG_SIZE = (224, 224)
-
-#클래스 이름
-class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buzzer', 'young_normal', 'young_ung']
-#-----------------------------------------------------------------------
-
-# 키 불러오기
-load_dotenv(dotenv_path="key.env")
-openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
 # 요청 데이터 모델
 class RequestData(db.Model):
@@ -92,8 +66,7 @@ class RequestData(db.Model):
 
     def __repr__(self):
         return f"<Request {self.name}>"
-
-
+    
 class ProcessedRequest(db.Model):
     __bind_key__ = 'processed'
     id = db.Column(db.Integer, primary_key=True)
@@ -103,22 +76,36 @@ class ProcessedRequest(db.Model):
     symptom_description = db.Column(db.Text, nullable=False)
     symptom_image = db.Column(db.String(200), nullable=True)
     status = db.Column(db.String(20), nullable=False)
+    scheduled_date = db.Column(db.DateTime, nullable=True)  # 진료 날짜 필드 추가  
 
     def __repr__(self):
         return f"<ProcessedRequest {self.name}>"
-        
-#---------------- mysql user table-----------------------------------
+
+CORS(app, supports_credentials=True)
+
+with app.app_context():
+        db.create_all()
+
+
+# 이미지 모델 
+# 모델 위치
+current_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(current_dir, "Bee_image_model.h5")
+model = load_model(model_path)
+print("Model loaded successfully.")
+
+# 이미지 크기 설정 
+IMG_SIZE = (224, 224)
+
+#클래스 이름
+class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buzzer', 'young_normal', 'young_ung']
+#----------------------------------------------------------------------
+
 class User(db.Model):
-    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    realname = db.Column(db.String(100), nullable=False)  
-    address = db.Column(db.String(255), nullable=False)   
-    phone = db.Column(db.String(20), unique=True, nullable=False)  
-#--------------------------------------------------------------------
     
-
 
 # cors preflight 요청에 대한 응답
 def _build_cors_prelight_response():
@@ -128,7 +115,6 @@ def _build_cors_prelight_response():
     response.headers.add("Access-Control-Allow-Methods", "GET,POST,OPTIONS") #HTTP 메서드를 정의
     response.headers.add("Access-Control-Allow-Credentials", "true") #다른 도메인 에서 오는 요청도 인증 정보를 포함 허용(true)
     return response
-
 
 # QA 체인 초기화
 pdf_path = os.getenv('PDF_PATH', '꿀벌질병.pdf')  # 환경 변수로 PDF 경로 관리
@@ -262,7 +248,6 @@ def delete_request(id):
     db.session.commit()
     return jsonify({'message': f'Request {id} deleted successfully'}), 200
 
-
 # 진료 일정 조회 엔드포인트
 @app.route('/api/vet_schedule', methods=['GET'])
 def get_vet_schedule():
@@ -287,7 +272,6 @@ def get_beekeeper_requests(name):
         'status': req.status,  # 요청 상태 (승낙/거부)
         'symptom_description': req.symptom_description,
     } for req in requests]), 200
-
 
 #------------------------------------------ 이미지 모델 ----------------------------
 @app.route('/predict', methods=['POST'])
@@ -321,49 +305,30 @@ def predict():
     else:
         return jsonify({'error': 'Invalid file'}), 400
 
-#-------------------------------- 여기 까지 -------------------------------------------
 
-#------------------------------ 로그인 관련 기능---------------------------------------
+# 로그인
 # 회원가입 처리
 @app.route('/api/register', methods=['POST', 'OPTIONS'])
 def register():
     if request.method == 'OPTIONS':
         return _build_cors_prelight_response()
 
-    # 요청 데이터 가져오기
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    realname = data.get('realname')
-    address = data.get('address')
-    phone = data.get('phone')
 
-    # 필수 입력 값 확인
-    if not all([username, password, realname, address, phone]):
-        return jsonify({'message': '모든 필드를 입력해야 합니다.'}), 400
-
-    # 비밀번호 해싱
     hashed_password = generate_password_hash(password)
 
     try:
         # 새로운 사용자 생성 및 데이터베이스에 추가
-        new_user = User(
-            username=username,
-            password=hashed_password,
-            realname=realname,
-            address=address,
-            phone=phone
-        )
+        new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
         return jsonify({'message': 'User registered successfully!'}), 201
     except Exception as e:
         db.session.rollback()
-        print(f"Error: {e}")  # 디버깅용 출력
-        return jsonify({'message': f'Error occurred while registering: {str(e)}'}), 500
-
-
+        return jsonify({'message': 'Error occurred while registering'}), 500
 
 # 로그인 처리
 @app.route('/api/login', methods=['POST', 'OPTIONS'])
@@ -396,37 +361,18 @@ def logout():
     session.pop('user', None)  # 세션에서 사용자 정보 제거
     return jsonify({'message': 'Logout successful!'}), 200
 
-# 인증된 사용자만 접근 가능 프론트에 get data 버튼에 해당
-# @app.route('/api/data', methods=['GET', 'OPTIONS'])
-# def get_data():
-#     if request.method == 'OPTIONS':
-#         return _build_cors_prelight_response()
+# 인증된 사용자만 접근 가능
+@app.route('/api/data', methods=['GET', 'OPTIONS'])
+def get_data():
+    if request.method == 'OPTIONS':
+        return _build_cors_prelight_response()
 
-#     if 'user' in session:  # 로그인한 사용자인지 확인
-#         return jsonify({'message': f'Hello, {session["user"]}! This is your data.'})
-#     else:  # 로그인하지 않은 경우
-#         return jsonify({'message': 'Unauthorized'}), 401
-
-# 접근 제한
-@app.route('/api/login-check', methods=['GET'])
-def imagemodel_api():
-    if 'user' not in session:
-        return jsonify({"error": "로그인 후 이용하세요", "logged_in": False}), 401
-
-    return jsonify({"message": "정상적으로 로그인 되었습니다", "logged_in": True})
-
-@app.route('/static/js/imagemodel.js', methods=['GET'])
-def serve_js():
-    try:
-        with open('static/js/imagemodel.js', 'r') as js_file:
-            content = js_file.read()
-        return Response(content, mimetype='application/javascript')
-    except FileNotFoundError:
-        return jsonify({"error": "JavaScript 파일을 찾을 수 없습니다."}), 404
+    if 'user' in session:  # 로그인한 사용자인지 확인
+        return jsonify({'message': f'Hello, {session["user"]}! This is your data.'})
+    else:  # 로그인하지 않은 경우
+        return jsonify({'message': 'Unauthorized'}), 401
 # ------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
     

@@ -9,10 +9,10 @@ function Header() {
         
         <div className={style.App}>
             <div className={style.headerTop}>
-                <Link to="/login" className={style.loginBtn}>
+                <Link to="/Log" className={style.loginBtn}>
                 로그인
                 </Link>
-                <Link to="/signup" className={style.signupBtn}>
+                <Link to="/Reg" className={style.signupBtn}>
                     회원가입
                 </Link>
             </div>

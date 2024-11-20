@@ -6,7 +6,8 @@ import Request from './components/Request';
 import Chatbot from './components/chatbot';
 import Calender from './components/Calender';
 import ImageModel from './components/imagemodel';
-import Logleg from './components/Logleg';
+import Log from './components/Log';
+import Reg from './components/Reg';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Route path="/ai" element={<Chatbot />} />
         <Route path="/calendar" element={<Calender />} />
         <Route path="/Image_Model" element={<ImageModel />} />
-        <Route path="/Logleg" element={<Logleg />} />
+        <Route path="/Log" element={<Log />} />
+        <Route path="/Reg" element={<Reg />} />
         </Routes>
       </div>
     </Router>
