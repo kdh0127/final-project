@@ -22,11 +22,12 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 
 CORS(app, supports_credentials=True, resources={
     r"/*": {
-        "origins": "http://localhost:3000",
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
+        "origins": "http://localhost:3000",  # 클라이언트 도메인
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # 허용할 HTTP 메서드 추가
+        "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"],  # 필요한 헤더 추가
     }
 })
+
 
 
     
