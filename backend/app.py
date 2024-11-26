@@ -47,9 +47,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # 추가 데이터베이스 (SQLite)
 app.config['SQLALCHEMY_BINDS'] = {
-    'requests': 'sqlite:///request.db',          
+    'requests': 'mysql+pymysql://root:1234@localhost/request_db',          
     # 계속 삭제, 저장이 이루어 지는 db
-    'processed': 'sqlite:///processed_requests.db',  
+    'processed': 'mysql+pymysql://root:1234@localhost/processed_requests_db',  
     # 삭제 없이 계속 담고 있는 db           
 }
 
