@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const Reg = () => {
   const [message, setMessage] = useState('');
-  const [userid, setUserid] = useState(''); // 수정: username -> userid
+  const [user_id, setUserId] = useState(''); // 수정: userid -> user_id
   const [password, setPassword] = useState('');
   const [realname, setRealname] = useState('');
   const [address, setAddress] = useState('');
@@ -15,7 +15,7 @@ const Reg = () => {
   // 회원가입 요청
   const register = () => {
     const userData = {
-      userid, // 수정: username -> userid
+      user_id, // 수정: userid -> user_id
       password,
       realname,
       address,
@@ -43,8 +43,8 @@ const Reg = () => {
           <input
             type="text"
             placeholder="UserID" // 수정: Username -> UserID
-            value={userid} // 수정: username -> userid
-            onChange={(e) => setUserid(e.target.value)} // 수정: setUsername -> setUserid
+            value={user_id} // 수정: userid -> user_id
+            onChange={(e) => setUserId(e.target.value)} // 수정: setUserid -> setUserId
           />
         </label>
       </div>

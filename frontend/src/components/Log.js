@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Log = () => {
   const [message, setMessage] = useState('');
-  const [userid, setUserid] = useState(''); // 수정: username -> userid
+  const [user_id, setUserId] = useState(''); // 수정: userid -> user_id
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState('');
@@ -24,7 +24,7 @@ const Log = () => {
 
   // 로그인 요청
   const login = () => {
-    axios.post('http://localhost:5000/api/login', { userid, password }) // 수정: username -> userid
+    axios.post('http://localhost:5000/api/login', { user_id, password }) // 수정: userid -> user_id
       .then(response => {
         setLoggedIn(true);
         setLoggedInUser(response.data.user);
@@ -72,8 +72,8 @@ const Log = () => {
               <input
                 type="text"
                 placeholder="UserID"
-                value={userid} // 수정: username -> userid
-                onChange={(e) => setUserid(e.target.value)} // 수정: setUsername -> setUserid
+                value={user_id} // 수정: userid -> user_id
+                onChange={(e) => setUserId(e.target.value)} // 수정: setUserid -> setUserId
               />
             </label>
           </div>
