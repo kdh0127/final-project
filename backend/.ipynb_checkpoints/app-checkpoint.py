@@ -45,13 +45,13 @@ app.config['SESSION_COOKIE_SECURE'] = False    # HTTPS가 아니라면 False (�
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/user_db'  # 기본 데이터베이스 URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 
-# 추가 데이터베이스 (SQLite)
-app.config['SQLALCHEMY_BINDS'] = {
-    'requests': 'sqlite:///request.db',          
-    # 계속 삭제, 저장이 이루어 지는 db
-    'processed': 'sqlite:///processed_requests.db',  
-    # 삭제 없이 계속 담고 있는 db           
-}
+# 추가 데이터베이스 
+# app.config['SQLALCHEMY_BINDS'] = {
+#     'requests': 'mysql+pymysql://root:1234@localhost/request_db',          
+#     # 계속 삭제, 저장이 이루어 지는 db
+#     'processed': 'mysql+pymysql://root:1234@localhost/processed_requests_db',  
+#     # 삭제 없이 계속 담고 있는 db           
+# }
 
 # 세션 초기화
 Session(app)
@@ -83,7 +83,7 @@ openai_api_key = os.getenv('OPENAI_API_KEY', 'default_key_if_missing')
 
 # 요청 데이터 모델
 class RequestData(db.Model):
-    __bind_key__ = 'requests'
+    __tablename__ = 'requestdata'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200), nullable=False)
@@ -92,11 +92,11 @@ class RequestData(db.Model):
     symptom_image = db.Column(db.String(200), nullable=True)
 
     def __repr__(self):
-        return f"<Request {self.name}>"
+        return f"<RequestData {self.name}>"
 
 
 class ProcessedRequest(db.Model):
-    __bind_key__ = 'processed'
+    __tablename__ = 'processedrequest'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200), nullable=False)
