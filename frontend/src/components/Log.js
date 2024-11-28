@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const Log = () => {
   const [message, setMessage] = useState('');
-  const [username, setUsername] = useState('june8');
-  const [password, setPassword] = useState('1234');
+  const [userid, setUserid] = useState(''); // 수정: username -> userid
+  const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState('');
 
@@ -22,22 +22,9 @@ const Log = () => {
     }
   }, []);
 
-  // 회원가입 요청
-  // const register = () => {
-  //   axios.post('http://localhost:5000/api/register', { username, password })
-  //     .then(response => {
-  //       console.log(response.data.message);
-  //       setMessage('회원가입 성공!');
-  //     })
-  //     .catch(error => {
-  //       console.error('Registration failed:', error.response?.data?.message || error.message);
-  //       setMessage('이미 존재하는 ID 입니다.');
-  //     });
-  // };
-
   // 로그인 요청
   const login = () => {
-    axios.post('http://localhost:5000/api/login', { username, password })
+    axios.post('http://localhost:5000/api/login', { userid, password }) // 수정: username -> userid
       .then(response => {
         setLoggedIn(true);
         setLoggedInUser(response.data.user);
@@ -84,9 +71,9 @@ const Log = () => {
               ID 
               <input
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="UserID"
+                value={userid} // 수정: username -> userid
+                onChange={(e) => setUserid(e.target.value)} // 수정: setUsername -> setUserid
               />
             </label>
           </div>

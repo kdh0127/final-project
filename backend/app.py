@@ -112,12 +112,12 @@ class ProcessedRequest(db.Model):
 #---------------- mysql user table-----------------------------------
 class User(db.Model):
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
-    realname = db.Column(db.String(100), nullable=False)  
-    address = db.Column(db.String(255), nullable=False)   
-    phone = db.Column(db.String(20), unique=True, nullable=False)  
+    userid = db.Column(db.String(30), primary_key=True, nullable=False)  # Primary key
+    password = db.Column(db.String(255), nullable=False)                 # 비밀번호
+    realname = db.Column(db.String(50), nullable=False)                  # 실제 이름
+    address = db.Column(db.String(100), nullable=False)                  # 주소
+    phone = db.Column(db.String(20), nullable=False)                     # 전화번호
+    number = db.Column(db.Integer, unique=True, autoincrement=True)      # Unique number field with auto-increment
 #--------------------------------------------------------------------
     
 
@@ -326,7 +326,7 @@ def predict():
 #-------------------------------- 여기 까지 -------------------------------------------
 
 #------------------------------ 로그인 관련 기능---------------------------------------
-# 회원가입 처리
+#회원가입
 @app.route('/api/register', methods=['POST', 'OPTIONS'])
 def register():
     if request.method == 'OPTIONS':
@@ -334,14 +334,14 @@ def register():
 
     # 요청 데이터 가져오기
     data = request.get_json()
-    username = data.get('username')
+    userid = data.get('userid')  # 수정: username -> userid
     password = data.get('password')
     realname = data.get('realname')
     address = data.get('address')
     phone = data.get('phone')
 
     # 필수 입력 값 확인
-    if not all([username, password, realname, address, phone]):
+    if not all([userid, password, realname, address, phone]):
         return jsonify({'message': '모든 필드를 입력해야 합니다.'}), 400
 
     # 비밀번호 해싱
@@ -350,7 +350,7 @@ def register():
     try:
         # 새로운 사용자 생성 및 데이터베이스에 추가
         new_user = User(
-            username=username,
+            userid=userid,  # 수정: username -> userid
             password=hashed_password,
             realname=realname,
             address=address,
@@ -367,6 +367,7 @@ def register():
 
 
 
+
 # 로그인 처리
 @app.route('/api/login', methods=['POST', 'OPTIONS'])
 def login():
@@ -374,20 +375,21 @@ def login():
         return _build_cors_prelight_response()
 
     data = request.get_json()
-    username = data.get('username')
+    userid = data.get('userid')  # 수정: username -> userid
     password = data.get('password')
 
     try:
         # 사용자 데이터베이스에서 사용자 찾기
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(userid=userid).first()  # 수정: username -> userid
 
         if user and check_password_hash(user.password, password):
-            session['user'] = username  # 세션에 사용자 정보 저장
-            return jsonify({'message': 'Login successful!', 'user': username})
+            session['user'] = userid  # 수정: username -> userid
+            return jsonify({'message': 'Login successful!', 'user': userid})  # 수정: username -> userid
         else:
             return jsonify({'message': 'Invalid credentials'}), 401
     except Exception as e:
         return jsonify({'message': 'Error occurred during login'}), 500
+
 
 # 로그아웃 처리
 @app.route('/api/logout', methods=['POST', 'OPTIONS'])
@@ -397,6 +399,7 @@ def logout():
 
     session.pop('user', None)  # 세션에서 사용자 정보 제거
     return jsonify({'message': 'Logout successful!'}), 200
+
 
 # 인증된 사용자만 접근 가능 프론트에 get data 버튼에 해당
 # @app.route('/api/data', methods=['GET', 'OPTIONS'])
