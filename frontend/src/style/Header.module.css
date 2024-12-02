@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR&family=Nanum+Pen+Script&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+.header{
+    display: flex;
+    align-items: center;
+    width: 1920px;
+    height: 124px; 
+}
+
+.leftheader{
+    margin-left: 115px;
+}
+
+.rightheader{
+    margin-left: 124px;
+}
+
+.header_a {
+    text-decoration: none;
+    color: black;
+    font-family: "Roboto Condensed";
+    font-size: 55px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.nav_a{
+    text-decoration: none;
+    color: #000;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.nav_ul{
+    display: flex;
+    gap: 116px;
+}
+
+
+.nav_li {
+    list-style: none;
+}
