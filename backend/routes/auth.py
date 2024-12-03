@@ -61,13 +61,24 @@ def login():
     password = data.get('password')
 
     try:
+        # 사용자 인증
         user = User.query.filter_by(user_id=user_id).first()
         if user and check_password_hash(user.password, password):
-            session['user'] = user_id
-            return jsonify({'message': 'Login successful!', 'user': user_id})
+            session['user'] = user_id  # 세션에 사용자 ID 저장
+
+            # 로그인 성공 시 실명(realname) 반환
+            return jsonify({
+                'message': 'Login successful!',
+                'user': {
+                    'user_id': user.user_id,
+                    'realname': user.realname
+                }
+            }), 200
+
         return jsonify({'message': 'Invalid credentials'}), 401
+
     except Exception as e:
-        return jsonify({'message': 'Error occurred during login'}), 500
+        return jsonify({'message': f'Error occurred during login: {str(e)}'}), 500
 
 
 # 로그아웃
