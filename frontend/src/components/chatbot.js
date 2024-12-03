@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../style/Chatbot.css';
+import './style/Chatbot.css';
 
 const Chatbot = () => {
   const [query, setQuery] = useState('');
