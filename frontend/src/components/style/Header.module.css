@@ -3,23 +3,25 @@
 .header{
     display: flex;
     align-items: center;
-    width: 1920px;
-    height: 124px; 
+    width: 100%;
+    height: 8vh; 
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 
 .leftheader{
-    margin-left: 115px;
+    margin-left: 6vw;
 }
 
 .rightheader{
-    margin-left: 124px;
+    margin-left: 7vw;
 }
 
 .header_a {
     text-decoration: none;
     color: black;
     font-family: "Roboto Condensed";
-    font-size: 55px;
+    font-size: clamp(20px, 3vw, 55px);
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -29,18 +31,20 @@
     text-decoration: none;
     color: #000;
     font-family: Inter;
-    font-size: 30px;
+    font-size: clamp(14px, 1.5vw, 30px);
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    white-space: nowrap;
 }
 
 .nav_ul{
     display: flex;
-    gap: 116px;
+    gap: 5vw;
 }
 
 
 .nav_li {
     list-style: none;
 }
+
