@@ -44,7 +44,7 @@ const Chatbot = () => {
     setQuery('');
 
     try {
-      const res = await axios.post('http://127.0.0.1:5000/ask', { query });
+      const res = await axios.post('http://127.0.0.1:5000/api/ask', { query });
       const result = res.data.response || '응답이 없습니다';
       const formattedResponse = result.replace(/\n/g, '<br />');
       
