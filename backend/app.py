@@ -85,7 +85,37 @@ class User(db.Model):
     realname = db.Column(db.String(50), nullable=False)                  # 실제 이름
     address = db.Column(db.String(100), nullable=False)                  # 주소
     phone = db.Column(db.String(20), nullable=False)                     # 전화번호
-    number = db.Column(db.Integer, unique=True, autoincrement=True)      
+    number = db.Column(db.Integer, unique=True, nullable=False, autoincrement=True)  # 고유한 번호 필드
+
+    # 관계 설정
+    posts = db.relationship('Posts', back_populates='user', cascade='all, delete-orphan')
+    comments = db.relationship('Comments', back_populates='user', cascade='all, delete-orphan')
+
+
+class Posts(db.Model):
+    __tablename__ = 'posts'
+    post_id = db.Column(db.String(30), primary_key=True, nullable=False)  # Primary Key
+    user_id = db.Column(db.String(30), db.ForeignKey('user.user_id'), nullable=False)  # 외래키
+    title = db.Column(db.String(30), nullable=False)  # 제목
+    text = db.Column(db.String(500), nullable=False)  # 게시물 내용
+    imagepath = db.Column(db.String(300), nullable=False)  # 이미지 경로
+
+    # 관계 설정
+    user = db.relationship('User', back_populates='posts')  # user 테이블과의 관계
+    comments = db.relationship('Comments', back_populates='post', cascade='all, delete-orphan')  # 댓글 관계
+
+
+class Comments(db.Model):
+    __tablename__ = 'comments'
+    comments_id = db.Column(db.String(30), primary_key=True, nullable=False)  # Primary Key
+    post_id = db.Column(db.String(30), db.ForeignKey('posts.post_id'), nullable=False)  # posts 테이블의 외래키
+    user_id = db.Column(db.String(30), db.ForeignKey('user.user_id'), nullable=False)  # user 테이블의 외래키
+    text = db.Column(db.String(500), nullable=False)  # 댓글 내용
+
+    # 관계 설정
+    post = db.relationship('Posts', back_populates='comments')  # posts 테이블과의 관계
+    user = db.relationship('User', back_populates='comments')  # user 테이블과의 관계
+
 #--------------------------------------------------------------------
     
 
