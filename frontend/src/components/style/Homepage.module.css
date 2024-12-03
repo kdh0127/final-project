@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR&family=Nanum+Pen+Script&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 *{
     margin: 0;
     padding: 0;   
@@ -14,19 +17,74 @@ margin-top: 28px;
 
 .welcome{
     position: absolute;
-    margin-top: 115px;
-    margin-left: 115px;
+    margin-top: 20vh;
+    margin-left: 10vw;
 }
 
 .welcome_p{
     color: #FFF;
     font-family: Roboto;
-    font-size: 80px;
+    font-size: 4vw;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 600;   
     line-height: normal;
 }
 
 .beeCareful{
-    font-size: 110px;
+    font-size: 6vw;
 }
+
+.loginbox{
+    position: absolute;
+    background-color: #f1ede6;
+    width: 31.25rem;
+    height: 31.25rem;
+    flex-shrink: 0;
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.75);
+    margin-top: 19rem; 
+    margin-left: 84.4rem;
+}
+
+.loginbox_title{
+    color: #000;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 2.8125rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 4.25rem;
+}
+
+.loginbox_body{
+    color: #555;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 1.5625rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 1.88rem;
+}
+
+.loginbox_button{
+    display: flex;
+    gap: 2.38rem;
+}
+
+.login, .signup{
+    width: 11.4375rem;
+    height: 4.5rem;
+    flex-shrink: 0;
+    border-radius: 3.125rem;
+    background: #FBC93E;
+    margin-top: 3rem;
+    text-align: center;
+    line-height: 4.5rem;
+}
+
+.login{
+    margin-left: 3rem;
+}
+
