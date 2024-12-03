@@ -1,110 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import '../style/Log.css';
 
-const Log = () => {
-  const [message, setMessage] = useState('');
-  const [user_id, setUserId] = useState(''); // 수정: userid -> user_id
+const Log = ({ onClose, onLoginSuccess }) => {
+  const [user_id, setUserId] = useState('');
   const [password, setPassword] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState('');
 
-  // Axios에서 세션 쿠키를 전달할 수 있도록 설정
   axios.defaults.withCredentials = true;
 
-  // 로그인 페이지로 돌아가도 로그인 안풀리게 설정
-  useEffect(() => {
-    const storedUser = localStorage.getItem('loggedInUser');
-    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-
-    if (storedUser && isLoggedIn) {
-      setLoggedIn(true);
-      setLoggedInUser(storedUser);
-    }
-  }, []);
-
-  // 로그인 요청
   const login = () => {
-    axios.post('http://localhost:5000/api/login', { user_id, password }) // 수정: userid -> user_id
+    axios.post('http://localhost:5000/api/login', { user_id, password })
       .then(response => {
-        setLoggedIn(true);
-        setLoggedInUser(response.data.user);
+        const { user } = response.data; // 서버에서 반환된 사용자 정보
 
-        // localStorage에 로그인 정보 저장
-        localStorage.setItem('loggedIn', 'true');
-        localStorage.setItem('loggedInUser', response.data.user);
+        if (user && user.realname) {
+          // 로그인 성공 시 실명을 onLoginSuccess로 전달
+          if (onLoginSuccess) onLoginSuccess(user.realname);
 
-        console.log(response.data.message);
-        setMessage('로그인 성공!');
+          // 팝업 닫기
+          if (onClose) onClose();
+        } else {
+          alert('서버에서 사용자 정보가 제대로 반환되지 않았습니다.');
+        }
       })
       .catch(error => {
         console.error('Login failed:', error.response?.data?.message || error.message);
-        setMessage('존재하지 않는 ID 또는 PW 입니다.');
-      });
-  };
-
-  // 로그아웃 요청
-  const logout = () => {
-    axios.post('http://localhost:5000/api/logout')
-      .then(response => {
-        setLoggedIn(false);
-        setLoggedInUser('');
-
-        // localStorage에서 로그인 정보 제거
-        localStorage.removeItem('loggedIn');
-        localStorage.removeItem('loggedInUser');
-
-        console.log(response.data.message);
-        setMessage('');
-      })
-      .catch(error => {
-        console.error('Logout failed:', error.response?.data?.message || error.message);
-        setMessage('로그아웃 실패.');
+        alert('존재하지 않는 ID 또는 PW 입니다.'); // 실패 시 알림 표시
       });
   };
 
   return (
-    <div>
-      {!loggedIn ? (
-        <div>
-          <div>
-            <label>
-              ID 
-              <input
-                type="text"
-                placeholder="UserID"
-                value={user_id} // 수정: userid -> user_id
-                onChange={(e) => setUserId(e.target.value)} // 수정: setUserid -> setUserId
-              />
-            </label>
-          </div>
-
-          <div>
-            <label>
-              PW 
-              <input
-                type="password"
-                placeholder="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </label>
-          </div>
-
-          <h2>로그인</h2>
-          <button onClick={login}>Login</button>
-
-          {/* <h2>회원등록</h2>
-          <button onClick={register}>Register</button> */}
-
-          {/* {message && <p>{message}</p>} */}
-        </div>
-      ) : (
-        <div>
-          <h2>Welcome, {loggedInUser}!</h2> 
-          <button onClick={logout}>Logout</button>
-          {message && <p>{message}</p>}
-        </div>
-      )}
+    <div className="log-wrapper">
+      <div className="login-form">
+        <label>
+          ID:
+          <input
+            type="text"
+            placeholder="UserID"
+            value={user_id}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+        </label>
+        <label>
+          PW:
+          <input
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <button onClick={login}>Login</button>
+      </div>
     </div>
   );
 };
