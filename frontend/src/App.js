@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<Homepage/>} />
           <Route path="/service" element={<Service />} />
 
-          <Route path="/ai" element={<Chatbot />} />
+          <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/Image_Model" element={<ImageModel />} />
           <Route path="/Log" element={<Log />} />
           <Route path="/Reg" element={<Reg />} />
