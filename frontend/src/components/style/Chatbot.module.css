@@ -3,48 +3,28 @@
 /* 다른 페이지와 조화로운지 확인하기 */
 /* 챗봇 컨테이너 스타일 */
 .chatbot_container {
-  max-width: 1200px;
+  width: 1920px; height: 931px;
   /* 챗봇 크기 수정하고 싶을 경우 이거 조절 */
   /* 여기서 챗봇의 크기란 전체적인 창의 크기를 의미함 */
   width: 100%;
-  padding: 30px;
-  background-color: #f7f7f8;
-  border-radius: 15px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-  font-size: 18px;
+  background-color: #F1EFE7;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  font-family: 'Cambo', serif;
+  font-size: 40px;
+  flex-direction: column;
+  text-align: left;
+
 }
 
-/* 빠른 질문 버튼 스타일 */
-.quick_questions {
-  display: flex;
-  flex-wrap: wrap; /* 버튼이 화면에 꽉 차면 줄바꿈되도록 */
-  gap: 10px; /* 버튼들 사이 간격 조정 */
-  justify-content: flex-start; /* 왼쪽 정렬 */
-  margin-bottom: 20px; /* input-container와의 간격을 두기 위한 마진 */
-}
-
-.quick_question_button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: transparent;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  white-space: normal; /* 텍스트가 줄바꿈되도록 */
+.title_image {
+  width: 78px;
+  height: 78px;
+  margin-right: 16px; 
+  margin-top: 50px;
   display: inline-block;
-  color: black; /* 초기 글자색 흰색 */
-  transition: background-color 0.3s ease, color 0.3s ease; /* 배경색과 글자색 변화 애니메이션 */
 }
 
-/* 마우스를 올렸을 때 스타일 */
-.quick_question_button:hover {
-  background-color: #357ABD; /* 배경색 변화 */
-  color: black; /* 글자색 검정색으로 변화 */
-}
 
 /* 대화 기록 스타일 */
 .chat_history {
@@ -132,21 +112,4 @@
 /* 버튼 호버 스타일 */
 .input_container button:hover {
   background-color: #357ABD;
-}
-
-/* 벌통 주변에 흰 보리쌀 같은 것이 생겼어요 버튼 스타일 */
-.quick_question_button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #e0e0e0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
-  white-space: normal; /* 텍스트가 줄바꿈되도록 */
-}
-
-.quick_question_button:hover {
-  background-color: #357ABD;
-  color: white;
 }

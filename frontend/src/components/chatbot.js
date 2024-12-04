@@ -8,11 +8,6 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const quickQuestions = [
-    "벌통 주변에 흰 보리쌀<br /> 같은 것이 생겼어요",
-    "벌이 날지 않아요",
-    "벌이 설사를 해요"
-  ];
 
   // <br /> 태그를 실제 줄바꿈으로 처리하는 함수
   const formatTextWithBreaks = (text) => {
@@ -28,11 +23,6 @@ const Chatbot = () => {
     setQuery(e.target.value);
   };
 
-  const handleQuickQuestionClick = (question) => {
-    const sanitizedQuestion = question.replace(/<br \/>/g, ''); // <br /> 태그 제거
-    setQuery(sanitizedQuestion);  // sanitizedQuestion을 query에 저장
-    handleSubmit(sanitizedQuestion);  // 해당 질문에 대한 응답을 자동으로 생성
-  };
 
   const handleSubmit = async (e) => {
     if (typeof e === 'string') {
@@ -69,19 +59,11 @@ const Chatbot = () => {
     <div className={style.chatbot_wrapper}>
       <Header/>
       <div className={style.chatbot_container}>
-        <h2>Chatbot</h2>
+        <h2>
+          <img src="/beelogo2.png" alt="bee icon" className={style.title_image} /> 
+          Good morning, bee123
+        </h2>
 
-        <div className={style.quick_questions}>
-          {quickQuestions.map((question, index) => (
-            <button
-              key={index}
-              onClick={() => handleQuickQuestionClick(question)} // 버튼 클릭 시 해당 질문에 대한 응답 호출
-              className={style.quick_question_button}
-            >
-              {formatTextWithBreaks(question)} {/* 줄바꿈 처리 */}
-            </button>
-          ))}
-        </div>
 
         {messages.length > 0 && (
           <div className={style.chat_history}>
