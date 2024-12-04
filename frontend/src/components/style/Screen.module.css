@@ -35,6 +35,15 @@
     flex: 1; 
     height: auto;
     padding-top: 13rem;
+    padding-left: 5rem;
+    text-align: center;
+  }
+
+  .image {
+    max-width: 573px;
+    max-height: 300px; 
+    width: auto; 
+    height: auto; 
   }
 
   .more_button{

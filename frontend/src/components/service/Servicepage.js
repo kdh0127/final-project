@@ -14,7 +14,7 @@ function Service(){
             title: "신규 양봉업자를 위한 꿀벌 질병 진단 및 치료 편의 제공 서비스",
             article: "구성원 | 배규태 고지수 김도헌 서지민 정동윤",
             more: "더 알아보기",
-            imageUrl: "/images/image1.jpg", 
+            imageUrl: "servicelogo.png", 
           },
           {
             header: "Screen 2 Header",
