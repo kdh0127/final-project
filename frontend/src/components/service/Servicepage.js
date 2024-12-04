@@ -1,38 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import style from '../style/Service.module.css'
 import Header from '../Header';
+import Screen from '../Screen';
 
 function Service(){
-    
 
+    const [currentScreen, setCurrentScreen]= useState(0);
+
+    const screens=[
+        {   
+            header: "디지털 스마트 부산 아카데미",
+            subheader: "9월 2일 ~ 12월 20일 | B04(C)-0107",
+            title: "신규 양봉업자를 위한 꿀벌 질병 진단 및 치료 편의 제공 서비스",
+            article: "구성원 | 배규태 고지수 김도헌 서지민 정동윤",
+            more: "더 알아보기",
+            imageUrl: "/images/image1.jpg", 
+          },
+          {
+            header: "Screen 2 Header",
+            subheader: "Screen 2 subHeader",
+            title: "Discover Screen 2",
+            article: "This is the second screen content.",
+            more: "Discover",
+            imageUrl: "/images/image2.jpg", 
+          },
+          {
+            header: "Screen 3 Header",
+            subheader: "Screen 3 subHeader",
+            title: "Explore Screen 3",
+            article: "This is the third screen content.",
+            more: "Explore",
+            imageUrl: "/images/image3.jpg", 
+          },
+        ];
+
+        useEffect( ()=> {
+            const interval = setInterval( () => {
+                setCurrentScreen((prev) => (prev+1) % screens.length);
+            }, 5000);
+            return () => clearInterval(interval);
+        }, [screens.length]);
     return(
         <div className={style.service}>
             <Header />
             <main className={style.mainservice}>
                 <div className={style.service1}>
-                    <div className={style.title}>
-                        <h4>Bee Careful Technology</h4>
-                    </div>
-                    <div className={style.article}>
-                    <p>Bee Careful이 뛰어난 기술력을 바탕으로 함꼐하는 양봉업자들의 빛나는 내일을 열어줄 든든한 성장 파트너가 되겠습니다.</p>
-                    </div>
-                    <div className={style.content}>
-                        <div className={style.box}>
-                            <img src={process.env.PUBLIC_URL + '/image.png'} alt="이미지진단" />
-                            <p className={style.box_title}>이미지 진단</p>
-                            <p className={style.box_article}>꿀벌 사진만으로 질병여부 판단</p>
-                        </div>
-                        <div className={style.box}>
-                            <img src={process.env.PUBLIC_URL + '/camera.png'} alt="감시시스템" />
-                            <p className={style.box_title}>감시시스템</p>
-                            <p className={style.box_article}>실시간 감시를 통해 질병 조기 진단</p>
-                        </div>
-                        <div className={style.box}>
-                            <img src={process.env.PUBLIC_URL + '/chatbot.png'} alt="진단AI" />
-                            <p className={style.box_title}>진단AI</p>
-                            <p className={style.box_article}>간단한 질문으로 문재해결</p>
-                        </div>
-                    </div>
+                    <Screen
+                    header={screens[currentScreen].header}
+                    subheader={screens[currentScreen].subheader}
+                    title={screens[currentScreen].title}
+                    article={screens[currentScreen].article}
+                    more={screens[currentScreen].more}
+                    imageUrl={screens[currentScreen].imageUrl}
+                    />
                 </div>
                 <div className={style.service2}>
                     

@@ -1,0 +1,66 @@
+.Screen {
+    display: flex; 
+    height: 90vh;
+    background-color: #F7F7F7;
+  }
+  
+  .leftbody {
+    flex: 1; 
+    height: auto; 
+    padding-top: 10rem;
+    padding-left: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .header{
+    font-weight: bold;
+    font-size: 30px;
+  }
+  
+  .title{
+    font-weight: bolder;
+    font-size: 50px;
+  }
+
+  .article{
+    font-weight: normal;
+    font-size: 25px;
+  }
+
+
+
+  .rightbody {
+    flex: 1; 
+    height: auto;
+    padding-top: 13rem;
+  }
+
+  .more_button{
+    background-color: #ffe262;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    transition: all 0.3s ease;
+    border: none;
+    font-weight: bold;
+    font-size: 20px;
+    position: relative;
+    overflow: hidden;
+    }
+
+    .more_button:hover {
+        background-color: #ffd700; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        transform: scale(1.05); 
+    }
+
+    .more_button:active {
+        transform: scale(0.95); 
+        background-color: #ffc107; 
+    }
+
+
+    
