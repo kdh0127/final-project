@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './style/Chatbot.css';
+import Header from './Header';
+import style from '../components/style/Chatbot.module.css';
 
 const Chatbot = () => {
   const [query, setQuery] = useState('');
@@ -65,16 +66,17 @@ const Chatbot = () => {
   };
 
   return (
-    <div className="chatbot-wrapper">
-      <div className="chatbot-container">
+    <div className={style.chatbot_wrapper}>
+      <Header/>
+      <div className={style.chatbot_container}>
         <h2>Chatbot</h2>
 
-        <div className="quick-questions">
+        <div className={style.quick_questions}>
           {quickQuestions.map((question, index) => (
             <button
               key={index}
               onClick={() => handleQuickQuestionClick(question)} // 버튼 클릭 시 해당 질문에 대한 응답 호출
-              className="quick-question-button"
+              className={style.quick_question_button}
             >
               {formatTextWithBreaks(question)} {/* 줄바꿈 처리 */}
             </button>
@@ -82,11 +84,11 @@ const Chatbot = () => {
         </div>
 
         {messages.length > 0 && (
-          <div className="chat-history">
+          <div className={style.chat_history}>
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={message.type === 'user' ? 'user-message' : 'bot-message'}
+                className={message.type === 'user' ? style.user_message : style.bot_message}
                 style={{whiteSpace:'pre-wrap'}}
               >
                 {formatTextWithBreaks(message.text)}  {/* 줄바꿈 처리 */}
@@ -95,7 +97,7 @@ const Chatbot = () => {
           </div>
         )}
 
-        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(query); }} className="input-container">
+        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(query); }} className={style.input_container}>
           <input
             type="text"
             value={query}

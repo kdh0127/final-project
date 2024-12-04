@@ -7,7 +7,7 @@
   .leftbody {
     flex: 1; 
     height: auto; 
-    padding-top: 10rem;
+    padding-top: 7rem;
     padding-left: 3rem;
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@
   .rightbody {
     flex: 1; 
     height: auto;
-    padding-top: 13rem;
+    padding-top: 7rem;
     padding-left: 5rem;
     text-align: center;
   }
