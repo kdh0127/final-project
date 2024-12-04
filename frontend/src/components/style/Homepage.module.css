@@ -37,8 +37,8 @@
 .loginbox{
     position: fixed;
     background-color: #f1ede6;
-    width: 500px;
-    height: 500px;
+    width: 450px;
+    height: auto;
     flex-shrink: 0;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.75);
@@ -72,23 +72,23 @@
 .loginbox_button{
     display: flex;
     gap: 38px;
+    padding-bottom: 20px;
+    justify-content: center;
 }
 
 .login, .signup{
-    width: 183px;
+    width: 150px;
     height: 72px;
     flex-shrink: 0;
     border-radius: 50px;
     background: #FBC93E;
-    margin-top: 50px;
+    margin-top: 30px;
     text-align: center;
     line-height: 72px;
     cursor: pointer;
     transition: background 0.3s ease;
-}
-
-.login{
-    margin-left: 48px;
+    border: none;
+    
 }
 
 .login:hover, .signup:hover {
