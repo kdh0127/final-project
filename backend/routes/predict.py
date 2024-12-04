@@ -2,20 +2,24 @@ import os
 from flask import Blueprint, request, jsonify
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
+from tensorflow.keras.applications.efficientnet import preprocess_input
 import numpy as np
 from io import BytesIO
 
 predict_blueprint = Blueprint('predict', __name__)
 
+
+
+
 # 모델 로드
 current_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(current_dir, "../Bee_image_model.h5")  # 모델 파일 경로
+model_path = os.path.join(current_dir, "../bee_image_model.keras")  # 모델 파일 경로
 model = load_model(model_path)
 print("Model loaded successfully.")
 
 # 이미지 크기 및 클래스 이름 설정
 IMG_SIZE = (224, 224)
-class_names = ['old_feather', 'old_normal', 'old_ung', 'young_ascos', 'young_buzzer', 'young_normal', 'young_ung']
+class_names = ['feather', 'normal', 'ung']
 
 @predict_blueprint.route('/predict', methods=['POST'])
 def predict():
@@ -28,7 +32,8 @@ def predict():
         try:
             # 이미지를 모델 입력 형식으로 변환
             img = load_img(BytesIO(file.read()), target_size=IMG_SIZE)
-            img = img_to_array(img) / 255.0  # 이미지 정규화
+            img = img_to_array(img)
+            img = preprocess_input(img)  # 주피터 노트북과 동일한 전처리 적용
             img = np.expand_dims(img, axis=0)
 
             # 예측 실행
