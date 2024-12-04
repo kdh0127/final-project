@@ -3,11 +3,34 @@
     height: 90vh;
 }
 
-img{
-    width: 200px;
-    height: 200px;
-}
-
 .content{
     display: flex;
+}
+
+.navBar {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 20px;
+}
+
+.navButton {
+background: none;
+border: none;
+cursor: pointer;
+padding: 10px;
+margin: 0 5px;
+}
+
+.navButton .dot {
+width: 10px;
+height: 10px;
+background-color: lightgray;
+border-radius: 50%;
+display: inline-block;
+transition: background-color 0.3s ease;
+}
+
+.navButton.active .dot {
+background-color: black;
 }

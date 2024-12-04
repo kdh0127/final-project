@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './style/Screen.module.css';
 
-const Screen = ({ header, subheader, title, article, more, imageUrl }) => {
+const Screen = ({ header, subheader, title, article, more, imageUrl, screens, currentScreen, setCurrentScreen }) => {
   return (
     <div className={style.Screen}>
       <div className={style.leftbody}>
@@ -14,6 +14,16 @@ const Screen = ({ header, subheader, title, article, more, imageUrl }) => {
       </div>
       <div className={style.rightbody}>
         <img src={imageUrl} alt="Dynamic" className={style.image} />
+      </div>
+      <div className={style.navbar}>
+        {screens.map((_, index) => (
+          <button
+          key={index}
+          className={`${style.navbutton} ${currentScreen === index ? style.active : ''}`}
+          onClick={() => setCurrentScreen(index)}>
+          <span className={style.dot}></span>
+        </button>
+        ))}
       </div>
     </div>
   );
