@@ -31,7 +31,7 @@ const Servicebody = ({body_title, body_text, body_foot, body_imgs}) => {
             <div className={style.mainbody}>
                 <div className={style.leftbody}>
                     <div className={style.body_text}>
-                        {body_text}
+                        <p dangerouslySetInnerHTML={{ __html: body_text }}></p>
                     </div>
                     <div className={style.body_foot}>
                         {body_foot}

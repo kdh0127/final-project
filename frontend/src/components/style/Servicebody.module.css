@@ -50,6 +50,7 @@
     width: 100%;
     height: auto;
     margin-top: 30px;
+    
 }
 
 .leftbody{
@@ -64,7 +65,7 @@
 .body_text{
     color: #000;
     font-family: Roboto;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-style: normal;
     font-weight:normal;
     line-height: normal;
@@ -77,6 +78,7 @@
     font-style: normal;
     font-weight:lighter;
     line-height: normal;
+    
 }
 
 .rightbody{
@@ -84,14 +86,14 @@
     flex: 1;
     align-items: center;
     justify-content: center;
+    max-width: 100%;
+    background-color: #fffff3;
 }
 
 .body_img{
-    max-width: 100%;
+    max-width: 550px;
     height: auto;
     transition: transform 0.3s ease;
-    border-top: 1px solid #000000; 
-    border-bottom: 1px solid #000000; 
     border-radius: 0; 
     padding: 10px 0; 
 }
