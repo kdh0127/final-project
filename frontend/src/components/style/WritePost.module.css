@@ -1,84 +1,138 @@
-/* 공통 배경을 위한 컨테이너 스타일 */
-.backgroundContainer {
-  background: #E0DED3; /* 공통 배경색 */
-  padding: 20px; /* 내부 여백 */
-  border-radius: 10px; /* 둥근 모서리 */
-  margin-bottom: 20px; /* 하단 여백 */
-  border: 1px solid #ccc; /* 테두리 */
+.container {
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  background: #EEEEEE;
+  min-height: 100vh;
+  padding: 50px;
+  box-sizing: border-box;
 }
 
-/* 공통 스타일 */
+/* 첫 번째 폼 컨테이너 */
+.firstFormContainer {
+  background: #E0DED3;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column; 
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  
+}
+
+.titleInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 15px;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+
+.divider {
+  border-bottom: 1px solid #484848;
+  margin: 15px 0;
+}
+
+.metaSection {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.metaBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  flex-direction: row;
+}
+
 .labelBox {
-    border: 2px solid #000;
-    border-radius: 10px;
-    padding: 15px;
-    font-weight: bold;
-    width: 50px;
-    height: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    background-color: #fff;
-  }
-  
-  .inputBox {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: 2px solid #000;
-    background-color: #fff; /* 입력 필드도 흰색 박스로 유지 */
-  }
-  
-  .inputBoxDisabled {
-    background-color: #f9f9f9;
-  }
-  
-  /* 제목 및 구분/작성자 섹션 */
-  .section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    background-color: #E0DED3; /* 섹션 배경색 */
-    padding: 20px; /* 내부 여백 */
-    border-radius: 10px; /* 섹션 테두리 둥글게 */
-    border: 1px solid #ccc; /* 섹션 테두리 색 */
-  }
-  
-  .flexBetween {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .flexItem {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    position: relative; /* 라인 위치를 위한 설정 */
-  }
-  
-  /* ReactQuill 스타일 */
-  .quillContainer {
-    height: 300px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  /* 작성 버튼 스타일 */
-  .submitButton {
-    position: absolute;
-    bottom: -50px;
-    right: 0;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+  background: #FFFFFF;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  display: flex; /* 플렉스 박스 활성화 */
+  align-items: center; /* 세로 정렬 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  flex-direction: row; /* 가로 배치 */
+  text-align: center;
+  min-width: 95px; /* 고정된 최소 너비 */
+  box-sizing: border-box;
+}
+
+.metaLeft,
+.metaRight {
+  width: 49%;
+}
+
+.metaLabel {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.metaInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+
+.metaInputDisabled {
+  background: #f9f9f9;
+  color: #aaa;
+}
+
+/* 두 번째 폼 컨테이너 */
+.secondFormContainer {
+  background: #E0DED3;
+  height: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+.quillContainer {
+  height: 350px;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+
+/* ReactQuill 내부 컨테이너 */
+.ql-container {
+  border: none !important; /* ReactQuill 기본 테두리 제거 */
+  padding: 0 !important; /* 여백 제거 */
+  background: #F5F5F5; /* 내부 배경색 설정 */
+  border-radius: 10px; /* 둥근 모서리 */
+  min-height: 200px; /* 높이 설정 */
+}
+
+/* 작성 버튼 */
+.submitSection {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #5C5C5C;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background: #0056b3;
+}
