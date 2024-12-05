@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import style from '../style/Service.module.css'
 import Header from '../Header';
 import Screen from '../Screen';
+import Servicebody from '../Servicebody';
 
 function Service(){
 
@@ -67,16 +68,40 @@ function Service(){
                 </div>
                 
                 <div className={style.service2}>
-                    
+                    <Servicebody
+                    body_title={"서비스 소개1"}
+                    body_text={"여기는 설명 텍스트입니다"}
+                    body_foot={"추가 정보"}
+                    body_imgs={[
+                        "beechat.png",
+                        "beelogo2.png",
+                        
+                    ]}/>
                 </div>
                 <div className={style.service3}>
-
+                    <Servicebody
+                        body_title={"서비스 소개2"}
+                        body_text={"여기는 설명 텍스트입니다"}
+                        body_foot={"추가 정보"}
+                        body_imgs={[
+                            "beechat.png",
+                            "beelogo2.png",
+                            
+                        ]}/>
                 </div>
                 <div className={style.service4}>
-
+                    <Servicebody
+                        body_title={"서비스 소개3"}
+                        body_text={"여기는 설명 텍스트입니다"}
+                        body_foot={"추가 정보"}
+                        body_imgs={[
+                            "beechat.png",
+                            "beelogo2.png",
+                            
+                        ]}/>
                 </div>
                 <div className={style.service5}>
-
+                    
                 </div>
             </main>
         </div>

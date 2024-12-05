@@ -34,3 +34,7 @@ transition: background-color 0.3s ease;
 .navButton.active .dot {
 background-color: black;
 }
+
+.service3{
+    background-color: aliceblue;
+}
