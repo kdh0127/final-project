@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../style/Log.css';
+import './style/Log.css';
 
 const Log = ({ onClose, onLoginSuccess }) => {
   const [user_id, setUserId] = useState('');

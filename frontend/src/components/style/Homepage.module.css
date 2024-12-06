@@ -12,6 +12,7 @@
     height: 100vh; 
     background-size: cover;
     background-position: center;
+    margin-top: 28px;
 }
 
 .welcome{
@@ -92,4 +93,26 @@
 
 .login:hover, .signup:hover {
     background: #e6b731;
+}
+
+
+
+/* 로그 아웃 버튼 */
+.logout {
+    background-color: #ff6b6b; /* 로그아웃 버튼 배경색 */
+    color: white; /* 텍스트 색상 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 테두리 */
+    padding: 10px 20px; /* 버튼 크기 */
+    cursor: pointer; /* 마우스 포인터 */
+    font-size: 14px; /* 폰트 크기 */
+    transition: background-color 0.3s ease; /* 부드러운 색상 전환 */
+}
+
+.logout:hover {
+    background-color: #e63939; /* 호버 효과 */
+}
+
+.logout:active {
+    background-color: #cc2c2c; /* 클릭 효과 */
 }
