@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Homepage from './components/homepage/Homepage';
 import Service from './components/service/Servicepage';
+import Support from './components/support/Support';
 
 import Chatbot from './components/chatbot';
 import ImageModel from './components/imagemodel';
@@ -24,6 +25,9 @@ function App() {
           <Route path="/Log" element={<Log />} />
           <Route path="/Reg" element={<Reg />} />
           <Route path="/community" element={<BoardList />} /> {/* Community 경로 */}
+
+          <Route path="/support" element={<Support />} />
+
           <Route path="/board/write" element={<PostWrite />} />
           {/* <Route path="/board/post" element={<PostTable />} /> */}
         </Routes>

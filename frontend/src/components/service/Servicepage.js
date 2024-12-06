@@ -3,7 +3,7 @@ import style from '../style/Service.module.css'
 import Header from '../Header';
 import Screen from '../Screen';
 import Servicebody from '../Servicebody';
-import { BsFillArrowUpCircleFill } from 'react-icons/bs'
+import { FaArrowUp } from "react-icons/fa";
 
 function Service(){
     const bodyText0 = `팀장 배규태 | 팀원 고지수 김도헌 정동윤 서지민 <br/><br/> 
@@ -157,7 +157,7 @@ function Service(){
             </main>
             {showTopButton && (
                 <button className={style.topButton} onClick={scrollToTop}>
-                    <BsFillArrowUpCircleFill />
+                    <FaArrowUp />
                 </button>
             )}
         </div>

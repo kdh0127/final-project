@@ -1,0 +1,58 @@
+.main_support{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.top_body{
+    display: flex;
+    padding: 60px 0;
+    width: 80vw;
+    margin: 0 auto;
+}
+
+.top_left_body{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 30px;
+}
+
+.top_right_body{
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.top_right_body_img{
+    max-width: 300px;
+    height: auto;
+}
+
+
+.bottom_body{
+    display: flex;
+    justify-content: space-around;
+    width: 80vw;
+    margin: 0 auto;
+}
+
+.title{
+    color: #000;
+    font-family: "Roboto Condensed";
+    font-size: 1.7rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.text{
+    color: #000;
+    font-family: Roboto;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
