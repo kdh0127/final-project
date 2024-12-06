@@ -1,7 +1,8 @@
 .Screen {
     display: flex; 
-    height: 90vh;
+    height: 88vh;
     background-color: #EEEEEE;
+    margin-top: 28px;
   }
   
   .leftbody {
