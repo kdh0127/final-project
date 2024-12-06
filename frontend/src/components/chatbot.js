@@ -3,6 +3,7 @@ import axios from 'axios';
 import Header from './Header';
 import style from '../components/style/Chatbot.module.css';
 
+
 const Chatbot = () => {
   const [query, setQuery] = useState('');
   const [messages, setMessages] = useState([]);
@@ -23,6 +24,7 @@ const Chatbot = () => {
     setQuery(e.target.value);
   };
 
+  
 
   const handleSubmit = async (e) => {
     if (typeof e === 'string') {
@@ -59,11 +61,12 @@ const Chatbot = () => {
     <div className={style.chatbot_wrapper}>
       <Header/>
       <div className={style.chatbot_container}>
-        <h2>
+        <div class="image_text_container">
           <img src="/beelogo2.png" alt="bee icon" className={style.title_image} /> 
-          Good morning, bee123
-        </h2>
+          <span class="chatbot_container">Welcome to Chatbot</span>
+        </div>
 
+        
 
         {messages.length > 0 && (
           <div className={style.chat_history}>
@@ -84,9 +87,9 @@ const Chatbot = () => {
             type="text"
             value={query}
             onChange={handleInputChange}
-            placeholder="질문을 입력하세요..."
+            placeholder="질문을 입력하세요."
           />
-          <button type="submit">질문하기</button>
+          <button type="submit"> 전송 </button>
         </form>
 
         {loading && <p>로딩 중...</p>}
