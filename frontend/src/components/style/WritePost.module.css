@@ -105,6 +105,8 @@
   height: 350px;
   border: 2px solid #000;
   border-radius: 10px;
+  overflow-y: scroll; 
+  scrollbar-width: none;
 }
 
 /* ReactQuill 내부 컨테이너 */
