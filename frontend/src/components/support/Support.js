@@ -24,23 +24,23 @@ function Support() {
                 <div className={style.bottom_body}>
                     <Card
                     title={"서비스 개발"}
-                    icon_img={["beechat.png"]}
+                    icon={"support1.png"}
                     />
                     <Card
                     title={"서비스 개선"}
-                    icon_img={["beechat.png"]}
+                    icon={"support2.png"}
                     />
                     <Card
                     title={"계정정보 수정"}
-                    icon_img={["beechat.png"]}
+                    icon={"support3.png"}
                     />
                     <Card
                     title={"협력 파트너"}
-                    icon_img={["beechat.png"]}
+                    icon={"support4.png"}
                     />
                     <Card
                     title={"기타사항"}
-                    icon_img={["beechat.png"]}
+                    icon={"support5.png"}
                     />
                 </div>
             </main>

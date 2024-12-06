@@ -17,13 +17,14 @@
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.499);
 }
 
-.icon {
+.icon_img{
     display: flex;
     justify-content: center;
     align-items: center;
     width: 80px;
     height: 80px;
     margin-bottom: 12px;
+    
 }
 
 
