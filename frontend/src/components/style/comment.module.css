@@ -1,0 +1,179 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 800px;
+  max-height: auto;
+  margin: 20px auto;
+  background: #ffffff;
+  /* border: 2px solid #000; */
+  border-radius: 10px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  padding: 20px;
+}
+
+/* 제목 컨테이너 */
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  background-color: #D9D9D9;
+  border-top: 1px solid #000; /* 상단 줄 */
+  border-bottom: 1px solid #000; /* 하단 줄 */
+  box-sizing: border-box; /* 패딩 포함 크기 조절 */
+}
+
+.titleLeft .category {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.categoryBtn {
+  background-color: #5C5C5C;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 0.9em;
+}
+
+.titleLeft .title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.titleRight button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editBtn {
+  background-color: #5C5C5C;
+  color: white;
+  border-radius: 10px;
+}
+
+.editBtn:hover {
+  background-color: #6b6b6b; /* 호버 시 색상 변경 */
+}
+
+.deleteBtn {
+  background-color: #5C5C5C;
+  color: white;
+  border-radius: 10px;
+}
+
+.deleteBtn:hover {
+  background-color: #6b6b6b; /* 호버 시 색상 변경 */
+}
+
+/* 작성자 컨테이너 */
+.authorContainer {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; 세로 중앙 정렬 */
+  margin-bottom: 20px;
+  font-size: 0.9em;
+  color: #555;
+  border-bottom: 1px solid #000; /* 하단 줄 */
+  padding: 5px;
+  box-sizing: border-box; /* 패딩 포함 크기 조절 */
+}
+
+/* 좌측 작성자 */
+.authorLeft {
+  font-weight: bold; /* 작성자 강조 */
+  justify-content: flex-start; /* 좌측 정렬 */
+}
+
+/* 우측 정보 (조회수, 댓글수, 작성일) */
+.authorRight {
+  display: flex;
+  justify-content: flex-end; /* 우측 정렬 */
+  gap: 15px; /* 항목 간 간격 조정 */
+}
+
+.authorRight span {
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/* 게시글 내용 컨테이너 */
+.postContent {
+  font-size: 30px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* 댓글 섹션 */
+.commentsSection .commentsHeader {
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.comment {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.commentInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.commentContent p {
+  margin: 0;
+}
+
+/* 댓글 작성 폼 */
+.commentForm {
+  position: relative; /* 내부 요소 위치 제어 */
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  margin-top: 20px; /* 상단 여백 */
+}
+
+.commentForm textarea {
+  width: 100%; /* 전체 너비 */
+  height: 80px; /* 고정 높이 */
+  padding: 10px; /* 내부 여백 */
+  border: 1px solid #000; /* 테두리 색상 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  resize: none; /* 크기 조절 비활성화 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+}
+
+/* 작성 버튼 */
+.commentForm .submitBtn {
+  position: absolute; /* 부모 컨테이너를 기준으로 위치 지정 */
+  bottom: 10px; /* 아래쪽 여백 */
+  right: 10px; /* 오른쪽 여백 */
+  padding: 8px 16px; /* 버튼 내부 여백 */
+  background-color: #5C5C5C; /* 버튼 배경색 */
+  color: white; /* 텍스트 색상 */
+  border: none; /* 테두리 제거 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  cursor: pointer; /* 마우스 포인터 변경 */
+}
+
+.commentForm .submitBtn:hover {
+  background-color: #6b6b6b; /* 호버 시 버튼 색상 변경 */
+}
