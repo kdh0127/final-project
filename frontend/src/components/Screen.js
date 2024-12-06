@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './style/Screen.module.css';
 
-const Screen = ({ header, subheader, title, article, more, imageUrl, screens, currentScreen, setCurrentScreen }) => {
+const Screen = ({ header, subheader, title, article, more, imageUrl, screens, currentScreen, setCurrentScreen, scrollToSection }) => {
   return (
     <div className={style.Screen}>
       <div className={style.leftbody}>
@@ -10,7 +10,7 @@ const Screen = ({ header, subheader, title, article, more, imageUrl, screens, cu
         <div className={style.title}>{title}</div>
         <div className={style.article}>{article}</div>
         <div className={style.more}>
-            <button className={style.more_button}>{more}</button></div>
+            <button className={style.more_button} onClick={() => scrollToSection(`service${currentScreen +1}`)}>{more}</button></div>
       </div>
       <div className={style.rightbody}>
         <img src={imageUrl} alt="Dynamic" className={style.image} />

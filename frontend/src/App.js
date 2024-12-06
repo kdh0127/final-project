@@ -7,6 +7,9 @@ import Chatbot from './components/chatbot';
 import ImageModel from './components/imagemodel';
 import Log from './components/Log';
 import Reg from './components/Reg';
+import BoardList from "./components/community/BoardList";
+import PostWrite from "./components/community/WritePost";
+// import PostTable from "./components/community/PostTable";
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
           <Route path="/Image_Model" element={<ImageModel />} />
           <Route path="/Log" element={<Log />} />
           <Route path="/Reg" element={<Reg />} />
+          <Route path="/community" element={<BoardList />} /> {/* Community 경로 */}
+          <Route path="/board/write" element={<PostWrite />} />
+          {/* <Route path="/board/post" element={<PostTable />} /> */}
         </Routes>
       </div>
     </Router>
