@@ -11,7 +11,7 @@ app = Flask(__name__, static_url_path='', static_folder='uploads')
 # 애플리케이션 설정
 app.config['SECRET_KEY'] = 'your_secret_key'  # 세션을 위한 비밀 키
 app.config['SESSION_TYPE'] = 'filesystem'  # 세션 타입
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Manchester1894!@localhost/user_db'  # MySQL 데이터베이스 URI
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/user_db'  # MySQL 데이터베이스 URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # SQLAlchemy 경고 비활성화
 app.config['UPLOAD_FOLDER'] = 'uploads'  # 파일 업로드 폴더
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
