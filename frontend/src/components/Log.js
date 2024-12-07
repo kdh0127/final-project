@@ -14,11 +14,16 @@ const Log = ({ onClose, onLoginSuccess }) => {
         const { user } = response.data; // 서버에서 반환된 사용자 정보
 
         if (user && user.realname) {
+          // 로그인 성공 시 사용자 정보를 localStorage에 저장
+          localStorage.setItem('currentUser', JSON.stringify(user));
+
           // 로그인 성공 시 실명을 onLoginSuccess로 전달
           if (onLoginSuccess) onLoginSuccess(user.realname);
 
           // 팝업 닫기
           if (onClose) onClose();
+
+          alert('로그인 성공!');
         } else {
           alert('서버에서 사용자 정보가 제대로 반환되지 않았습니다.');
         }

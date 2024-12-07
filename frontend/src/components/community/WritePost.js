@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from "react"; // useEffect import 추가
+import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import styles from "../style/WritePost.module.css"; // CSS 모듈 임포트
+import styles from "../style/WritePost.module.css";
 import Header from "../Header";
 
-const PostWrite = ({ setIsWriting, currentUser }) => {
+const PostWrite = ({ setIsWriting }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("자유");
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
+  // 로그인 상태 복원
   useEffect(() => {
-    const qlEditor = document.querySelector(".ql-editor.ql-blank");
-    if (qlEditor) {
-      qlEditor.classList.remove("ql-blank"); // 'ql-blank' 클래스 제거
-      qlEditor.style.background = "transparent"; // 배경색 수정
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
     }
-  }, [content]); // content가 변경될 때마다 실행하도록 의존성 추가
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +26,12 @@ const PostWrite = ({ setIsWriting, currentUser }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, content, category, user_id: currentUser }),
+      body: JSON.stringify({
+        title,
+        content,
+        category,
+        user_id: currentUser?.id, // user_id 전달
+      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -48,9 +54,7 @@ const PostWrite = ({ setIsWriting, currentUser }) => {
       <Header />
 
       <div className={styles.container}>
-        {/* 첫 번째 폼 컨테이너 */}
         <div className={styles.firstFormContainer}>
-          {/* 제목 섹션 */}
           <div className={styles.titleSection}>
             <label className={styles.labelBox}>제목</label>
             <input
@@ -85,7 +89,7 @@ const PostWrite = ({ setIsWriting, currentUser }) => {
               <label className={styles.labelBox}>작성자</label>
               <input
                 type="text"
-                value={currentUser}
+                value={currentUser?.realname || "로그인이 필요합니다"}
                 disabled
                 className={`${styles.metaInput} ${styles.metaInputDisabled}`}
               />
@@ -93,7 +97,6 @@ const PostWrite = ({ setIsWriting, currentUser }) => {
           </div>
         </div>
 
-        {/* 두 번째 폼 컨테이너 */}
         <div className={styles.secondFormContainer}>
           <ReactQuill
             value={content}
@@ -127,7 +130,6 @@ const PostWrite = ({ setIsWriting, currentUser }) => {
           />
         </div>
 
-        {/* 작성 버튼 */}
         <div className={styles.submitSection}>
           <button type="submit" onClick={handleSubmit} className={styles.submitButton}>
             작성
