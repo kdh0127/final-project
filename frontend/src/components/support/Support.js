@@ -2,8 +2,10 @@ import * as React from 'react';
 import style from '../style/Support.module.css';
 import Header from '../Header';
 import Card from '../Card';
+import { Link } from "react-router-dom";
 
 function Support() {
+
     return(
         <div className={style.container}>
             <Header/>
@@ -22,26 +24,36 @@ function Support() {
                     </div>
                 </div>
                 <div className={style.bottom_body}>
-                    <Card
-                    title={"서비스 개발"}
-                    icon={"support1.png"}
-                    />
-                    <Card
-                    title={"서비스 개선"}
-                    icon={"support2.png"}
-                    />
-                    <Card
-                    title={"계정정보 수정"}
-                    icon={"support3.png"}
-                    />
-                    <Card
-                    title={"협력 파트너"}
-                    icon={"support4.png"}
-                    />
-                    <Card
-                    title={"기타사항"}
-                    icon={"support5.png"}
-                    />
+                    <Link to="/support-service" className={style.link_style}>
+                        <Card
+                        title={"서비스 개발"}
+                        icon={"support1.png"}
+                        />
+                    </Link>
+                    <Link to="/support-service" className={style.link_style}>
+                        <Card
+                        title={"서비스 개선"}
+                        icon={"support2.png"}
+                        />
+                    </Link>
+                    <Link to="/support-service" className={style.link_style}>
+                        <Card
+                        title={"계정정보 수정"}
+                        icon={"support3.png"}
+                        />
+                    </Link>
+                    <Link to="/support-partner" className={style.link_style }>
+                        <Card
+                        title={"협력 파트너"}
+                        icon={"support4.png"}
+                        />
+                    </Link>
+                    <Link to="/support-service" className={style.link_style}>
+                        <Card
+                        title={"기타사항"}
+                        icon={"support5.png"}
+                        />
+                    </Link>
                 </div>
             </main>
         </div>

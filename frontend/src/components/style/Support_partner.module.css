@@ -1,0 +1,38 @@
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    font-weight: bolder;
+    font-size: 35px;
+}
+
+.subtitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+.cardbox {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 20px; 
+    padding: 20px;
+    background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd, #c2e9fb);
+}
+
+.card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease; 
+  }
+  
+  .card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
