@@ -97,6 +97,7 @@ function Homepage() {
                         <span className="closeBtn" onClick={handleClosePopup}>
                             &times;
                         </span>
+                        <h4 className={style.popup_title}>Log In</h4>
                         <Log
                             onClose={handleClosePopup}
                             onLoginSuccess={(name) => {
@@ -105,11 +106,10 @@ function Homepage() {
                             }}
                         />
                         {/* 회원가입 버튼 */}
-                        <div className="signupSection">
-                            <p>아직 회원이 아니신가요?</p>
-                            <button onClick={handleSignupClick} className="signupBtnInsidePopup">
-                                회원가입
-                            </button>
+                        <div className={style.signupSection}>
+                            <p onClick={handleSignupClick} className={style.signupBtnInsidePopup}>
+                                회원 가입 바로가기
+                            </p>
                         </div>
                     </div>
                 </div>

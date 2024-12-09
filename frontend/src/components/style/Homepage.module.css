@@ -121,6 +121,30 @@
     background-color: #cc2c2c; /* 클릭 효과 */
 }
 
+.popup_title{
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-weight: bolder;
+    font-size: 30px;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.signupBtnInsidePopup{
+    margin-top: 10px;
+    font-size: small;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.signupBtnInsidePopup:hover {
+    color: white;
+    background-color:royalblue;
+    border-radius: 5px;       
+    padding: 9px;            
+}
 
 @keyframes slideIn {
     0% {

@@ -38,7 +38,6 @@ const Log = ({ onClose, onLoginSuccess }) => {
     <div className="log-wrapper">
       <div className="login-form">
         <label>
-          ID:
           <input
             type="text"
             placeholder="UserID"
@@ -47,7 +46,6 @@ const Log = ({ onClose, onLoginSuccess }) => {
           />
         </label>
         <label>
-          PW:
           <input
             type="password"
             placeholder="password"
@@ -55,7 +53,7 @@ const Log = ({ onClose, onLoginSuccess }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button onClick={login}>Login</button>
+        <button onClick={login}>Log In</button>
       </div>
     </div>
   );

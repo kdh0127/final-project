@@ -80,40 +80,20 @@
   /* 버튼 */
   .log-wrapper .login-form button {
     padding: 12px;
-    background-color: #007bff;
+    background: linear-gradient(90deg, #007bff, #b3a1d4);
     color: white;
     border: none;
     border-radius: 6px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 90%; /* 버튼 너비 */
-  }
-  
-  .log-wrapper .login-form button:hover {
-    background-color: #0056b3;
-  }
-
-/* 등록 */
-
-.signupBtnInsidePopup {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #007bff; /* 파란색 배경 */
-    color: white; /* 흰색 텍스트 */
-    text-decoration: none; /* 언더라인 제거 */
-    border-radius: 5px; /* 둥근 모서리 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    display: block; /* 블록 레벨 요소로 표시 */
-    width: 80%; /* 너비 설정 */
-    box-sizing: border-box; /* 박스 크기 계산 방식 */
-    transition: background-color 0.3s; /* 배경색 변경에 대한 트랜지션 */
+    transition: all 0.3s ease;
+    width: 90%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
 }
 
-.signupBtnInsidePopup:hover {
-    background-color: #0056b3; /* 호버 시 배경색 변경 */
+.log-wrapper .login-form button:hover {
+    background: linear-gradient(90deg, #bb00ff, #a1aed4);
+    transform: scale(1.05); /* 살짝 커지는 효과 */
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* 강조된 그림자 */
 }
-
-  
-  
