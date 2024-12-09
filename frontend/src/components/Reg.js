@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import style from './style/Reg.module.css';
+import Header from './Header';
 
 const Reg = () => {
   const [message, setMessage] = useState('');
@@ -34,74 +36,82 @@ const Reg = () => {
   };
 
   return (
-    <div>
-      <h1>회원가입</h1>
+  <div className={style.Rog}>
+    <Header />
+    <div className={style.rogmain}>
+      <div className={style.rogbox}>
+        <div className={style.leftrog}>
+          <img src="/beekeeper1.jpg" alt="로그인 옆사진" />
+        </div>
+        <div className={style.rightrog}>
+          <h1 className={style.signup}>회원가입</h1>
+          <div>
+            <label>
+              <input
+                type="text"
+                placeholder="UserID" // 수정: Username -> UserID
+                value={user_id} // 수정: userid -> user_id
+                onChange={(e) => setUserId(e.target.value)} // 수정: setUserid -> setUserId
+              />
+            </label>
+          </div>
 
-      <div>
-        <label>
-          ID 
-          <input
-            type="text"
-            placeholder="UserID" // 수정: Username -> UserID
-            value={user_id} // 수정: userid -> user_id
-            onChange={(e) => setUserId(e.target.value)} // 수정: setUserid -> setUserId
-          />
-        </label>
+          <div>
+            <label>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label> 
+              <input
+                type="text"
+                placeholder="Real Name"
+                value={realname}
+                onChange={(e) => setRealname(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input
+                type="text"
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              <input
+                type="text"
+                placeholder="Phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </label>
+          </div>
+          <div>
+          <button onClick={register}>Register</button>
+
+          {message && <p>{message}</p>}
+          </div>
+        </div> 
+        
       </div>
-
-      <div>
-        <label>
-          PW 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>
-          이름 
-          <input
-            type="text"
-            placeholder="Real Name"
-            value={realname}
-            onChange={(e) => setRealname(e.target.value)}
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>
-          주소 
-          <input
-            type="text"
-            placeholder="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </label>
-      </div>
-
-      <div>
-        <label>
-          전화번호 
-          <input
-            type="text"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </label>
-      </div>
-
-      <h2>회원등록</h2>
-      <button onClick={register}>Register</button>
-
-      {message && <p>{message}</p>}
     </div>
+   
+
+    
+  </div>
   );
 };
 

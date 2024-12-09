@@ -1,0 +1,18 @@
+.rogbox{
+    display: flex;
+}
+
+.leftrog{
+    display: flex;
+    justify-content: center;
+}
+
+.rightrog{
+    display: flex;
+    flex-direction: column;
+}
+
+.leftrog img{
+    width: 300px;
+    height: 450px;
+}
