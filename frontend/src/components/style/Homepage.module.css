@@ -18,7 +18,9 @@
 .welcome{
     position: absolute;
     margin-top: 20vh;
-    margin-left: 10vw;
+    margin-left: -100%; 
+    animation: slideIn 0.7s ease-out forwards; 
+    
 }
 
 .welcome_p{
@@ -37,57 +39,59 @@
 .loginbox{
     position: fixed;
     background-color: #f1ede6;
-    width: 450px;
+    width: 350px;
     height: auto;
     flex-shrink: 0;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.75);
-    top: 65%;
+    top: 120%;
     left: 80%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 0);
+    animation: bounceIn 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; 
 }
 
 .loginbox_title{
     color: #000;
     text-align: center;
     font-family: Roboto;
-    font-size: 45px;
+    font-size: 35px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    margin-top: 68px;
+    margin-top: 50px;
 }
 
 .loginbox_body{
     color: #555;
     text-align: center;
     font-family: Roboto;
-    font-size: 25px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .loginbox_button{
     display: flex;
-    gap: 38px;
+    gap: 20px;
     padding-bottom: 20px;
     justify-content: center;
 }
 
 .login, .signup{
-    width: 150px;
-    height: 72px;
+    width: 120px;
+    height: 60px;
     flex-shrink: 0;
     border-radius: 50px;
     background: #FBC93E;
-    margin-top: 30px;
+    margin-top: 20px;
     text-align: center;
-    line-height: 72px;
+    line-height: 60px;
     cursor: pointer;
     transition: background 0.3s ease;
     border: none;
+    font-weight: normal;
     
 }
 
@@ -115,4 +119,28 @@
 
 .logout:active {
     background-color: #cc2c2c; /* 클릭 효과 */
+}
+
+
+@keyframes slideIn {
+    0% {
+        margin-left: -100%;
+    }
+    100% {
+        margin-left: 10vw;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        top: 120%; /* 시작 위치 */
+        opacity: 0;
+    }
+    60% {
+        top: 40%; /* 최종 위치로 올라옴 */
+        opacity: 1;
+    }
+    100% {
+        top: 40%; /* 최종 위치 */
+    }
 }
