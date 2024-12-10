@@ -41,7 +41,7 @@
     border-top: 1px solid grey;
 }
 
-label {
+.label {
 display: flex;
 flex-direction: column;
 font-size: 16px;
@@ -50,7 +50,7 @@ font-weight: 500;
 margin-bottom: 10px;
 }
 
-label input {
+.label input {
 padding: 10px;
 font-size: 14px;
 border: 1px solid #ccc; 
@@ -60,12 +60,12 @@ outline: none;
 transition: border-color 0.3s ease-in-out;
 }
 
-label input:focus {
+.label input:focus {
 border-color: #007bff;
 box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
 }
 
-label input::placeholder {
+.label input::placeholder {
 color: #aaa;
 }
 

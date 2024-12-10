@@ -53,7 +53,7 @@ const Reg = () => {
           </div>
           <div className={style.body}>
             <div>
-              <label>
+              <label className={style.label}>
                 <input
                   type="text"
                   placeholder="UserID" // 수정: Username -> UserID
@@ -64,7 +64,7 @@ const Reg = () => {
             </div>
 
             <div>
-              <label>
+              <label className={style.label}>
                 <input
                   type="password"
                   placeholder="Password"
@@ -75,7 +75,7 @@ const Reg = () => {
             </div>
 
             <div>
-              <label> 
+              <label className={style.label}> 
                 <input
                   type="text"
                   placeholder="Real Name"
@@ -86,7 +86,7 @@ const Reg = () => {
             </div>
 
             <div>
-              <label>
+              <label className={style.label}>
                 <input
                   type="text"
                   placeholder="Address"
@@ -97,7 +97,7 @@ const Reg = () => {
             </div>
 
             <div>
-              <label>
+              <label className={style.label}>
                 <input
                   type="text"
                   placeholder="Phone"
