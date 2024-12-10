@@ -108,7 +108,7 @@ function Homepage() {
                         {/* 회원가입 버튼 */}
                         <div className={style.signupSection}>
                             <p onClick={handleSignupClick} className={style.signupBtnInsidePopup}>
-                                회원 가입 바로가기
+                                계정이 없다면 지금 바로 가입하세요.
                             </p>
                         </div>
                     </div>
