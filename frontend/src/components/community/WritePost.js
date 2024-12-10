@@ -119,8 +119,9 @@ const PostWrite = () => {
               <label className={styles.labelBox}>작성자</label>
               <input
                 type="text"
-                value={currentUser?.user_id || "로그인이 필요합니다"}
+                value={currentUser ? currentUser.user_id : ""}
                 disabled
+                placeholder="로그인이 필요합니다"
                 className={`${styles.metaInput} ${styles.metaInputDisabled}`}
               />
             </div>

@@ -5,7 +5,7 @@ import Header from '../Header';
 
 function BoardList() {
   const sections = ["자유", "질문", "정보", "모임"];
-  const [selectedSection, setSelectedSection] = useState("구분");
+  const [selectedSection, setSelectedSection] = useState("전체");
   const [searchQuery, setSearchQuery] = useState("");
   const [posts, setPosts] = useState([]); // 게시글 데이터
   
@@ -17,7 +17,7 @@ function BoardList() {
       const params = new URLSearchParams();
 
       // 카테고리 필터 추가
-      if (category !== "구분") {
+      if (category !== "전체") {
         params.append("category", category);
       }
 
