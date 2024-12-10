@@ -80,6 +80,7 @@
 }
 
 .login, .signup{
+    color: black;
     width: 120px;
     height: 60px;
     flex-shrink: 0;
@@ -87,7 +88,6 @@
     background: #FBC93E;
     margin-top: 20px;
     text-align: center;
-    line-height: 60px;
     cursor: pointer;
     transition: background 0.3s ease;
     border: none;
@@ -142,7 +142,7 @@
 .signupSection {
 display: flex;
 font-size: 15px;
-/* margin-top: 10px; */
+margin-bottom: 10px;
 gap: 10px;
 }
 
