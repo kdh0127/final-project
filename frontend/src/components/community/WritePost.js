@@ -1,73 +1,81 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import styles from "../style/WritePost.module.css";
 import Header from "../Header";
 
-const PostWrite = ({ setIsWriting }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [category, setCategory] = useState("자유");
-  const [error, setError] = useState(null);
+const PostWrite = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    title: "",
+    text: "",
+    category: "자유", // 기본값 설정
+  });
   const [currentUser, setCurrentUser] = useState(null);
+  const [error, setError] = useState(null);
 
-  // 로그인 상태 복원
+  // 로그인 상태 확인
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
     if (storedUser) {
       setCurrentUser(JSON.parse(storedUser));
+    } else {
+      alert("로그인이 필요합니다.");
+      navigate("/login"); // 로그인 페이지로 이동
     }
-  }, []);
+  }, [navigate]);
 
-  if (!currentUser) {
-    alert("로그인이 필요합니다.");
-    return;
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const handleSubmit = (e) => {
+  const handleContentChange = (value) => {
+    setFormData({ ...formData, text: value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // 제목 확인
-    if (!title.trim()) {
+
+    // 제목과 내용 검증
+    if (!formData.title.trim()) {
       alert("제목을 입력해주세요.");
       return;
     }
-  
-    // 내용 확인: HTML 내용이 실질적으로 비어 있는지 확인
-    const sanitizedContent = content.replace(/<[^>]*>?/gm, "").trim();
+
+    const sanitizedContent = formData.text.replace(/<[^>]*>?/gm, "").trim();
     if (!sanitizedContent) {
       alert("내용을 입력해주세요.");
       return;
     }
 
-    // fetch 요청 보내기
-    fetch("http://localhost:5000/posts/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include", // 세션 쿠키를 포함
-      body: JSON.stringify({
-        title,
-        text: content,
-        category,
-        user_id: currentUser?.id, // user_id 전달
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("게시물 작성 중 오류가 발생했습니다.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        alert(data.message || "게시물이 작성되었습니다.");
-      })
-      .catch((error) => {
-        console.error("Error posting data:", error);
-        setError("게시물 작성 중 문제가 발생했습니다.");
+    try {
+      const response = await fetch("http://localhost:5000/posts/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // 세션 쿠키 포함
+        body: JSON.stringify({
+          title: formData.title,
+          text: formData.text,
+          category: formData.category,
+          user_id: currentUser?.id, // 현재 로그인된 사용자 ID
+        }),
       });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message || "게시물이 작성되었습니다.");
+        navigate("/community"); // 게시판 조회 페이지로 이동
+      } else {
+        alert(result.message || "게시물 작성 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      console.error("Error posting data:", error);
+      setError("게시물 작성 중 문제가 발생했습니다.");
+    }
   };
 
   return (
@@ -80,8 +88,9 @@ const PostWrite = ({ setIsWriting }) => {
             <label className={styles.labelBox}>제목</label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              name='title'
+              value={formData.title}
+              onChange={handleChange}
               required
               className={styles.titleInput}
             />
@@ -93,8 +102,8 @@ const PostWrite = ({ setIsWriting }) => {
               <label className={styles.labelBox}>구분</label>
               <select
                 name="category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={formData.category}
+                onChange={handleChange}
                 required
                 className={styles.metaInput}
               >
@@ -120,8 +129,8 @@ const PostWrite = ({ setIsWriting }) => {
 
         <div className={styles.secondFormContainer}>
           <ReactQuill
-            value={content}
-            onChange={setContent}
+            value={formData.text}
+            onChange={handleContentChange}
             modules={{
               toolbar: [
                 [{ header: [1, 2, 3, false] }],
