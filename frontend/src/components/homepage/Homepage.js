@@ -9,7 +9,7 @@ function Homepage() {
     const [realname, setRealname] = useState(''); // 로그인 성공 시 사용자 이름 관리
     const navigate = useNavigate();
 
-    const handleLoginClick = () => {
+    const handleLoginClick = () => {    
         setShowPopup(true); // 팝업 열기
     };
 
