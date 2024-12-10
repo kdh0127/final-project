@@ -9,7 +9,7 @@
 /* 전체 컨테이너 */
 .container {
   width: 100%; /* 화면 전체 너비 */
-  height: 931px; /* 고정 높이 설정 */
+  /* height: 931px; 고정 높이 설정 */
   display: flex;
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
@@ -29,7 +29,7 @@
   border: 2px solid #000;
   border-radius: 15px;
   padding: 10px;
-  margin-top: -400px;
+  /* margin: -10%; */
   max-width: 1650px; /* 최대 너비 설정 */
   width: 90%; /* 화면에 따라 자동 너비 조정 */
   height: 0 auto; /* 고정 높이 설정 */
@@ -44,7 +44,7 @@
   display: flex;
   align-items: center;
   gap: 10px; /* 자식 요소 간 간격 */
-  flex: 1;
+  justify-content: flex-start; /* 왼쪽 정렬 */
 }
 
 
@@ -52,6 +52,8 @@
 .writeContainer {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  flex-grow: 0; /* 고정된 크기 */
 }
 
 /* 드롭다운 스타일 */
