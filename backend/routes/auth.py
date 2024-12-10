@@ -65,6 +65,7 @@ def login():
         user = User.query.filter_by(user_id=user_id).first()
         if user and check_password_hash(user.password, password):
             session['user'] = user_id  # 세션에 사용자 ID 저장
+            session.permanent = True # 세션 지속 시간 설정
 
             # 로그인 성공 시 실명(realname) 반환
             return jsonify({

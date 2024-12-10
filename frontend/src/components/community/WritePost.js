@@ -19,16 +19,22 @@ const PostWrite = ({ setIsWriting }) => {
     }
   }, []);
 
+  if (!currentUser) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/posts", {
+    fetch("http://localhost:5000/posts/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",  // 세션 쿠키를 포함
       body: JSON.stringify({
         title,
-        content,
+        text: content,
         category,
         user_id: currentUser?.id, // user_id 전달
       }),
@@ -89,7 +95,7 @@ const PostWrite = ({ setIsWriting }) => {
               <label className={styles.labelBox}>작성자</label>
               <input
                 type="text"
-                value={currentUser?.realname || "로그인이 필요합니다"}
+                value={currentUser?.user_id || "로그인이 필요합니다"}
                 disabled
                 className={`${styles.metaInput} ${styles.metaInputDisabled}`}
               />

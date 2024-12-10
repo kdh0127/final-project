@@ -1,8 +1,9 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_session import Session
+from datetime import timedelta
 from models import db
-from routes import auth_blueprint, predict_blueprint, qa_blueprint
+from routes import auth_blueprint, predict_blueprint, qa_blueprint, post_blueprint
 
 
 # Flask 애플리케이션 초기화
@@ -16,6 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # SQLAlchemy 경고 비활
 app.config['UPLOAD_FOLDER'] = 'uploads'  # 파일 업로드 폴더
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = False  # HTTPS 사용 시 True로 설정 (개발 단계에서는 False)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)  # 세션 1시간 유지
 
 # 확장 모듈 초기화
 db.init_app(app)
@@ -32,6 +34,7 @@ CORS(app, supports_credentials=True, resources={
 app.register_blueprint(auth_blueprint, url_prefix='/api')
 app.register_blueprint(predict_blueprint, url_prefix='/api')
 app.register_blueprint(qa_blueprint, url_prefix='/api')
+app.register_blueprint(post_blueprint, url_prefix='/posts')
 
 # 데이터베이스 초기화
 with app.app_context():

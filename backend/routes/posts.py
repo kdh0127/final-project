@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from models.posts import Post
+from models.posts import Posts
 from models import db
 
 post_blueprint = Blueprint('post', __name__)
@@ -15,7 +15,7 @@ def create_post():
 
     data = request.get_json()
     title = data.get('title')
-    content = data.get('content')
+    content = data.get('text')
 
     # 필수 입력 값 확인
     if not title or not content:
@@ -23,10 +23,12 @@ def create_post():
 
     try:
         # 데이터베이스에 게시글 저장
-        new_post = Post(
+        new_post = Posts(
             title=title,
-            content=content,
-            author_id=session['user']  # 현재 로그인된 사용자 ID 사용
+            text=content,
+            user_id=session['user'],  # 현재 로그인된 사용자 ID 사용
+            category=data.get('category', '자유'),  # 기본값으로 '자유' 설정
+            imagepath=data.get('imagepath')  # 이미지 경로가 있을 경우 포함
         )
         db.session.add(new_post)
         db.session.commit()
@@ -40,7 +42,7 @@ def create_post():
 @post_blueprint.route('/list', methods=['GET'])
 def list_posts():
     try:
-        posts = Post.query.order_by(Post.created_at.desc()).all()
+        posts = Posts.query.order_by(Posts.created_at.desc()).all()
         post_list = [
             {
                 'id': post.id,
@@ -59,7 +61,7 @@ def list_posts():
 @post_blueprint.route('/detail/<int:post_id>', methods=['GET'])
 def detail_post(post_id):
     try:
-        post = Post.query.get(post_id)
+        post = Posts.query.get(post_id)
         if not post:
             return jsonify({'message': '게시글을 찾을 수 없습니다.'}), 404
 
