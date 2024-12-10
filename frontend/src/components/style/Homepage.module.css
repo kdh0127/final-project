@@ -122,29 +122,36 @@
 }
 
 .popup_title{
-    margin-top: 10px;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     font-weight: bolder;
     font-size: 30px;
     background: linear-gradient(90deg, #6a11cb, #2575fc);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-align: center;
 }
-
 .signupBtnInsidePopup{
-    margin-top: 10px;
-    font-size: small;
+    /* margin-top: 10px; */
+    /* font-size: small; */
+    color: #2575fc;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
+.signupSection {
+display: flex;
+font-size: 15px;
+/* margin-top: 10px; */
+gap: 10px;
+}
 
-.signupBtnInsidePopup:hover {
+/* .signupBtnInsidePopup:hover {
     color: white;
     background-color:royalblue;
     border-radius: 5px;       
     padding: 9px;            
-}
+} */
 
 @keyframes slideIn {
     0% {
