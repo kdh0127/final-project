@@ -34,7 +34,7 @@ CORS(app, supports_credentials=True, resources={
 app.register_blueprint(auth_blueprint, url_prefix='/api')
 app.register_blueprint(predict_blueprint, url_prefix='/api')
 app.register_blueprint(qa_blueprint, url_prefix='/api')
-app.register_blueprint(post_blueprint, url_prefix='/posts')
+app.register_blueprint(post_blueprint, url_prefix='/api')
 
 # 데이터베이스 초기화
 with app.app_context():

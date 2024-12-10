@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Link 컴포넌트
 import style from "../style/BoardList.module.css";
 import Header from '../Header';
@@ -7,27 +7,26 @@ function BoardList() {
   const sections = ["자유", "질문", "정보", "모임"];
   const [selectedSection, setSelectedSection] = useState("구분");
   const [searchQuery, setSearchQuery] = useState("");
-  const [posts, /*setPosts*/] = useState([]); // 게시글 데이터
+  const [posts, setPosts] = useState([]); // 게시글 데이터
   
-  // useEffect(() => {
-  //   // 서버에서 데이터 가져오기
-  //   const fetchData = async () => {
-  //     const url =
-  //       selectedSection === "구분"
-  //         ? "http://localhost:5000/posts" // 전체 게시글
-  //         : `http://localhost:5000/posts?category=${selectedSection}`; // 특정 카테고리 게시글
-  //     try {
-  //       const response = await fetch(url);
-  //       const data = await response.json();
-  //       setPosts(data);
-  //     } catch (error) {
-  //       console.error("Error fetching posts:", error);
-  //     }
-  //   };
+  // 서버에서 데이터 가져오기
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const url =
+          selectedSection === "구분"
+            ? "http://localhost:5000/api/posts" // 전체 게시글
+            : `http://localhost:5000/api/posts?category=${selectedSection}`; // 특정 카테고리 게시글
+        const response = await fetch(url);
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
 
-  //   fetchData();
-  // }, [selectedSection]);
-
+    fetchPosts();
+  }, [selectedSection]);
 
   const handleSearch = () => {
     alert(`검색: ${searchQuery}, 선택된 구분: ${selectedSection}`);

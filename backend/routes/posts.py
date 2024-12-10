@@ -39,18 +39,21 @@ def create_post():
 
 
 # 게시글 목록 조회
-@post_blueprint.route('/list', methods=['GET'])
+@post_blueprint.route('/posts', methods=['GET'])
 def list_posts():
     try:
         posts = Posts.query.order_by(Posts.created_at.desc()).all()
         post_list = [
             {
-                'id': post.id,
+                'post_id': post.post_id,
                 'title': post.title,
-                'content': post.content,
-                'author_id': post.author_id,
-                'created_at': post.created_at
-            } for post in posts
+                'content': post.text,
+                'user_id': post.user_id,
+                'category': post.category,
+                'created_at': post.created_at.isoformat(),
+                'views': 0  # 조회수를 DB에 추가하지 않았다면 기본값 0
+            }
+            for post in posts
         ]
         return jsonify(post_list), 200
     except Exception as e:
