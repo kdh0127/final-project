@@ -13,7 +13,7 @@
   display: flex;
   justify-content: center; /* 가로 중앙 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
-  background-color: #EEEEEE;
+  background-color: #F1EFE7;
   border-radius: 10px;
   margin: 0 auto; /* 페이지 중앙 정렬 */
   box-sizing: border-box; /* 테두리와 패딩 포함 크기 계산 */
