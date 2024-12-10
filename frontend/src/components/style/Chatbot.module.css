@@ -71,10 +71,11 @@
   justify-content: center;
   width: 60%;
   margin: 0 auto;
-  height: 140px;
+  height: 100px;
   border-radius: 15px;
   outline: none;
   border: none;
+  bottom:5%;
 }
 
 .input_container form{
@@ -91,13 +92,11 @@
   background-color: #f1efe7;
   outline: none;
   border: none;
-  text-align: left;
 }
 
 .input::placeholder{
   font-size: 1.2em;
   font-style: italic;
-  text-align: left;
 }
 
 .input:focus{
