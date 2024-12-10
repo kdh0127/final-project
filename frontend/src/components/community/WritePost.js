@@ -26,12 +26,27 @@ const PostWrite = ({ setIsWriting }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+  
+    // 제목 확인
+    if (!title.trim()) {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+  
+    // 내용 확인: HTML 내용이 실질적으로 비어 있는지 확인
+    const sanitizedContent = content.replace(/<[^>]*>?/gm, "").trim();
+    if (!sanitizedContent) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    // fetch 요청 보내기
     fetch("http://localhost:5000/posts/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",  // 세션 쿠키를 포함
+      credentials: "include", // 세션 쿠키를 포함
       body: JSON.stringify({
         title,
         text: content,
@@ -45,9 +60,9 @@ const PostWrite = ({ setIsWriting }) => {
         }
         return response.json();
       })
-      .then(() => {
-        setIsWriting(false);
-        alert("게시물이 작성되었습니다.");
+      .then((data) => {
+        console.log(data);
+        alert(data.message || "게시물이 작성되었습니다.");
       })
       .catch((error) => {
         console.error("Error posting data:", error);
