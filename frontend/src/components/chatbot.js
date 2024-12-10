@@ -92,8 +92,9 @@ const Chatbot = () => {
                 value={query}
                 onChange={handleInputChange}
                 placeholder="질문을 입력하세요."
+                className={style.input}
               />
-              <button type="submit">전송</button>
+              <button type="submit" className={style.button}>전송</button>
             </form>
           </div>
         </div>

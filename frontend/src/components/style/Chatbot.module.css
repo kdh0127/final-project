@@ -5,19 +5,20 @@
 .mainbody{
   display: flex;
   height: 100%;
-  
+  border-top: 1px solid rgb(190, 190, 190);
+  height: 89vh;
 }
 
 .leftbody{
   display: flex;
   flex: 1;
   width: 10%;
-  background-color: black;
+  background-color: #f1efe7;
 }
 .rightbody{
   display: flex;
   flex: 1;
-  background-color: black;
+  background-color: #f1efe7;
 }
 
 .chatbot_container {
@@ -29,7 +30,6 @@
 .chat_history {
   height: 400px;
   overflow-y: auto;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -66,24 +66,49 @@
 
 .input_container {
   display: flex;
+  position: fixed;
+  right: 20%;
   justify-content: center;
-  gap: 10px;
-  
+  width: 60%;
+  margin: 0 auto;
+  height: 140px;
+  border-radius: 15px;
+  outline: none;
+  border: none;
 }
 
 .input_container form{
   gap: 10px;
   display: flex;
+  width: 100%;
 }
 
-input {
+.input {
+  display: flex;
   flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border-radius: 15px;
+  background-color: #f1efe7;
+  outline: none;
+  border: none;
+  text-align: left;
 }
 
-button {
+.input::placeholder{
+  font-size: 1.2em;
+  font-style: italic;
+  text-align: left;
+}
+
+.input:focus{
+  outline: none;
+  border: none;
+}
+
+.button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
   padding: 10px 20px;
   background-color: #4caf50;
   color: #fff;
