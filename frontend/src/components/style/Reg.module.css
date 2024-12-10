@@ -72,8 +72,9 @@ color: #aaa;
 .button{
  display: flex;
  justify-content: center;
- align-items: center;
+ flex-direction: column;
  height: 100%; 
+ align-items: center;
 }
 
 .button button{
@@ -86,6 +87,14 @@ color: #aaa;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease; 
+    max-width: 100px;
+}
+
+.button p{
+    font-weight: normal;
+    font-size: 15px;
+    padding-top: 5px;
+    color: rgb(255, 75, 75);
 }
 
 .button button:hover {

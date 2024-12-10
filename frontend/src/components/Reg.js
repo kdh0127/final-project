@@ -36,6 +36,10 @@ const Reg = () => {
       .catch(error => {
         console.error('Registration failed:', error.response?.data?.message || error.message);
         setMessage('회원가입 실패: 이미 존재하는 ID 입니다.');
+
+        setTimeout( () => {
+          setMessage(``);
+        }, 3000);
       });
   };
 
