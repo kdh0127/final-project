@@ -1,7 +1,23 @@
 .chatbot_wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+.mainbody{
+  display: flex;
+  height: 100%;
+  
+}
+
+.leftbody{
+  display: flex;
+  flex: 1;
+  width: 10%;
+  background-color: black;
+}
+.rightbody{
+  display: flex;
+  flex: 1;
+  background-color: black;
 }
 
 .chatbot_container {
@@ -50,8 +66,14 @@
 
 .input_container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10px;
+  
+}
+
+.input_container form{
+  gap: 10px;
+  display: flex;
 }
 
 input {

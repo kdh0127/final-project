@@ -57,39 +57,49 @@ const Chatbot = () => {
   return (
     <div className={style.chatbot_wrapper}>
       <Header />
-      <div className={style.chatbot_container}>
-        {messages.length === 0 && (
-          <div className={style.image_text_container}>
-            <span className={style.chatbot_title}>Welcome to Bee Chat</span>
-          </div>
-        )}
-        <div className={style.chat_history}>
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={
-                message.type === 'user'
-                  ? style.user_message
-                  : message.type === 'loading'
-                  ? style.loading_message
-                  : style.bot_message
-              }
-            >
-              {message.type === 'loading' ? '로딩 중...' : formatTextWithBreaks(message.text)}
-            </div>
-            
-          ))}
+      <div className={style.mainbody}>
+        <div className={style.leftbody}>
+          <p>test</p>
         </div>
-        <div className={style.input_container}>
-          <form onSubmit={(e) => handleSubmit(e)}>
-            <input
-              type="text"
-              value={query}
-              onChange={handleInputChange}
-              placeholder="질문을 입력하세요."
-            />
-            <button type="submit">전송</button>
-          </form>
+      
+        <div className={style.chatbot_container}>
+          {messages.length === 0 && (
+            <div className={style.image_text_container}>
+              <span className={style.chatbot_title}>Welcome to Bee Chat</span>
+            </div>
+          )}
+          <div className={style.chat_history}>
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={
+                  message.type === 'user'
+                    ? style.user_message
+                    : message.type === 'loading'
+                    ? style.loading_message
+                    : style.bot_message
+                }
+              >
+                {message.type === 'loading' ? '로딩 중...' : formatTextWithBreaks(message.text)}
+              </div>
+              
+            ))}
+          </div>
+          <div className={style.input_container}>
+            <form onSubmit={(e) => handleSubmit(e)}>
+              <input
+                type="text"
+                value={query}
+                onChange={handleInputChange}
+                placeholder="질문을 입력하세요."
+              />
+              <button type="submit">전송</button>
+            </form>
+          </div>
+        </div>
+
+        <div className={style.rightbody}>
+          <p>test</p>
         </div>
       </div>
     </div>
