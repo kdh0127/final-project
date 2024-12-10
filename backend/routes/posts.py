@@ -42,7 +42,26 @@ def create_post():
 @post_blueprint.route('/posts', methods=['GET'])
 def list_posts():
     try:
-        posts = Posts.query.order_by(Posts.created_at.desc()).all()
+        category = request.args.get('category')  # 쿼리 파라미터에서 category 값 가져오기
+        search = request.args.get('search')  # 쿼리 파라미터에서 검색어 가져오기
+
+        # 기본 쿼리 생성
+        query = Posts.query
+
+        # 카테고리 필터링
+        if category:
+            query = query.filter_by(category=category)
+
+        # 검색어 필터링
+        if search:
+            query = query.filter(
+                Posts.title.contains(search) | Posts.content.contains(search)
+            )
+
+        # 정렬 및 실행
+        posts = query.order_by(Posts.created_at.desc()).all()
+
+        # 응답 데이터 생성
         post_list = [
             {
                 'post_id': post.post_id,
@@ -55,7 +74,9 @@ def list_posts():
             }
             for post in posts
         ]
+
         return jsonify(post_list), 200
+
     except Exception as e:
         return jsonify({'message': f'게시글 조회 중 오류 발생: {str(e)}'}), 500
 

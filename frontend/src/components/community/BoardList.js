@@ -10,27 +10,44 @@ function BoardList() {
   const [posts, setPosts] = useState([]); // 게시글 데이터
   
   // 서버에서 데이터 가져오기
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const url =
-          selectedSection === "구분"
-            ? "http://localhost:5000/api/posts" // 전체 게시글
-            : `http://localhost:5000/api/posts?category=${selectedSection}`; // 특정 카테고리 게시글
-        const response = await fetch(url);
-        const data = await response.json();
-        setPosts(data);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    };
+  const fetchPosts = async (category = "구분", query = "") => {
+    try {
+      // 기본 URL 설정
+      let url = "http://localhost:5000/api/posts";
+      const params = new URLSearchParams();
 
-    fetchPosts();
+      // 카테고리 필터 추가
+      if (category !== "구분") {
+        params.append("category", category);
+      }
+
+      // 검색어 필터 추가
+      if (query.trim() !== "") {
+        params.append("search", query);
+      }
+
+      // 쿼리 파라미터를 URL에 추가
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+
+      console.log("API 요청 URL:", url); // 요청 URL 확인
+      const response = await fetch(url);
+      const data = await response.json();
+      setPosts(data);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  // 드롭다운 선택 시 데이터 다시 가져오기
+  useEffect(() => {
+    fetchPosts(selectedSection);
   }, [selectedSection]);
 
+  // 검색 버튼 클릭 시 데이터 요청
   const handleSearch = () => {
-    alert(`검색: ${searchQuery}, 선택된 구분: ${selectedSection}`);
-    // 실제 검색 로직 추가
+    fetchPosts(selectedSection, searchQuery);
   };
 
   return (
@@ -49,7 +66,7 @@ function BoardList() {
           onChange={(e) => setSelectedSection(e.target.value)}
           className={style.sectionDropdown}
         >
-             <option disabled>구분</option>
+             <option>전체</option>
           {sections.map((section) => (
             <option key={section} value={section}>
               {section}
