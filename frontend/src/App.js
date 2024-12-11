@@ -31,7 +31,7 @@ import Reg from './components/Reg';
 // 커뮤니티 페이지
 import BoardList from "./components/community/BoardList";
 import PostWrite from "./components/community/WritePost";
-import Comment from "./components/community/Comment";
+import PostDetail from "./components/community/Postdetail";
 
 
 function App() {
@@ -64,7 +64,7 @@ function App() {
           {/* 커뮤니티 페이지 */}
           <Route path="/community" element={<BoardList />} /> 
           <Route path="/board/write" element={<PostWrite />} />
-          <Route path="/board/:post_id" element={<Comment />} />
+          <Route path="/board/:post_id" element={<PostDetail />} />
 
         </Routes>
       </div>
