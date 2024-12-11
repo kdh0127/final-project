@@ -6,10 +6,12 @@ function Header(){
     
     const menuItems = [
         {name: "서비스소개", link: "/service"},
-        {name: "질병관리", link: "/management"},
+        {name: "이미지예측", link: "/management"},
+        {name: "영상감시", link: "/management"},
         {name: "진단AI", link: "/chatbot"},
         {name: "커뮤니티", link: "/community"},
         {name: "고객센터", link: "/support"},
+        
     ]
 
     return(

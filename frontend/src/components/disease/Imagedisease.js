@@ -1,16 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import style from '../style/Imagedisease.module.css';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage } from '@fortawesome/free-regular-svg-icons'
 
 function Imagedisease(){
     const [selectedFile, setSelectedFile] = useState(null);
     const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [previewURL, setPreviewURL] = useState(null);
+    const fileInputRef = useRef(null);
+    
+    
+    const handleFileChange = (event) => {
+        const files = event.target.files;
+        if (files && files[0]) {
+            setSelectedFile(files[0]);
+            setPreviewURL(URL.createObjectURL(files[0]));
+        }
+        };
+    const handleClick = () => {
+        fileInputRef.current.click();
+    };
+    
+    const handleDragOver = (event) => {
+    event.preventDefault();
+    setIsDragging(true);};
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+    const handleDragLeave = () => {
+    setIsDragging(false);};
+    
+    const handleDrop = (event) => {
+    event.preventDefault();
+    setIsDragging(false);
+    const files = event.dataTransfer.files;
+    if (files && files[0]) {
+        setSelectedFile(files[0]);
+        setPreviewURL(URL.createObjectURL(files[0]));
+    }
+};
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,21 +63,66 @@ function Imagedisease(){
 
   return (
     <div className={style.Imagedisease_container}>
-      <h1 className={style.Imagedisease_title}>
-        진단하고자 하는 사진을 넣어주세요
-      </h1>
-      <form onSubmit={handleSubmit} className={style.Imagedisease_form}>
-        <input type="file" onChange={handleFileChange} disabled={loading} className={style.Imagedisease_input}/>
-        <button type="submit" disabled={!selectedFile || loading} className={style.Imagedisease_button}>
-          {loading ? '업로드 중...' : '업로드 및 예측'}
-        </button>
-      </form>
-      {prediction && <div className={style.Imagedisease_prediction}>
-        <h2 className={style.Imagedisease_result_title}>진단 결과:</h2>
-        <p className={style.Imagedisease_result_text}>{prediction}</p></div>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div className={style.top}>
+            <div className={style.top_logo}>
+                <p>이미지 분류</p>
+                <FontAwesomeIcon icon={faImage} />
+            </div>
+        </div>
+        <div className={style.body}>
+            <div className={style.leftbody}>
+                <div className={style.leftbody_title}>
+                    <h1 className={style.Imagedisease_title}>
+                        진단하고자 하는 사진을 넣어주세요
+                    </h1>
+                    <form onSubmit={handleSubmit} className={style.Imagedisease_form}>
+                        <div
+                            className={`${style.dropzone} ${isDragging ? style.dragging : ''}`}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            onClick={handleClick}>
+                            
+                            {selectedFile ? (
+                                <p className={style.fileName}>{selectedFile.name}</p>
+                            ) : (
+                                <p>파일을 여기에 드래그하거나 클릭하여 업로드하세요.</p>
+                            )}
+                        </div>
+                        <input
+                                type="file"
+                                ref={fileInputRef} 
+                                onChange={handleFileChange}
+                                style={{ display: 'none' }} 
+                            />
+                        <button type="submit" disabled={!selectedFile || loading} className={style.Imagedisease_button}>
+                            {loading ? '업로드 중...' : '업로드 및 예측'}
+                        </button>
+                    </form>
+                </div>
+                
+            </div>
+            <div className={style.rightbody}>
+                <div className={style.rightbody_main}>
+                    <div className={style.rightbody_img}>
+                        {previewURL ? (
+                            <img src={previewURL} alt="미리보기" className={style.previewImage} /> ) : ("이미지를 업로드하면 여기에 표시됩니다"
+                        )}
+                    </div>
+                    <div className={style.rightbody_text}>
+                        {prediction && 
+                        <div className={style.Imagedisease_prediction}>
+                            <h2 className={style.Imagedisease_result_title}>진단 결과:</h2>
+                            <p className={style.Imagedisease_result_text}>{prediction}</p>
+                        </div>}
+                        {error && <p style={{ color: 'red' }} className={style.text_error}>{error}</p>}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
     </div>
-  );
+);
 }
 
 export default Imagedisease;
