@@ -65,8 +65,8 @@ function Imagedisease(){
     <div className={style.Imagedisease_container}>
         <div className={style.top}>
             <div className={style.top_logo}>
-                <FontAwesomeIcon icon={faImage} />
                 <h2>이미지 분류</h2>
+                <FontAwesomeIcon icon={faImage} />
             </div>
         </div>
         <div className={style.body}>
