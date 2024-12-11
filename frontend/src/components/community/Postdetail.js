@@ -5,13 +5,14 @@ import Comment from "./Comment"; // 댓글 컴포넌트
 import styles from "../style/comment.module.css";
 
 const PostDetail = () => {
-  const { post_id } = useParams(); // URL에서 post_id를 가져오기
-  const [post, setPost] = useState(null); // 게시글 데이터
+  const { post_id } = useParams('http://localhost:3000/board/${post_id}'); // URL에서 post_id를 가져오기
+//   console.log("Current Post ID:", post_id); // post_id 값을 출력
+  const [post, setPost] = useState( ); // 게시글 데이터
 
   // 게시글 데이터를 가져오는 함수
   const fetchPostData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/posts/${post_id}`);
+      const response = await fetch(`http://localhost:5000/api/posts/${post_id}`);
       if (response.ok) {
         const data = await response.json();
         setPost(data);

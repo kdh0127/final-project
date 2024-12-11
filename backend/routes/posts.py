@@ -74,7 +74,7 @@ def list_posts():
             }
             for post in posts
         ]
-
+  
         return jsonify(post_list), 200
 
     except Exception as e:
@@ -82,7 +82,7 @@ def list_posts():
 
 
 # 게시글 상세 조회
-@post_blueprint.route('/detail/<int:post_id>', methods=['GET'])
+@post_blueprint.route('posts/<int:post_id>', methods=['GET'])
 def detail_post(post_id):
     try:
         post = Posts.query.get(post_id)
@@ -90,11 +90,12 @@ def detail_post(post_id):
             return jsonify({'message': '게시글을 찾을 수 없습니다.'}), 404
 
         return jsonify({
-            'id': post.id,
+            'post_id': post.post_id,
             'title': post.title,
-            'content': post.content,
-            'author_id': post.author_id,
-            'created_at': post.created_at
+            'content': post.text,
+            'user_id': post.user_id,
+            'category': post.category,
+            'created_at': post.created_at.strftime('%Y-%m-%d %H:%M:%S')
         }), 200
     except Exception as e:
         return jsonify({'message': f'게시글 조회 중 오류 발생: {str(e)}'}), 500
