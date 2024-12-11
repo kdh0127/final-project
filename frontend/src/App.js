@@ -3,36 +3,33 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // 홈페이지
 import Homepage from './components/homepage/Homepage';
-// 홈페이지
+
 
 // 서비스페이지
 import Service from './components/service/Servicepage';
-// 서비스페이지
+
 
 // 고객센터페이지
 import Support from './components/support/Support';
 import Support_inpage from './components/support/Support_inpage';
 import Support_partner from './components/support/Support_partner';
-// 고객센터페이지
+
 
 // 질병관리페이지
 import Management from './components/disease/Management';
-// 질병관리페이지
+
 
 // 챗봇페이지
 import Chatbot from './components/chatbot';
-// 챗봇페이지
 
 // 로그인,로그아웃 페이지
 import Log from './components/Log';
 import Reg from './components/Reg';
-// 로그인,로그아웃 페이지
 
 // 커뮤니티 페이지
 import BoardList from "./components/community/BoardList";
 import PostWrite from "./components/community/WritePost";
-// 커뮤니티 페이지
-
+import Comment from "./components/community/Comment";
 
 
 function App() {
@@ -64,6 +61,7 @@ function App() {
           {/* 커뮤니티 페이지 */}
           <Route path="/community" element={<BoardList />} /> 
           <Route path="/board/write" element={<PostWrite />} />
+          <Route path="/board/:post_id" element={<Comment />} />
 
         </Routes>
       </div>
