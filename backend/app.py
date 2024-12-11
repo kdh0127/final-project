@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_session import Session
 from datetime import timedelta
 from models import db
-from routes import auth_blueprint, predict_blueprint, qa_blueprint, post_blueprint
+from routes import auth_blueprint, predict_blueprint, qa_blueprint, post_blueprint, comment_blueprint
 
 
 # Flask 애플리케이션 초기화
@@ -35,6 +35,7 @@ app.register_blueprint(auth_blueprint, url_prefix='/api')
 app.register_blueprint(predict_blueprint, url_prefix='/api')
 app.register_blueprint(qa_blueprint, url_prefix='/api')
 app.register_blueprint(post_blueprint, url_prefix='/api')
+app.register_blueprint(comment_blueprint, url_prefix='/api')
 
 # 데이터베이스 초기화
 with app.app_context():

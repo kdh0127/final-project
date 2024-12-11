@@ -15,7 +15,8 @@ routes(각종 서비스)/
   ├── auth.py(로그인,회원가입)
   ├── predict.py(이미지 진단)
   ├── qa.py(챗봇)
-  ├── posts.py(커뮤니티)
+  ├── posts.py(게시판)
+  ├── comments.py(댓글)
   ├── cors.py
 
 utils/
