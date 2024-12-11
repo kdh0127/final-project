@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Header from './Header';
 import style from '../components/style/Chatbot.module.css';
@@ -6,6 +6,15 @@ import style from '../components/style/Chatbot.module.css';
 const Chatbot = () => {
   const [query, setQuery] = useState('');
   const [messages, setMessages] = useState([]);
+  const [isChatStarted, setIsChatStarted] = useState(false);
+
+  const chatRef = useRef(null);
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const formatTextWithBreaks = (text) => {
     return text.split('<br />').map((part, index) => (
@@ -25,6 +34,7 @@ const Chatbot = () => {
 
     e.preventDefault();
     // 사용자가 입력한 메시지를 추가
+    setIsChatStarted(true);
     setMessages((prevMessages) => [...prevMessages, { type: 'user', text: query }]);
     setQuery('');
 
@@ -59,16 +69,21 @@ const Chatbot = () => {
       <Header />
       <div className={style.mainbody}>
         <div className={style.leftbody}>
-          <p>test</p>
         </div>
       
         <div className={style.chatbot_container}>
+          <div className={style.container_title}>
+            <img src="/beechatlogo.png" alt="beechatlogo 자리" className={style.container_title_logo} />
+            <span className={style.container_title_span}>
+              BeeChat
+            </span>
+          </div>
           {messages.length === 0 && (
             <div className={style.image_text_container}>
               <span className={style.chatbot_title}>Welcome to Bee Chat</span>
             </div>
           )}
-          <div className={style.chat_history}>
+          <div className={style.chat_history} ref={chatRef}>
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -85,7 +100,8 @@ const Chatbot = () => {
               
             ))}
           </div>
-          <div className={style.input_container}>
+          <div className={`${style.input_container} ${
+            isChatStarted ? style.active : ''}`}>
             <form onSubmit={(e) => handleSubmit(e)}>
               <input
                 type="text"
@@ -100,7 +116,6 @@ const Chatbot = () => {
         </div>
 
         <div className={style.rightbody}>
-          <p>test</p>
         </div>
       </div>
     </div>
