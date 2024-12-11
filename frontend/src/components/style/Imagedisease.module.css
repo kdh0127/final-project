@@ -18,14 +18,16 @@
   }
   
   .top_logo{
-    border-radius: 5px;
-    border: 1px solid grey;
-    background: #F3F3F3;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
     padding: 5px;
+  }
+
+  .top_logo svg{
+    width: auto;
+    height: 30px;
   }
 
   .body {

@@ -7,7 +7,7 @@ function Videodisease(){
         <div className={style.Videodisease_container}>
             <Header />
             <div className={style.main}>
-                test
+                
             </div>
         </div>
     )
