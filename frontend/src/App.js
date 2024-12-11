@@ -15,8 +15,10 @@ import Support_inpage from './components/support/Support_inpage';
 import Support_partner from './components/support/Support_partner';
 
 
-// 질병관리페이지
+// 이미지예측페이지
 import Management from './components/disease/Management';
+import Videodisease from './components/disease/Videodisease';
+
 
 
 // 챗봇페이지
@@ -57,6 +59,7 @@ function App() {
 
           {/* 질병관리 페이지 */}
           <Route path="/management" element={<Management />} />
+          <Route path="/video" element={<Videodisease />} />
 
           {/* 커뮤니티 페이지 */}
           <Route path="/community" element={<BoardList />} /> 
