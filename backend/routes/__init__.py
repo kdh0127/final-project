@@ -1,6 +1,6 @@
 from .auth import auth_blueprint
 from .predict import predict_blueprint
-from .qa import qa_blueprint
+#  from .qa import qa_blueprint
 from .cors import cors_blueprint
 from .posts import post_blueprint
 from .comments import comment_blueprint
@@ -9,7 +9,7 @@ from .comments import comment_blueprint
 blueprints = [
     auth_blueprint,
     predict_blueprint,
-    qa_blueprint,
+    # qa_blueprint,
     cors_blueprint,
     post_blueprint,
     comment_blueprint

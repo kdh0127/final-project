@@ -37,7 +37,11 @@ def create_comment(post_id):
         db.session.add(new_comment)
         db.session.commit()
 
-        return jsonify({'message': 'Comment created successfully', 'comment_id': new_comment.comment_id}), 201
+        return jsonify({'message': 'Comment created successfully', 
+                        'comment_id': new_comment.comment_id,
+                        'user_id': new_comment.user_id,
+                        'date':new_comment.created_at.strftime('%Y-%m-%d'),  # 댓글 작성일
+                        }), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': f'댓글 작성 중 오류 발생: {str(e)}'}), 500
@@ -49,7 +53,7 @@ def get_comments(post_id):
         # 게시글에 달린 모든 댓글 조회
         comments = Comments.query.filter_by(post_id=post_id).all()
         if not comments:
-            return jsonify({'message': f"No comments found for post_id {post_id}"}), 404
+           return jsonify([]), 200  # 댓글이 없는 경우 빈 배열 반환
 
         # 댓글 직렬화 함수
         def serialize_comment(comment):
