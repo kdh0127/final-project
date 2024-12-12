@@ -103,4 +103,58 @@
       background-color: rgb(254, 0, 0);
     }
 
+    @media (max-width:1000px){
+      .Screen {
+        flex-direction: column;
+        padding: 1rem;
+        width: 100%;
+      }
     
+      .leftbody {
+        padding-top: 2rem;
+        padding-left: 1rem;
+        gap: 10px;
+      }
+    
+      .header {
+        font-size: 20px;
+      }
+    
+      .subheader {
+        font-size: 18px;
+      }
+    
+      .title {
+        font-size: 30px;
+      }
+    
+      .article {
+        font-size: 16px;
+      }
+    
+      .rightbody {
+        padding-top: 1rem;
+        padding-left: 0;
+        text-align: center;
+      }
+    
+      .image {
+        max-width: 100%;
+        max-height: 200px;
+      }
+    
+      .more_button {
+        width: 120px;
+        height: 40px;
+        font-size: 16px;
+      }
+    
+      .navbar {
+        bottom: 1%;
+      }
+    
+      .navbutton .dot {
+        width: 8px;
+        height: 8px;
+      }
+    }
