@@ -15,8 +15,8 @@ const Comment = ({ post_id }) => {
       if (response.ok) {
         const data = await response.json();
         setComments(data);
-      } else {
-        alert("댓글을 불러오는데 실패했습니다.");
+      // } else {
+      //   alert("댓글을 불러오는데 실패했습니다.");
       }
     } catch (error) {
       console.error("Error fetching comments:", error);

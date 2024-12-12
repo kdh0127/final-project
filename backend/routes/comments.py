@@ -41,6 +41,7 @@ def create_comment(post_id):
                         'comment_id': new_comment.comment_id,
                         'user_id': new_comment.user_id,
                         'date':new_comment.created_at.strftime('%Y-%m-%d'),  # 댓글 작성일
+                        'parent_comment_id': new_comment.parent_comment_id
                         }), 201
     except Exception as e:
         db.session.rollback()
@@ -53,7 +54,7 @@ def get_comments(post_id):
         # 게시글에 달린 모든 댓글 조회
         comments = Comments.query.filter_by(post_id=post_id).all()
         if not comments:
-           return jsonify([]), 200  # 댓글이 없는 경우 빈 배열 반환
+            return jsonify({'message': f"No comments found for post_id {post_id}"}), 404
 
         # 댓글 직렬화 함수
         def serialize_comment(comment):

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import Header from "../Header"; // 헤더 컴포넌트
 import Comment from "./Comment"; // 댓글 컴포넌트
 import styles from "../style/comment.module.css";
 
 const PostDetail = () => {
   const { post_id } = useParams('http://localhost:3000/board/${post_id}'); // URL에서 post_id를 가져오기
-//   console.log("Current Post ID:", post_id); // post_id 값을 출력
-  const [post, setPost] = useState( ); // 게시글 데이터
+  const [post, setPost] = useState(); // 게시글 데이터
+  const [plainTextContent, setPlainTextContent] = useState(""); // HTML 태그 제거된 내용
 
   // 게시글 데이터를 가져오는 함수
   const fetchPostData = async () => {
@@ -16,6 +18,10 @@ const PostDetail = () => {
       if (response.ok) {
         const data = await response.json();
         setPost(data);
+        // ReactQuill로 HTML 태그 제거
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = data.content || "";
+        setPlainTextContent(tempDiv.textContent || tempDiv.innerText || "");
       } else {
         alert("게시글을 불러오는데 실패했습니다.");
       }
@@ -64,7 +70,7 @@ const PostDetail = () => {
 
         {/* 게시글 내용 */}
         <div className={styles.postContent}>
-          <p>{post.content || "내용이 없습니다."}</p>
+          {plainTextContent}
         </div>
       </div>
 
