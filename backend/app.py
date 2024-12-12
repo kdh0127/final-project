@@ -3,14 +3,14 @@ from flask_cors import CORS
 from flask_session import Session
 from datetime import timedelta
 from models import db
-from routes import auth_blueprint, predict_blueprint, qa_blueprint, post_blueprint, comment_blueprint
+from routes import auth_blueprint, predict_blueprint, post_blueprint, comment_blueprint
 
 
 # Flask 애플리케이션 초기화
 app = Flask(__name__, static_url_path='', static_folder='uploads')
 
 # 애플리케이션 설정
-app.config['SECRET_KEY'] = 'your_secret_key'  # 세션을 위한 비밀 키
+# app.config['SECRET_KEY'] = 'your_secret_key'  # 세션을 위한 비밀 키
 app.config['SESSION_TYPE'] = 'filesystem'  # 세션 타입
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost/user_db'  # MySQL 데이터베이스 URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # SQLAlchemy 경고 비활성화
@@ -33,7 +33,7 @@ CORS(app, supports_credentials=True, resources={
 # 블루프린트 등록
 app.register_blueprint(auth_blueprint, url_prefix='/api')
 app.register_blueprint(predict_blueprint, url_prefix='/api')
-app.register_blueprint(qa_blueprint, url_prefix='/api')
+# app.register_blueprint(qa_blueprint, url_prefix='/api')
 app.register_blueprint(post_blueprint, url_prefix='/api')
 app.register_blueprint(comment_blueprint, url_prefix='/api')
 

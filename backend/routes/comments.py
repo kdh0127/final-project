@@ -37,7 +37,11 @@ def create_comment(post_id):
         db.session.add(new_comment)
         db.session.commit()
 
-        return jsonify({'message': 'Comment created successfully', 'comment_id': new_comment.comment_id}), 201
+        return jsonify({'message': 'Comment created successfully', 
+                        'comment_id': new_comment.comment_id,
+                        'user_id': new_comment.user_id,
+                        'date':new_comment.created_at.strftime('%Y-%m-%d'),  # 댓글 작성일
+                        }), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': f'댓글 작성 중 오류 발생: {str(e)}'}), 500
