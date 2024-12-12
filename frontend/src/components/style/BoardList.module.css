@@ -85,10 +85,7 @@
   background-color: #5C5C5C;
   color: white;
   border: none;
-  background-image :url('/public/emoge.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 20px 20px; /* 이미지 크기 */
+
   width: 40px; /* 버튼 크기 */
   height: 40px; /* 버튼 크기 */
 }

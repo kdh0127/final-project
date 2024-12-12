@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Link 컴포넌트
 import style from "../style/BoardList.module.css";
 import Header from '../Header';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 function BoardList() {
   const sections = ["자유", "질문", "정보", "모임"];
@@ -85,7 +87,7 @@ function BoardList() {
 
         {/* 검색 버튼 */}
         <button onClick={handleSearch} className={style.searchButton}>
-
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </div>
 
