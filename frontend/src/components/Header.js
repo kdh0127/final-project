@@ -1,9 +1,13 @@
 import React from 'react';
 import style from '../components/style/Header.module.css';
+import { useLocation } from 'react-router-dom';
 
 
 function Header(){
-    
+
+    const location = useLocation();
+    const currentPath = location.pathname;
+
     const menuItems = [
         {name: "서비스소개", link: "/service"},
         {name: "이미지예측", link: "/management"},
@@ -22,8 +26,11 @@ function Header(){
             <nav className={style.rightheader}>
                 <ul className={style.nav_ul}>
                     {menuItems.map((item, index) => (
-                        <li key={index} className={style.nav_li}>
-                            <a href={item.link} className={style.nav_a}>{item.name}</a>
+                        <li key={index} className={`${style.nav_li} ${currentPath === item.link ? style.active : ''}`}>
+                            <a 
+                            href={item.link} 
+                            className={style.nav_a}>
+                                {item.name}</a>
                         </li>
                     ))}
                 </ul>

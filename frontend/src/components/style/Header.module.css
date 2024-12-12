@@ -37,6 +37,8 @@
     font-weight: 400;
     line-height: normal;
     white-space: nowrap;
+    position: relative;
+    transition: color 0.3s ease;
 }
 
 .nav_ul{
@@ -48,6 +50,43 @@
 .nav_li {
     list-style: none;
 }
+
+.nav_li.active .nav_a {
+    position: relative;
+}
+
+.nav_li.active .nav_a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; 
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #ffe262;
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out; 
+    
+}
+
+.nav_a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: transparent;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.nav_li:hover .nav_a::after {
+    background-color: #ffe262;
+    transform: scaleX(1); 
+}
+
 
 @media (max-width:650px){
     .nav_ul { 

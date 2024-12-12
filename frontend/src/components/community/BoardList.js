@@ -61,7 +61,7 @@ function BoardList() {
      <div className={style.container}>
         {/* 검색 및 글쓰기 버튼을 포함하는 박스 */}
         <div className={style.buttonBox}>
-          {/* 왼쪽 영역: 검색 */}
+        {/* 왼쪽 영역: 검색 */}
           <div className={style.searchContainer}>
         {/* 구분 드롭다운 */}
         <select value={selectedSection}
