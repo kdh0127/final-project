@@ -150,3 +150,10 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+@media (max-width:650px) {
+  .chatbot_title{
+    font-size: 2rem;
+  }
+}

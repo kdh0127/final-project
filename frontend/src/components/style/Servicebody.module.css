@@ -101,3 +101,59 @@
 .body_img:hover {
     transform: scale(1.05);
 }
+
+@media (max-width:1000px){
+    .servicebody {
+        width: 90%;
+        height: auto; 
+        position: relative;
+    }
+
+    .headbody {
+        padding-top: 30px; 
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 20px;
+    }
+
+    .body_button_container{
+        position: absolute;
+        right: 0%;
+        top: 5%;
+    }
+    .body_title {
+        font-size: 2rem;
+    }
+
+    .body_button {
+        padding: 8px; 
+        font-size: 1rem; 
+    }
+
+    .mainbody {
+        flex-direction: column; 
+        gap: 20px;
+    }
+
+    .leftbody {
+        gap: 15px; 
+    }
+
+    .body_text {
+        font-size: 1rem; 
+    }
+
+    .body_foot {
+        font-size: 0.875rem;
+    }
+
+    .rightbody {
+        max-width: 100%;
+    }
+
+    .body_img {
+        max-width: 100%; 
+        height: auto;
+        border-radius: 5px; 
+    }
+}
