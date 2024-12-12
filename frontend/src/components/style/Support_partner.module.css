@@ -36,3 +36,11 @@
     transform: translateY(0);
   }
 
+  @media (max-width:650px){
+    .subtitle{
+        font-size: small;
+    }
+    .cardbox{
+        background: linear-gradient(180deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd, #c2e9fb);
+    }
+  }

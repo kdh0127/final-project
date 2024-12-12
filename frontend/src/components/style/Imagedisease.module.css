@@ -203,4 +203,73 @@
     font-size: 14px;
   }
   
+  @media (max-width:650px) {
+    .Imagedisease_container {
+      flex-direction: column;
+      min-height: 100vh;
+    }
   
+    .top {
+      width: 100%;
+      height: auto;
+      text-align: center;
+      font-size: 18px;
+      padding: 10px 0;
+    }
+  
+    .body {
+      flex-direction: column;
+      width: 100%;
+      height: auto;
+    }
+  
+    .leftbody,
+    .rightbody {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    .leftbody {
+      margin-bottom: 20px;
+    }
+  
+    .rightbody_img {
+      height: auto;
+    }
+  
+    .rightbody_img img {
+      width: 90%;
+      max-height: 300px;
+    }
+  
+    .Imagedisease_form {
+      gap: 20px;
+    }
+  
+    .Imagedisease_title {
+      font-size: 20px;
+    }
+  
+    .dropzone {
+      height: 150px;
+      font-size: 14px;
+    }
+  
+    .Imagedisease_button {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  
+    .Imagedisease_prediction {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .Imagedisease_result_title {
+      font-size: 16px;
+    }
+  
+    .Imagedisease_result_text {
+      font-size: 14px;
+    }
+  }

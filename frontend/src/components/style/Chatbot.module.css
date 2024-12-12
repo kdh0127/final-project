@@ -154,6 +154,12 @@
 
 @media (max-width:650px) {
   .chatbot_title{
-    font-size: 2rem;
+    font-size: 1.7rem;
+  }
+  .input_container{
+    bottom: 20%;
+  }
+  .input::placeholder{
+    font-size: 0.8rem;
   }
 }

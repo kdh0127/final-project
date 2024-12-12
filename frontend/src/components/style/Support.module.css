@@ -59,3 +59,32 @@
 .link_style{
     text-decoration: none;
 }
+
+@media (max-width:650px) {
+    
+    .top_body{
+        display: flex;
+        flex-direction: column;
+        padding: 30px 0;  
+    }
+
+    .title{
+        font-size: medium;
+    }
+
+    .text{
+        font-size: small;
+    }
+
+    .top_right_body_img{
+        max-width: 200px;
+    }
+    .bottom_body{
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: 0 auto;
+        align-items: center;
+        gap: 20px;
+    }
+}

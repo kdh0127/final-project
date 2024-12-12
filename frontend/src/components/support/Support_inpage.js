@@ -33,7 +33,7 @@ function Support_inpage(){
                         <Autocomplete
                         disablePortal
                         options={options}
-                        sx={{ width: 300 }}
+                        sx={{ width: 285 }}
                         renderInput={(params) => <TextField {...params} label="Select" />}
                         />
                         <TextField id="standard-basic" label="Name" variant="outlined" />
