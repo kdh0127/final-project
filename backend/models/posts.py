@@ -8,8 +8,10 @@ class Posts(db.Model):
     text = db.Column(db.Text, nullable=False)  # 내용
     imagepath = db.Column(db.String(255))  # 이미지 경로
     category = db.Column(db.String(50), nullable=False)  # 게시글 분류
+    version = db.Column(db.Integer, default=1, nullable=False)  # 버전
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)  # 작성일
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)  # 수정일
+
 
     # Relationships
     user = db.relationship('User', back_populates='posts')
