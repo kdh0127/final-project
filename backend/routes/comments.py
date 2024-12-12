@@ -53,7 +53,7 @@ def get_comments(post_id):
         # 게시글에 달린 모든 댓글 조회
         comments = Comments.query.filter_by(post_id=post_id).all()
         if not comments:
-            return jsonify({'message': f"No comments found for post_id {post_id}"}), 404
+           return jsonify([]), 200  # 댓글이 없는 경우 빈 배열 반환
 
         # 댓글 직렬화 함수
         def serialize_comment(comment):

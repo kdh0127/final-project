@@ -7,22 +7,22 @@ const Comment = ({ post_id }) => {
   const [newComment, setNewComment] = useState(""); // 새 댓글 입력값
 
   // 댓글 데이터를 가져오는 함수
-  // const fetchComments = async () => {
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/posts/${post_id}`);
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setComments(data);
-  //     } else {
-  //       alert("댓글을 불러오는데 실패했습니다.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching comments:", error);
-  //   }
-  // };
+  const fetchComments = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/posts/${post_id}/comments`);
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data);
+      } else {
+        alert("댓글을 불러오는데 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
   useEffect(() => {
-    // fetchComments();
+    fetchComments();
   }, [post_id]);
 
   // 새 댓글 작성
