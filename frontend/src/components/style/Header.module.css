@@ -49,3 +49,18 @@
     list-style: none;
 }
 
+@media (max-width:650px){
+    .nav_ul { 
+        display: grid; 
+        grid-template-columns: repeat(3, 1fr);  
+        gap: 10px;  
+        justify-items: center;  
+    } 
+    .nav_li { 
+        width: 100%;
+    } 
+    .nav_a { 
+        text-align: center;
+        font-size: small;
+    }
+}

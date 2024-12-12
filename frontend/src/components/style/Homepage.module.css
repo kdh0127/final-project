@@ -38,10 +38,8 @@
 
 .loginbox{
     position: fixed;
-    background-color: #f1ede6;
     width: 350px;
     height: auto;
-    flex-shrink: 0;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.75);
     top: 120%;
@@ -146,13 +144,6 @@ margin-bottom: 10px;
 gap: 10px;
 }
 
-/* .signupBtnInsidePopup:hover {
-    color: white;
-    background-color:royalblue;
-    border-radius: 5px;       
-    padding: 9px;            
-} */
-
 @keyframes slideIn {
     0% {
         margin-left: -100%;
@@ -173,5 +164,23 @@ gap: 10px;
     }
     100% {
         top: 40%; /* 최종 위치 */
+    }
+}
+
+@media (max-width:650px){
+    .welcome{
+        position: absolute; 
+        margin-top: 10vh;
+        margin-left: -100%; 
+        animation: slideIn 0.7s ease-out forwards; 
+    }
+
+    .loginbox{
+        position: fixed;
+        width: 350px;
+        height: auto;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.75);
+        left: 50%;
     }
 }
