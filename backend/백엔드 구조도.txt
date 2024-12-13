@@ -1,31 +1,29 @@
-.ipynb_checkpoints/
-__pycache__/
-flask_session/
-migrations/
-uploads/
+main_server/
+  ├── app.py (메인 서버)
+  ├── routes/
+      ├── __init__.py
+      ├── auth.py
+      ├── predict.py
+      ├── qa.py
+      ├── cors.py
+  ├── utils/
+      ├── __init__.py
+      ├── webcam_client.py (웹캠 서버와 통신)
+  ├── models/
+      ├── __init__.py
+      ├── user.py
+      ├── posts.py
+      ├── comments.py
+  ├── key.env
+  ├── qa_model.py
+  ├── 꿀벌질병.pdf
 
-models(데이터 베이스)/
-  ├── __init__.py
-  ├── user.py
-  ├── posts.py
-  ├── comments.py
-
-routes(각종 서비스)/
-  ├── __init__.py
-  ├── auth.py(로그인,회원가입)
-  ├── predict.py(이미지 진단)
-  ├── qa.py(챗봇)
-  ├── posts.py(게시판)
-  ├── comments.py(댓글)
-  ├── cors.py
-
-utils/
-  ├── __init__.py
-  ├── helpers.py
-  ├── image_processing.py
-
-Bee_image_model.keras
-key.env
-qa_model.py
-꿀벌질병.pdf
-app.py
+webcam_server/
+  ├── server.py (웹캠 서버 메인)
+  ├── webcam_processing.py (YOLO 및 CNN 처리 로직)
+  ├── webcam_predict.py (웹캠 관련 API 엔드포인트)
+  ├── models/
+      ├── bee_image_model.keras (CNN 모델)
+      ├── bee_main.pt (YOLO 모델)
+  ├── requirements.txt (웹캠 서버 의존성 관리)
+  ├── key.env (필요 시)
