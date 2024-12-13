@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_session import Session
 from models import db
-from routes import auth_blueprint, predict_blueprint, qa_blueprint
+from routes import auth_blueprint, predict_blueprint, webcam_blueprint, qa_blueprint
 
 
 # Flask 애플리케이션 초기화
@@ -31,7 +31,8 @@ CORS(app, supports_credentials=True, resources={
 # 블루프린트 등록
 app.register_blueprint(auth_blueprint, url_prefix='/api')
 app.register_blueprint(predict_blueprint, url_prefix='/api')
-app.register_blueprint(qa_blueprint, url_prefix='/api')
+# app.register_blueprint(qa_blueprint, url_prefix='/api')
+app.register_blueprint(webcam_blueprint) # 웹캠
 
 # 데이터베이스 초기화
 with app.app_context():
