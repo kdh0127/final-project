@@ -33,6 +33,9 @@ import BoardList from "./components/community/BoardList";
 import PostWrite from "./components/community/WritePost";
 import PostDetail from "./components/community/Postdetail";
 
+// 내정보 페이지
+import Myaccount from "./components/account/Myaccount";
+
 
 function App() {
   return (
@@ -65,6 +68,9 @@ function App() {
           <Route path="/community" element={<BoardList />} /> 
           <Route path="/board/write" element={<PostWrite />} />
           <Route path="/board/:post_id" element={<PostDetail />} />
+
+          {/* 내정보 페이지 */}
+          <Route path="/account" element={<Myaccount />} />
 
         </Routes>
       </div>
