@@ -67,4 +67,15 @@
 .log{
     display: flex;
     margin-top: 10px;
+    height: 90%;
+}
+
+.log_list{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.log_item{
+    list-style: none;
 }

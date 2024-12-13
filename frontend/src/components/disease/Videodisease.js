@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from '../style/Videodisease.module.css';
 import Header from '../Header';
 import Weather from './Weather';
 
 function Videodisease(){
+    const[logData, setlogData] = useState([
+        "1번 로그",
+        "2번 로그",
+        "3번 로그",
+        "4번 로그",
+    ]);
+
     return(
         <div className={style.Videodisease_container}>
             <Header />
@@ -31,7 +38,12 @@ function Videodisease(){
                     </div>
                     <div className={style.rightbody}>
                         <div className={style.log}>
-                            test
+                            <ul className={style.log_list}>
+                                {logData.map((log, index) => ( 
+                                    <li className={style.log_item} key={index}>
+                                    {log}
+                                </li> ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
