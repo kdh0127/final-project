@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from '../style/Homepage.module.css';
 import Header from '../Header';
 import Log from '../Log';
@@ -8,6 +8,13 @@ function Homepage() {
     const [showPopup, setShowPopup] = useState(false); // 팝업 상태 관리
     const [realname, setRealname] = useState(''); // 로그인 성공 시 사용자 이름 관리
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        const storedName = localStorage.getItem('realname');
+        if (storedName) {
+            setRealname(storedName);
+        }
+    }, []);
 
     const handleLoginClick = () => {    
         setShowPopup(true); // 팝업 열기
@@ -24,6 +31,7 @@ function Homepage() {
 
     const handleLogout = () => {
         setRealname(''); // 로그인 상태 초기화
+        localStorage.removeItem('realname');
         alert('로그아웃 되었습니다.');
     };
 
@@ -45,7 +53,7 @@ function Homepage() {
                         <div className={style.loginbox_title}>
                             {realname ? (
                                 <>
-                                    <span>{realname}님 환영합니다</span>
+                                    <span>{realname}님! 환영합니다</span>
                                 </>
                             ) : (
                                 <>
@@ -102,6 +110,7 @@ function Homepage() {
                             onClose={handleClosePopup}
                             onLoginSuccess={(name) => {
                                 setRealname(name); // 로그인 성공 시 이름 저장
+                                localStorage.setItem('realname', name);
                                 setShowPopup(false); // 팝업 닫기
                             }}
                         />

@@ -11,11 +11,11 @@
     margin-bottom: 28px;
 }
 .leftheader{
-    margin-left: 6vw;
+    margin-left: 4vw;
 }
 
 .rightheader{
-    margin-left: 10vw;
+    margin-left: 4vw;
 }
 
 .header_a {
@@ -87,6 +87,23 @@
     transform: scaleX(1); 
 }
 
+.account{
+    display: flex;
+    width: 100px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.account_button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: clamp(14px, 1.5vw, 30px);
+}
 
 @media (max-width:650px){
     .nav_ul { 

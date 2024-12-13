@@ -1,12 +1,16 @@
 import React from 'react';
 import style from '../components/style/Header.module.css';
-import { useLocation } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Header(){
 
     const location = useLocation();
+    const navigate = useNavigate();
+    
     const currentPath = location.pathname;
+    const handleMyinfo = () => {
+        navigate('/account');
+    };
 
     const menuItems = [
         {name: "서비스소개", link: "/service"},
@@ -15,7 +19,6 @@ function Header(){
         {name: "진단AI", link: "/chatbot"},
         {name: "커뮤니티", link: "/community"},
         {name: "고객센터", link: "/support"},
-        
     ]
 
     return(
@@ -33,8 +36,14 @@ function Header(){
                                 {item.name}</a>
                         </li>
                     ))}
+                   
                 </ul>
-            </nav>
+            </nav> 
+            <div className={style.account}>
+                <button className={style.account_button} onClick={handleMyinfo}>
+                    내정보
+                </button>
+            </div>
         </header>
     )
 }
