@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import style from '../style/Videodisease.module.css';
 import Header from '../Header';
-import Weather from './Weather';
 
 function Videodisease(){
     const[logData, setlogData] = useState([
@@ -21,9 +20,9 @@ function Videodisease(){
                         <img src="/video.png" alt="비디오 아이콘자리" className={style.header_img}/>
                     </div>
                     <div className={style.header_right}>
-                        <span className={style.header_weather}>
-                            <Weather />
-                        </span>  
+                        <h2 className={style.header_text}>
+                            문자로그내역
+                        </h2>  
                     </div>
                 </div>
                 <div className={style.body}>
@@ -32,8 +31,7 @@ function Videodisease(){
                             <iframe className={style.iframe}
                             src="https://www.youtube.com/embed/JYbybEKfchc?si=6WO6wxICqzRNhR73" 
                             title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                         </div>
                     </div>
                     <div className={style.rightbody}>
