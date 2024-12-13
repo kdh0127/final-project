@@ -84,7 +84,14 @@ function Imagedisease(){
                             onClick={handleClick}>
                             
                             {selectedFile ? (
-                                <p className={style.fileName}>{selectedFile.name}</p>
+                                 <div className={style.previewContainer}>
+                                 
+                                 {previewURL && (
+                                     <img src={previewURL} alt="미리보기" className={style.previewImageInDropzone} />
+                                 )}
+                                 
+                                 <p className={style.fileName}>{selectedFile.name}</p>
+                             </div>
                             ) : (
                                 <p>파일을 여기에 드래그하거나 클릭하여 업로드하세요.</p>
                             )}
@@ -105,9 +112,25 @@ function Imagedisease(){
             <div className={style.rightbody}>
                 <div className={style.rightbody_main}>
                     <div className={style.rightbody_img}>
-                        {previewURL ? (
-                            <img src={previewURL} alt="미리보기" className={style.previewImage} /> ) : ("이미지를 업로드하면 여기에 표시됩니다"
-                        )}
+                    {loading ? (
+                        <p className={style.loadingText}>예측 결과를 처리 중입니다...</p>
+                    ) : previewURL ? (
+                        prediction ? (
+                            prediction === "normal" ? (
+                                <p className={style.resultText}>이미지가 정상으로 진단되었습니다.</p>
+                            ) : prediction === "ung" ? (
+                                <p className={style.resultText}>비정상적인 이미지로 진단되었습니다. 추가 검토가 필요합니다.</p>
+                            ) :  prediction === "fether" ? (
+                                <p className={style.resultText}>날개불구감염</p>
+                            ) : (
+                                <p className={style.resultText}>진단 결과: {prediction}</p>
+                            )
+                        ) : (
+                            <img src={previewURL} alt="미리보기" className={style.previewImage} />
+                        )
+                    ) : (
+                        "이미지를 업로드하면 여기에 표시됩니다"
+                    )}
                     </div>
                     <div className={style.rightbody_text}>
                         {prediction && 
