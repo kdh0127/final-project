@@ -49,6 +49,7 @@ const PostDetail = () => {
   };
 
   const handleSave = async () => {
+    console.log("Sending formData:", formData); // 디버깅용
     try {
       const response = await fetch(`http://localhost:5000/api/posts/${post_id}`, {
         method: "PUT",

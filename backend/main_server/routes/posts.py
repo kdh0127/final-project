@@ -99,3 +99,52 @@ def detail_post(post_id):
         }), 200
     except Exception as e:
         return jsonify({'message': f'게시글 조회 중 오류 발생: {str(e)}'}), 500
+
+@post_blueprint.route('/posts/<int:post_id>', methods=['PUT'])
+def update_post(post_id):
+    data = request.json  # 클라이언트에서 JSON 데이터 받기
+    if not data:
+        return jsonify({'error': 'No input data provided'}), 400
+
+    # 수정할 게시글 찾기
+    post = Posts.query.filter_by(post_id=post_id).first()
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+
+    # 제목, 내용, 카테고리 업데이트
+    title = data.get('title')
+    text = data.get('content')
+    category = data.get('category')
+
+    print(f"Received data: title={title}, text={text}, category={category}")  # 디버깅용 로그
+
+    if title is not None:
+        post.title = title.strip()
+    if text is not None:  # 빈 문자열도 허용
+        post.text = text.strip()
+    if category is not None:
+        post.category = category.strip()
+
+    print(f"Before commit: post.text={post.text}, post.title={post.title}, post.category={post.category}")  # 확인용 로그
+
+    # 버전 증가
+    post.version += 1
+
+    try:
+        db.session.commit()
+        print(f"Post updated: post_id={post.post_id}, title={post.title}, text={post.text}, category={post.category}")
+        return jsonify({
+            'message': 'Post updated successfully',
+            'post': {
+                'post_id': post.post_id,
+                'title': post.title,
+                'content': post.text,
+                'category': post.category,
+                'version': post.version,
+                'updated_at': post.updated_at
+            }
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error updating post: {e}")
+        return jsonify({'error': 'Failed to update post', 'details': str(e)}), 500
