@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Header from "../Header"; // 헤더 컴포넌트
@@ -8,6 +8,7 @@ import styles from "../style/comment.module.css";
 
 const PostDetail = () => {
   const { post_id } = useParams(); // URL에서 post_id를 가져오기
+  const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 추가
   const [post, setPost] = useState(); // 게시글 데이터
   const [plainTextContent, setPlainTextContent] = useState(""); // HTML 태그 제거된 내용
   const [isEditMode, setIsEditMode] = useState(false); // 수정 모드 상태
@@ -71,6 +72,27 @@ const PostDetail = () => {
     }
   };
 
+  // 게시글 삭제 함수
+  const handleDelete = async () => {
+    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+      try {
+        const response = await fetch(`http://localhost:5000/api/posts/${post_id}`, {
+          method: "DELETE",
+        });
+
+        if (response.ok) {
+          alert("게시글이 삭제되었습니다.");
+          navigate("/community"); // 게시글 목록 페이지로 이동
+        } else {
+          alert("게시글 삭제에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        alert("게시글 삭제 중 오류가 발생했습니다.");
+      }
+    }
+  };
+
   useEffect(() => {
     fetchPostData();
   }, [post_id]);
@@ -95,7 +117,9 @@ const PostDetail = () => {
                 <button className={styles.editBtn} onClick={() => setIsEditMode(true)}>
                   수정
                 </button>
-                <button className={styles.deleteBtn}>삭제</button>
+                <button className={styles.deleteBtn} onClick={handleDelete}>
+                  삭제
+                </button>
               </div>
             </div>
 

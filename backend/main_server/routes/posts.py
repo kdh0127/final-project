@@ -100,6 +100,7 @@ def detail_post(post_id):
     except Exception as e:
         return jsonify({'message': f'게시글 조회 중 오류 발생: {str(e)}'}), 500
 
+# 게시글 수정
 @post_blueprint.route('/posts/<int:post_id>', methods=['PUT'])
 def update_post(post_id):
     data = request.json  # 클라이언트에서 JSON 데이터 받기
@@ -148,3 +149,23 @@ def update_post(post_id):
         db.session.rollback()
         print(f"Error updating post: {e}")
         return jsonify({'error': 'Failed to update post', 'details': str(e)}), 500
+
+# 게시글 삭제
+@post_blueprint.route('/posts/<int:post_id>', methods=['DELETE'])
+def delete_post(post_id):
+    
+    # 삭제할 게시글 찾기
+    post = Posts.query.filter_by(post_id=post_id).first()
+    if not post:
+        return jsonify({'error': 'Post not found'}), 404
+
+    try:
+        # 게시글 삭제
+        db.session.delete(post)
+        db.session.commit()
+        print(f"Post deleted: post_id={post_id}")  # 디버깅용 로그
+        return jsonify({'message': 'Post deleted successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error deleting post: {e}")  # 에러 로그
+        return jsonify({'error': 'Failed to delete post', 'details': str(e)}), 500
