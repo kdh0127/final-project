@@ -9,6 +9,7 @@ class Posts(db.Model):
     imagepath = db.Column(db.String(255))  # 이미지 경로
     category = db.Column(db.String(50), nullable=False)  # 게시글 분류
     version = db.Column(db.Integer, default=1, nullable=False)  # 버전
+    views = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)  # 작성일
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)  # 수정일
 
