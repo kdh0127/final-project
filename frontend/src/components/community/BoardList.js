@@ -157,7 +157,7 @@ function BoardList() {
                       try {
                         await increaseViewCount(post.post_id); // 조회수 증가 API 호출
                         const updatedPosts = await fetchPosts(selectedSection); // 데이터 새로고침
-                        setPosts(updatedPosts); // 상태 업데이트
+                        
                         window.location.href = `/board/${post.post_id}`; // 게시글 상세 페이지로 이동
                         } catch (error) {
                           console.error("조회수 증가 중 오류:", error.message);

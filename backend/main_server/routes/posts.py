@@ -185,9 +185,11 @@ def increase_views(post_id):
         if not post:
             return jsonify({'message': '게시글을 찾을 수 없습니다.'}), 404
 
+        # 조회수 증가
         post.views += 1
         db.session.commit()
 
+        # 필요한 데이터를 클라이언트에 반환
         return jsonify({
             'message': '조회수가 증가되었습니다.',
             'post': {
@@ -203,3 +205,4 @@ def increase_views(post_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'조회수 증가 중 오류 발생: {str(e)}'}), 500
+

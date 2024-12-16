@@ -23,38 +23,40 @@ const PostDetail = () => {
 
   useEffect(() => {
     fetchCurrentUser();
-    fetchPostData();
+    increaseViewsAndFetchPost();
   }, [post_id]);
 
-  const fetchCurrentUser = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/api/login-check", {
-        withCredentials: true,
+  const fetchCurrentUser = () => {
+    axios
+      .get("http://localhost:5000/api/login-check", { withCredentials: true })
+      .then((response) => {
+        console.log("현재 사용자 ID:", response.data.user_id);
+        setCurrentUser(response.data.user_id);
+      })
+      .catch((error) => {
+        console.error("로그인 확인 실패:", error.response?.data || error.message);
+        alert("로그인 후 이용 가능합니다.");
+        navigate("/login");
       });
-      console.log("현재 사용자 ID:", response.data.user_id); // 값 확인
-      setCurrentUser(response.data.user_id);
-    } catch (error) {
-      console.error("로그인 확인 실패:", error.response?.data || error.message);
-      alert("로그인 후 이용 가능합니다.");
-      navigate("/login");
-    }
   };
 
-  const fetchPostData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/api/posts/${post_id}`);
-      const data = response.data;
-      setPost(data);
-      setFormData({
-        title: data.title || "",
-        category: data.category || "자유",
-        content: data.content || "",
+  const increaseViewsAndFetchPost = () => {
+    axios
+      .post(`http://localhost:5000/api/posts/${post_id}/increase-views`)
+      .then((response) => {
+        const data = response.data.post;
+        setPost(data);
+        setFormData({
+          title: data.title || "",
+          category: data.category || "자유",
+          content: data.content || "",
+        });
+        setPlainTextContent(stripHTML(data.content));
+      })
+      .catch((error) => {
+        console.error("조회수 증가 및 게시글 데이터 불러오기 실패:", error.response?.data || error.message);
+        alert("게시글을 불러오는데 실패했습니다.");
       });
-      setPlainTextContent(stripHTML(data.content));
-    } catch (error) {
-      console.error("게시글 데이터 불러오기 실패:", error.response?.data || error.message);
-      alert("게시글을 불러오는데 실패했습니다.");
-    }
   };
 
   const stripHTML = (html) => {
@@ -63,31 +65,35 @@ const PostDetail = () => {
     return tempDiv.textContent || tempDiv.innerText || "";
   };
 
-  const handleSave = async () => {
-    try {
-      await axios.put(`http://localhost:5000/api/posts/${post_id}`, formData, {
+  const handleSave = () => {
+    axios
+      .put(`http://localhost:5000/api/posts/${post_id}`, formData, {
         headers: { "Content-Type": "application/json" },
+      })
+      .then(() => {
+        alert("게시글이 수정되었습니다.");
+        setIsEditMode(false);
+        increaseViewsAndFetchPost();
+      })
+      .catch((error) => {
+        console.error("게시글 수정 실패:", error.response?.data || error.message);
+        alert("게시글 수정에 실패했습니다.");
       });
-      alert("게시글이 수정되었습니다.");
-      setIsEditMode(false);
-      fetchPostData();
-    } catch (error) {
-      console.error("게시글 수정 실패:", error.response?.data || error.message);
-      alert("게시글 수정에 실패했습니다.");
-    }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (!window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) return;
 
-    try {
-      await axios.delete(`http://localhost:5000/api/posts/${post_id}`);
-      alert("게시글이 삭제되었습니다.");
-      navigate("/community");
-    } catch (error) {
-      console.error("게시글 삭제 실패:", error.response?.data || error.message);
-      alert("게시글 삭제에 실패했습니다.");
-    }
+    axios
+      .delete(`http://localhost:5000/api/posts/${post_id}`)
+      .then(() => {
+        alert("게시글이 삭제되었습니다.");
+        navigate("/community");
+      })
+      .catch((error) => {
+        console.error("게시글 삭제 실패:", error.response?.data || error.message);
+        alert("게시글 삭제에 실패했습니다.");
+      });
   };
 
   const handleChange = (event) => {
