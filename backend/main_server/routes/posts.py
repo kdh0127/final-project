@@ -44,6 +44,7 @@ def list_posts():
     try:
         category = request.args.get('category')  # 쿼리 파라미터에서 category 값 가져오기
         search = request.args.get('search')  # 쿼리 파라미터에서 검색어 가져오기
+        search_type = request.args.get('searchType', '제목')  # 검색 유형 파라미터 기본값: 제목
 
         # 기본 쿼리 생성
         query = Posts.query
@@ -53,10 +54,16 @@ def list_posts():
             query = query.filter_by(category=category)
 
         # 검색어 필터링
-        if search:
-            query = query.filter(
-                Posts.title.contains(search) | Posts.content.contains(search)
-            )
+        if search and search.strip():
+            search = search.strip()
+            if search_type == "제목":
+                query = query.filter(Posts.title.contains(search))
+            elif search_type == "내용":
+                query = query.filter(Posts.text.contains(search))
+            elif search_type == "작성자":
+                query = query.filter(Posts.user_id.contains(search))
+            else:
+                return jsonify({'message': '잘못된 검색 유형입니다'}), 400
 
         # 정렬 및 실행
         posts = query.order_by(Posts.created_at.desc()).all()
