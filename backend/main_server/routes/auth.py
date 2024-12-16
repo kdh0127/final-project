@@ -94,9 +94,15 @@ def logout():
 # 로그인 확인
 @auth_blueprint.route('/login-check', methods=['GET'])
 def login_check():
-    if 'user' not in session:
+    user_id = session.get('user')  # 세션에서 사용자 ID 가져오기
+    if not user_id:
         return jsonify({"error": "로그인 후 이용하세요", "logged_in": False}), 401
-    return jsonify({"message": "정상적으로 로그인 되었습니다", "logged_in": True})
+
+    return jsonify({
+        "message": "정상적으로 로그인 되었습니다",
+        "logged_in": True,
+        "user_id": user_id  # 현재 사용자 ID 반환
+    }), 200
 
 
 # JavaScript 파일 제공
