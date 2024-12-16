@@ -45,6 +45,19 @@ function BoardList() {
     }
   };
 
+  const increaseViewCount = async (post_id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/posts/${post_id}/increase-views`, {
+        method: "POST",
+      });
+      if (!response.ok) {
+        throw new Error("조회수 증가 요청 실패");
+      }
+    } catch (error) {
+      console.error("조회수 증가 실패:", error.message);
+    }
+  };
+
   // 드롭다운 선택 시 데이터 다시 가져오기
   useEffect(() => {
     fetchPosts(selectedSection);
@@ -136,10 +149,25 @@ function BoardList() {
                     <td>{index + 1}</td> {/* 번호 */}
                     <td>{post.category}</td> {/* 구분 */}
                     <td>
-                      <Link to={`/board/${post.post_id}`} className={style.link}>
-                        {post.title}
+                      <Link
+                        to={`/board/${post.post_id}`}
+                          className={style.link}
+                          onClick={async (e) => {
+                          e.preventDefault(); // 기본 페이지 이동 동작 방지
+                      try {
+                        await increaseViewCount(post.post_id); // 조회수 증가 API 호출
+                        const updatedPosts = await fetchPosts(selectedSection); // 데이터 새로고침
+                        setPosts(updatedPosts); // 상태 업데이트
+                        window.location.href = `/board/${post.post_id}`; // 게시글 상세 페이지로 이동
+                        } catch (error) {
+                          console.error("조회수 증가 중 오류:", error.message);
+                        }
+                         }}
+                        >
+                          {post.title}
                       </Link>
-                    </td> {/* 제목 */}
+                    </td>
+                    {/* 제목 */}
                     <td>{post.user_id}</td> {/* 작성자 */}
                     <td>{new Date(post.created_at).toLocaleDateString()}</td> {/* 작성일 */}
                     <td>{post.views}</td> {/* 조회수 */}

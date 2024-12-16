@@ -77,7 +77,7 @@ def list_posts():
                 'user_id': post.user_id,
                 'category': post.category,
                 'created_at': post.created_at.isoformat(),
-                'views': 0  # 조회수를 DB에 추가하지 않았다면 기본값 0
+                'views': post.views  # 조회수를 DB에 추가하지 않았다면 기본값 0
             }
             for post in posts
         ]
@@ -176,3 +176,30 @@ def delete_post(post_id):
         db.session.rollback()
         print(f"Error deleting post: {e}")  # 에러 로그
         return jsonify({'error': 'Failed to delete post', 'details': str(e)}), 500
+
+# 조회수 증가 API
+@post_blueprint.route('/posts/<int:post_id>/increase-views', methods=['POST'])
+def increase_views(post_id):
+    try:
+        post = Posts.query.get(post_id)
+        if not post:
+            return jsonify({'message': '게시글을 찾을 수 없습니다.'}), 404
+
+        post.views += 1
+        db.session.commit()
+
+        return jsonify({
+            'message': '조회수가 증가되었습니다.',
+            'post': {
+                'post_id': post.post_id,
+                'title': post.title,
+                'content': post.text,
+                'user_id': post.user_id,
+                'category': post.category,
+                'created_at': post.created_at.isoformat(),
+                'views': post.views
+            }
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'조회수 증가 중 오류 발생: {str(e)}'}), 500
