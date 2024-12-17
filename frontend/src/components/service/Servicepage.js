@@ -7,7 +7,7 @@ import { FaArrowUp } from "react-icons/fa";
 
 function Service(){
     const bodyText0 = `팀장 배규태 | 팀원 고지수 김도헌 정동윤 서지민 <br/><br/> 
-    배규태<br/>전반적인 업무와 일정을 총괄하고 있습니다. <br/>기술적으로는 백엔드와 머신러닝 모델학습을 담당하며<br/>팀원들에게 도움이 되기위해 최선을 다하겠습니다.`
+    배규태: 전반적인 업무와 일정을 총괄하고 있는 <br/>팀장 배규태입니다. 기술적으로는 백엔드와 머신러닝 <br/>모델을 담당하며 팀원들에게 도움이 되기위해 최선을 <br/>다하겠습니다.<br/><br/> 고지수: 팀에서 발표와 문서작업, 웹디자인을 담당하고<br/> 있습니다. 기술적으로 피그마와 css를 사용하고 있습니다.<br/><br/> 김도헌: 팀에서 프론트엔드를 총괄하여 담당하고 있습니다.<br/> 서브로는 open-api를 이용하여 챗봇서비스를 만들었습니다.<br/> 최고의 결과물을 만들기 위해 최선의 노력을 다하겠습니다. <br/><br/> 정동윤: 팀에서 데이터베이스를 총괄하여 담당하였고 <br/>서브로는 백엔드를 도와주었습니다.  <br/><br/>서지민: 팀에서 서류작업, ppt 등 발표준비를 총괄하였습니다.<br/> `
 
     const bodyText1 = `
     이미지 학습을 위해 CNN 모델 중에서 VGG16과 <br/>EfficientNet을 선정하여 사용하였습니다.<br/>
@@ -113,9 +113,11 @@ function Service(){
                         body_text={bodyText0}
                         body_foot={""}
                         body_imgs={[
-                            "vgg16.png",
-                            "efficientnet.png",
-                            "compare.png",
+                            "avatar1.png",
+                            "avatar2.png",
+                            "avatar3.png",
+                            "avatar4.png",
+                            "avatar5.png",
                         ]}/>
                 </div>
                 <div id="service2" className={style.service2}>
@@ -125,7 +127,7 @@ function Service(){
                         body_foot={"더 자세한 내용은 담당자의 이메일 jdy6610@naver.com 문의바랍니다. "}
                         body_imgs={[
                             "vgg16.png",
-                            "efficientnet.png",
+                            "efficient.png",
                             "compare.png",
                     ]}/>
                 </div>
@@ -135,8 +137,8 @@ function Service(){
                         body_text={bodyText2}
                         body_foot={"더 자세한 내용은 담당자의 이메일 bktpbktp@naver.com 문의바랍니다."}
                         body_imgs={[
-                            "beechat.png",
-                            "beelogo2.png",
+                            "result_bee.jpg",
+                            "video2.jpg",
                             
                         ]}/>
                 </div>
