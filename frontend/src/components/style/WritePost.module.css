@@ -138,3 +138,10 @@
 .submitButton:hover {
   background: #0056b3;
 }
+
+@media (max-width: 1000px){
+  .metaSection{
+    display: flex;
+    flex-direction: column;
+  }
+}

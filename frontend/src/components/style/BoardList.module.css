@@ -181,3 +181,89 @@ background-color: #FFF;
   font-style: italic;
   width:auto;
 }
+
+@media (max-width: 1000px) {
+/* 전체 컨테이너 */
+  .container {
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 */
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 검색 및 글쓰기 버튼 박스 */
+  .buttonBox {
+    flex-direction: column; /* 수직 배열 */
+    align-items: stretch; /* 요소를 컨테이너 너비에 맞춤 */
+    width: 100%; /* 전체 너비 사용 */
+    padding: 10px;
+  }
+
+  /* 검색 영역 */
+  .searchContainer {
+    flex-direction: column; /* 검색 필드 수직 배열 */
+    gap: 5px; /* 간격 축소 */
+    align-items: stretch; /* 전체 너비 사용 */
+  }
+
+  .sectionDropdown, .searchTypeDropdown, .searchInput{
+    width: 100%;
+  }
+  .writeContainer{
+    display: flex;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+  }
+  .searchInput,
+  .sectionDropdown,
+  .searchTypeDropdown,
+  .searchButton {
+    font-size: 14px; /* 글자 크기 축소 */
+    padding: 8px; /* 내부 여백 축소 */
+  }
+
+  /* 검색 버튼 */
+  .searchButton {
+    height: auto; /* 고정 높이 제거 */
+    font-size: 14px;
+  }
+
+  /* 글쓰기 버튼 */
+  .writeButton {
+    font-size: 14px;
+    padding: 10px;
+    margin-top: 10px; /* 검색 영역과 간격 추가 */
+  }
+
+  /* 게시글 테이블 박스 */
+  .tableBox {
+    padding: 10px; /* 내부 여백 축소 */
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  /* 테이블 */
+  .table {
+    font-size: 12px; /* 글자 크기 축소 */
+  }
+
+  .table th,
+  .table td {
+    padding: 5px; /* 셀 내부 여백 축소 */
+  }
+
+  /* 게시글 링크 */
+  .table a {
+    font-size: 12px;
+  }
+
+  /* 행 호버 스타일 제거 (작은 화면에서는 시각적 효과를 단순화) */
+  .table tr:hover {
+    background-color: transparent;
+  }
+}
