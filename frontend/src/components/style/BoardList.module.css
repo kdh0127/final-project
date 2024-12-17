@@ -23,7 +23,7 @@
   display: flex;
   justify-content: space-between; /* 좌우 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
-  background-color: #E0DED3;
+  background-color: #F1EFE7;
   border: 2px solid #000;
   border-radius: 15px;
   padding: 10px;
@@ -118,7 +118,7 @@ background-color: #FFF;
   display: flex;
   justify-content: space-between; /* 좌우 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
-  background-color: #E0DED3;
+  background-color: #F1EFE7;
   border: 2px solid #000;
   border-radius: 10px;
   padding: 20px;
@@ -150,7 +150,7 @@ background-color: #FFF;
 
 /* 구성 테이블 */
 .table th {
-  background-color: #E0DED3;
+  background-color: #F1EFE7;
   font-weight: bold;
   color: #333;
   width:auto;
