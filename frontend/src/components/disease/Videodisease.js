@@ -42,7 +42,7 @@ function Videodisease() {
                             {/* Flask 서버에서 제공하는 비디오 스트리밍 */}
                             <iframe
                                 className={style.iframe}
-                                src="http://172.30.1.98:5001/video_feed"
+                                src=" http://10.104.24.252:5001/video_feed"
                                 title="Streaming Video"
                                 allowFullScreen
                             ></iframe>
