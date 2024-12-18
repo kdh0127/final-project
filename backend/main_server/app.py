@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_session import Session
 from models import db
 from routes import auth_blueprint, predict_blueprint, qa_blueprint, post_blueprint, comment_blueprint
-from utils.webcam_client import get_diagnosis, stream_video
+
 
 # Flask 애플리케이션 초기화
 app = Flask(__name__, static_url_path='', static_folder='uploads')
@@ -28,30 +28,7 @@ CORS(app, supports_credentials=True, resources={
     }
 })
 
-# 클라이언트 
-@app.route("/api/webcam/diagnose", methods=["GET"])
-def webcam_diagnose():
-    """
-    웹캠 서버의 진단 결과를 반환.
-    """
-    result = get_diagnosis()
-    if "error" in result:
-        return jsonify(result), 500
-    return jsonify(result)
 
-@app.route("/api/webcam/video_feed", methods=["GET"])
-def webcam_video_feed():
-    """
-    웹캠 서버의 스트리밍 데이터를 중계.
-    """
-    try:
-        def generate():
-            for chunk in stream_video():
-                yield chunk
-
-        return Response(generate(), content_type="multipart/x-mixed-replace; boundary=frame")
-    except RuntimeError as e:
-        return jsonify({"error": str(e)}), 500
 
 # 블루프린트 등록
 app.register_blueprint(auth_blueprint, url_prefix='/api')
