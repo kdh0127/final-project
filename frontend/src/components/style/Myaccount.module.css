@@ -18,6 +18,9 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: wave 5s infinite linear; 
+    align-items: center;
+    display: flex;
+    text-align: center;
 }
 
 .middle{
@@ -37,3 +40,5 @@
         background-position: 100% 50%; 
     }
 }
+
+

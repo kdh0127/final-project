@@ -162,4 +162,10 @@
   .input::placeholder{
     font-size: 0.8rem;
   }
+  .rightbody{
+    background-color: white;
+  }
+  .leftbody{
+    background-color: white;
+  }
 }
