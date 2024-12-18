@@ -16,7 +16,7 @@ function Header(){
         {name: "서비스소개", link: "/service"},
         {name: "이미지예측", link: "/image"},
         {name: "영상감시", link: "/video"},
-        {name: "AI챗봇", link: "/chatbot"},
+        {name: "진단AI", link: "/chatbot"},
         {name: "커뮤니티", link: "/community"},
         {name: "고객센터", link: "/support"},
     ]
