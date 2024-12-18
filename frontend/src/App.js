@@ -16,7 +16,7 @@ import Support_partner from './components/support/Support_partner';
 
 
 // 이미지예측페이지
-import Management from './components/disease/Management';
+import Imagedisease from './components/disease/Imagedisease';
 import Videodisease from './components/disease/Videodisease';
 
 
@@ -61,7 +61,7 @@ function App() {
           <Route path="/support-partner" element={<Support_partner />} />
 
           {/* 질병관리 페이지 */}
-          <Route path="/management" element={<Management />} />
+          <Route path="/image" element={<Imagedisease />} />
           <Route path="/video" element={<Videodisease />} />
 
           {/* 커뮤니티 페이지 */}

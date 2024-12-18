@@ -81,3 +81,32 @@
 .log_item{
     list-style: none;
 }
+
+@media (max-width:650px) {
+    .header_title{
+        font-size: 5vw;
+    }
+    .header_text{
+        font-size: 5vw;
+        display: none;
+    }
+    .header_img{
+        max-width: 30px;
+        max-height: 30px;
+    }
+    .body{
+        display: flex;
+        flex-direction: column;
+    }
+    .rightbody{
+        display: flex;
+    }
+    .log{
+        display: flex;
+    }
+    .log_list{
+        display: flex;
+        flex-direction: row;
+        gap: 2vw;
+    }
+}
