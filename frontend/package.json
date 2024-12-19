@@ -32,7 +32,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "next dev -p 3060",
+    "build-next": "ANALYZE=true NODE_ENV=production next build",
+    "start-next": "NODE_ENV=production next start -p 80"
   },
   "eslintConfig": {
     "extends": [
