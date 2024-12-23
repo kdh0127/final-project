@@ -18,7 +18,7 @@ client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
 # 감지 횟수 및 클래스별 임계값 설정
 class_counts = {"feather": 0, "ung": 0}
-thresholds = {"feather": 100, "ung": 100}  # 클래스별 임계값 설정
+thresholds = {"feather": 10000, "ung": 10000}  # 클래스별 임계값 설정
 
 # 클래스명 매핑 (메시지 내용용)
 CLASS_NAME_MAPPING = {

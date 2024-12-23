@@ -42,7 +42,7 @@ CAMERA_WIDTH = 1280
 CAMERA_HEIGHT = 720
 
 # 감지된 클래스 서버 전송 함수
-SMS_SERVER_URL = "http://10.104.24.252:5002/log_detection"  # sms_server.py 주소 => 인터넷 마다 프론트 쪽이랑 같이 주소 바꿔줘야 함
+SMS_SERVER_URL = "http://10.104.24.231:5002/log_detection"  # sms_server.py 주소 => 인터넷 마다 프론트 쪽이랑 같이 주소 바꿔줘야 함
 def send_to_sms_server(disease_label):
     try:
         response = requests.post(SMS_SERVER_URL, json={"class": disease_label})
@@ -55,7 +55,7 @@ def send_to_sms_server(disease_label):
 
 # 영상 스트리밍 및 처리 함수
 def generate_frames():
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # 웹캠 인덱스 4
+    cap = cv2.VideoCapture(4, cv2.CAP_DSHOW)  # 웹캠 인덱스 4
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT)
 
